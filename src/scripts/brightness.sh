@@ -102,11 +102,11 @@ set_brightness() {
     local target=$1
     local status=0
     [[ "$target" =~ ^-?[0-9]+$ ]] || return 1
-    (( target < 0 )) && target=0
+    (( target < 5 )) && target=5
     (( target > 100 )) && target=100
 
     if has_backlight; then
-        brightnessctl --class=backlight set "${target}%" >/dev/null || status=$?
+        brightnessctl --class=backlight --min-value=5% set "${target}%" >/dev/null || status=$?
     else
         ddc_set "$target" || status=$?
     fi
@@ -124,9 +124,9 @@ adjust_brightness() {
 
     if has_backlight; then
         if (( delta > 0 )); then
-            brightnessctl --class=backlight set "${delta}%+" >/dev/null
+            brightnessctl --class=backlight --min-value=5% set "${delta}%+" >/dev/null
         else
-            brightnessctl --class=backlight set "$((-delta))%-" >/dev/null
+            brightnessctl --class=backlight --min-value=5% set "$((-delta))%-" >/dev/null
         fi
         return
     fi
@@ -135,7 +135,7 @@ adjust_brightness() {
     flock 9 || return 1
     current=$(ddc_get_locked) || return 1
     target=$((current + delta))
-    (( target < 0 )) && target=0
+    (( target < 5 )) && target=5
     (( target > 100 )) && target=100
     if ddc_set_locked "$target"; then
         printf '%s\n' "$target" > "$BRIGHTNESS_STATE"
