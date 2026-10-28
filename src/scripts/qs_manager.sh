@@ -6,6 +6,22 @@ else
     SCRIPT_DIR="$(pwd -P)"
 fi
 
+# Fast path: a plain open, toggle or close goes to the shell at once. The
+# helper scripts below cost about 0.4 s on each click on the bar. The
+# settings, network and wallpaper targets need them and keep the full path.
+case "$1:$2" in
+    open:settings | toggle:settings | open:guide | toggle:guide) ;;
+    *:network | *:wallpaper) ;;
+    open:?* | toggle:?*)
+        exec quickshell -p "${SCRIPT_DIR%/scripts}/quickshell/Shell.qml" \
+            ipc call main handleCommand "$1" "$2" "$3" >/dev/null 2>&1
+        ;;
+    close:*)
+        exec quickshell -p "${SCRIPT_DIR%/scripts}/quickshell/Shell.qml" \
+            ipc call main handleCommand close "" "" >/dev/null 2>&1
+        ;;
+esac
+
 source "$SCRIPT_DIR/caching.sh" 2>/dev/null || true
 source "$SCRIPT_DIR/config.sh" 2>/dev/null || true
 source "$SCRIPT_DIR/i18n.sh" 2>/dev/null || true
