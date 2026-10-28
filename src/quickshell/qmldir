@@ -46,6 +46,7 @@ singleton BlueLight 1.0 singletons/environment/BlueLight.qml
 singleton Location 1.0 singletons/environment/Location.qml
 singleton Weather 1.0 singletons/environment/Weather.qml
 
+singleton AppLauncher 1.0 singletons/system/AppLauncher.qml
 singleton AppMatcher 1.0 singletons/system/AppMatcher.qml
 singleton Caching 1.0 singletons/system/Caching.qml
 singleton Config 1.0 singletons/system/Config.qml
