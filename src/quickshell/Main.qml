@@ -391,16 +391,24 @@ PanelWindow {
     Component.onCompleted: {
         applyConfigSettings();
         reportWidgetState();
-        Qt.callLater(function() {
-            if (masterWindow.currentActive === "hidden") {
-                if (!masterWindow.settingsSeparateWindow) {
-                    let t = masterWindow.getLayout("guide");
-                    if (t) masterWindow.ensureWidgetItem("guide", t);
-                }
-                let w = masterWindow.getLayout("wallpaper");
-                if (w) masterWindow.ensureWidgetItem("wallpaper", w);
+        preloadTimer.start();
+    }
+
+    // The settings and the wallpaper picker are heavy to build. Building them
+    // right after the start blocks the main thread while the bar and the
+    // wallpaper appear, so the preload waits until those are on screen.
+    Timer {
+        id: preloadTimer
+        interval: 4000
+        onTriggered: {
+            if (masterWindow.currentActive !== "hidden") return;
+            if (!masterWindow.settingsSeparateWindow) {
+                let t = masterWindow.getLayout("guide");
+                if (t) masterWindow.ensureWidgetItem("guide", t);
             }
-        });
+            let w = masterWindow.getLayout("wallpaper");
+            if (w) masterWindow.ensureWidgetItem("wallpaper", w);
+        }
     }
 
     Component.onDestruction: {
