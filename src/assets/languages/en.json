@@ -362,7 +362,8 @@
         "notifications": "Notifications",
         "usage": "System usage",
         "clock": "Clock",
-        "lid": "Lid suspend"
+        "lid": "Lid suspend",
+        "phone": "Phone"
       },
       "position": {
         "title": "Bar position",
@@ -645,6 +646,26 @@
         "style": {
           "title": "Style",
           "desc": "Choose the visual appearance of the lid suspend module",
+          "name": {
+            "button": "Button",
+            "text": "Text"
+          },
+          "button": "Interactive button pill with background",
+          "text": "Clean text and icon without background"
+        }
+      },
+      "phone": {
+        "show_icon": {
+          "title": "Show icon",
+          "desc": "Display the phone icon"
+        },
+        "show_battery": {
+          "title": "Show battery",
+          "desc": "Display the battery level of the phone next to the icon"
+        },
+        "style": {
+          "title": "Style",
+          "desc": "Choose the visual appearance of the phone module",
           "name": {
             "button": "Button",
             "text": "Text"
@@ -1869,6 +1890,21 @@
     "lid": {
       "active": "Awake",
       "inactive": "Auto"
+    }
+  },
+  "phone": {
+    "menu": {
+      "ring": "Ring",
+      "ping": "Ping",
+      "clipboard_push": "Send clipboard",
+      "clipboard_pull": "Get clipboard",
+      "browse": "Browse files",
+      "settings": "Device settings",
+      "none": "No paired device",
+      "open": "Open Valent",
+      "share": "Send files…",
+      "messages": "Messages",
+      "disconnected": "Disconnected"
     }
   }
 }

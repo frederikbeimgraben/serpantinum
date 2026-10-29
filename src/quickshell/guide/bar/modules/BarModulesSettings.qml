@@ -101,6 +101,7 @@ GuideTab {
     readonly property var wifiStyles: BarModuleRegistry.variantList("wifi")
     readonly property var btStyles: BarModuleRegistry.variantList("bt")
     readonly property var lidStyles: BarModuleRegistry.variantList("lid")
+    readonly property var phoneStyles: BarModuleRegistry.variantList("phone")
     readonly property var volStyles: BarModuleRegistry.variantList("vol")
     readonly property var kbStyles: BarModuleRegistry.variantList("kb")
 
@@ -174,6 +175,24 @@ GuideTab {
         let bs = Config.getSetting("bar", {});
         if (bs && bs.lidShowName !== undefined) return Boolean(bs.lidShowName);
         return false;
+    }
+
+    property string phoneStyle: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.phoneStyle) return bs.phoneStyle;
+        return "button";
+    }
+
+    property bool phoneShowIcon: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.phoneShowIcon !== undefined) return Boolean(bs.phoneShowIcon);
+        return true;
+    }
+
+    property bool phoneShowBattery: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.phoneShowBattery !== undefined) return Boolean(bs.phoneShowBattery);
+        return true;
     }
 
     property string volStyle: {
@@ -408,6 +427,24 @@ GuideTab {
             barModulesRoot.lidShowName = false;
         }
 
+        if (bs && bs.phoneStyle) {
+            barModulesRoot.phoneStyle = bs.phoneStyle;
+        } else {
+            barModulesRoot.phoneStyle = "button";
+        }
+
+        if (bs && bs.phoneShowIcon !== undefined) {
+            barModulesRoot.phoneShowIcon = Boolean(bs.phoneShowIcon);
+        } else {
+            barModulesRoot.phoneShowIcon = true;
+        }
+
+        if (bs && bs.phoneShowBattery !== undefined) {
+            barModulesRoot.phoneShowBattery = Boolean(bs.phoneShowBattery);
+        } else {
+            barModulesRoot.phoneShowBattery = true;
+        }
+
         if (bs && bs.volStyle) {
             barModulesRoot.volStyle = bs.volStyle;
         } else {
@@ -464,6 +501,9 @@ GuideTab {
         }
         if (!barModulesRoot.lidShowIcon && !barModulesRoot.lidShowName) {
             barModulesRoot.lidShowIcon = true;
+        }
+        if (!barModulesRoot.phoneShowIcon && !barModulesRoot.phoneShowBattery) {
+            barModulesRoot.phoneShowIcon = true;
         }
         if (!barModulesRoot.volShowIcon && !barModulesRoot.volShowPercent) {
             barModulesRoot.volShowIcon = true;
@@ -678,6 +718,29 @@ GuideTab {
         barModulesRoot.lidShowName = val;
         let current = Config.getSetting("bar", {});
         current.lidShowName = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setPhoneStyle(styleName) {
+        barModulesRoot.phoneStyle = styleName;
+        let current = Config.getSetting("bar", {});
+        current.phoneStyle = styleName;
+        Config.setSetting("bar", current);
+    }
+
+    function setPhoneShowIcon(val) {
+        if (!val && !barModulesRoot.phoneShowBattery) return;
+        barModulesRoot.phoneShowIcon = val;
+        let current = Config.getSetting("bar", {});
+        current.phoneShowIcon = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setPhoneShowBattery(val) {
+        if (!val && !barModulesRoot.phoneShowIcon) return;
+        barModulesRoot.phoneShowBattery = val;
+        let current = Config.getSetting("bar", {});
+        current.phoneShowBattery = val;
         Config.setSetting("bar", current);
     }
 

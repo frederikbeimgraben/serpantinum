@@ -64,6 +64,8 @@ BarModulesSettings {
 
             BarLidCard { tab: barModulesRoot }
 
+            BarPhoneCard { tab: barModulesRoot }
+
             BarBluetoothCard { tab: barModulesRoot }
 
             BarVolumeCard { tab: barModulesRoot }

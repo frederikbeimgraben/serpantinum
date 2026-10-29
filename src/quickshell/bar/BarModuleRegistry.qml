@@ -207,6 +207,28 @@ QtObject {
                 }
             }
         },
+        "phone": {
+            name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.phone", "Phone") : "Phone",
+            icon: "󰄜",
+            defaultVariant: "button",
+            face: "faces/phone/PhoneFace.qml",
+            variants: {
+                "button": {
+                    id: "button",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.name.button", "Button") : "Button",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.button", "Interactive button pill with background") : "Interactive button pill with background",
+                    icon: "󰄜",
+                    face: "faces/phone/PhoneFace.qml"
+                },
+                "text": {
+                    id: "text",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.name.text", "Text") : "Text",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.text", "Clean text and icon without background") : "Clean text and icon without background",
+                    icon: "󰄜",
+                    face: "faces/phone/PhoneFace.qml"
+                }
+            }
+        },
         "bt": {
             name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.bluetooth", "Bluetooth") : "Bluetooth",
             icon: "󰂲",
@@ -315,6 +337,10 @@ QtObject {
         }
         if (norm === "lid") {
             if (bs.lidStyle) return bs.lidStyle;
+            return "button";
+        }
+        if (norm === "phone") {
+            if (bs.phoneStyle) return bs.phoneStyle;
             return "button";
         }
         if (norm === "vol") {

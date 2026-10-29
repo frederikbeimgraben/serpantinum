@@ -230,6 +230,7 @@ GuideTab {
             "wifi": ThemeBackend.blue,
             "bt": ThemeBackend.mauve,
             "lid": ThemeBackend.peach,
+            "phone": ThemeBackend.green,
             "vol": ThemeBackend.peach,
             "bat": ThemeBackend.green
         };

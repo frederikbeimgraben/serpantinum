@@ -170,6 +170,9 @@ PanelWindow {
                 if (typeof DockAppMenuController !== "undefined") {
                     DockAppMenuController.hide();
                 }
+                if (typeof PhoneMenuController !== "undefined") {
+                    PhoneMenuController.hide();
+                }
                 switchWidget("hidden", "");
             } else if (cmd === "toggle" || cmd === "open") {
                 if (targetWidget === effectivelyActive) {
