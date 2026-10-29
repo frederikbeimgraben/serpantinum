@@ -15,6 +15,25 @@ Item {
     visible: false
     focus: true
 
+    // Quickshell reports the strongest security mode of a network. A
+    // WPA2/WPA3 transition network therefore reports Sae.
+    function securityLabel(type) {
+        switch (type) {
+        case WifiSecurityType.Open: return "Open";
+        case WifiSecurityType.Owe: return "OWE";
+        case WifiSecurityType.StaticWep:
+        case WifiSecurityType.DynamicWep: return "WEP";
+        case WifiSecurityType.Leap: return "LEAP";
+        case WifiSecurityType.WpaPsk: return "WPA";
+        case WifiSecurityType.Wpa2Psk: return "WPA2";
+        case WifiSecurityType.Sae: return "WPA3";
+        case WifiSecurityType.WpaEap:
+        case WifiSecurityType.Wpa2Eap: return "Enterprise";
+        case WifiSecurityType.Wpa3SuiteB192: return "WPA3 Enterprise";
+        default: return "Secure";
+        }
+    }
+
     function animWin(t, a, b) {
         if (t <= a) return 0.0;
         if (t >= b) return 1.0;
@@ -1188,15 +1207,7 @@ Item {
                 let net = nets[i];
                 if (!net || !net.name) continue;
 
-                let secStr = "Open";
-                if (net.security === 1) secStr = "WEP";
-                else if (net.security === 2) secStr = "WPA";
-                else if (net.security === 3) secStr = "WPA2";
-                else if (net.security === 4) secStr = "WPA3";
-                else if (net.security === 5) secStr = "WPA2/WPA3";
-                else if (net.security === 6) secStr = "Enterprise";
-                else if (net.security === 7) secStr = "OWE";
-                else if (net.security > 0) secStr = "Secure";
+                let secStr = popupWindowRoot.securityLabel(net.security);
 
                 let sig = net.signalStrength !== undefined ? Math.round(net.signalStrength * 100) : 0;
                 if (sig > maxSig) { maxSig = sig; bestSsid = net.name; }
