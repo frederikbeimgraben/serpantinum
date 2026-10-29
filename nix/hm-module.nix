@@ -54,7 +54,7 @@ in
     systemd = {
       enable = mkOption {
         type = types.bool;
-        default = pkgs.stdenv.isLinux;
+        default = pkgs.stdenv.hostPlatform.isLinux;
         description = "Whether to run serpantinumd as a `systemd --user` service.";
       };
 
