@@ -241,8 +241,18 @@ Scope {
         pam.start();
     }
 
-    function beginAuth() {
+    // The lock screen sets this while its password prompt shows. Before
+    // that, no authentication runs, so the fingerprint sensor stays off
+    // right after locking and while the screen sits idle.
+    property bool promptVisible: false
+    onPromptVisibleChanged: {
         if (!rootLock.locked || root.isUnlocking) return;
+        if (root.promptVisible) root.restartAuth();
+        else root.stopAuth();
+    }
+
+    function beginAuth() {
+        if (!rootLock.locked || root.isUnlocking || !root.promptVisible) return;
         root.startFingerprint();
         passwordStartTimer.restart();
     }
@@ -364,6 +374,7 @@ Scope {
     }
 
     function doLock() {
+        root.promptVisible = false;
         grimTimeoutTimer.stop();
         SystemInfo.fetch();
         root.updateScreenCount();

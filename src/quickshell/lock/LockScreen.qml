@@ -402,6 +402,7 @@ FocusScope {
     }
 
     onInputActiveChanged: {
+        lockScreenRoot.root.promptVisible = lockScreenRoot.inputActive;
         if (lockScreenRoot.isUnlocking) return;
         if (inputActive) {
             closeDashboardAnim.stop();
