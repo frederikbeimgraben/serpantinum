@@ -357,26 +357,6 @@ GuideTab {
                     }
                 }
             }
-
-            RowLayout {
-                Layout.alignment: Qt.AlignHCenter
-                spacing: rootObj.s(12)
-
-                ClickButton {
-                    Layout.preferredWidth: rootObj.s(260)
-                    Layout.preferredHeight: rootObj.s(42)
-                    horizontalPadding: rootObj.s(14)
-                    cornerRadius: ThemeBackend.borderRadius
-                    buttonText: I18n.t("guide.about.github_repo")
-                    textFontSize: rootObj.s(13)
-                    buttonIcon: "󰊤"
-                    iconFontSize: rootObj.s(16)
-                    accentColor: ThemeBackend.surface0
-                    textColor: ThemeBackend.text
-
-                    onTriggered: Quickshell.execDetached(["xdg-open", "https://github.com/ilyamiro/serpantinum"])
-                }
-            }
         }
     }
 }
