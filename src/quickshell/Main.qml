@@ -211,7 +211,19 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Overlay
 
     exclusionMode: ExclusionMode.Ignore
-    focusable: true
+
+    // A panel takes the keyboard only while it needs typing or key
+    // navigation: settings, the wallpaper picker, and the Wi-Fi password
+    // field of the network panel. A panel that holds keyboard focus makes
+    // the compositor move the focus back to the last window on the next
+    // click on the bar, and that focus change swallows the click.
+    readonly property bool needsKeyboard: {
+        const active = masterWindow.targetActive;
+        if (active === "guide" || active === "wallpaper") return true;
+        const net = masterWindow.widgetCache["network"];
+        return active === "network" && !!net && net.pendingWifiId !== "";
+    }
+    WlrLayershell.keyboardFocus: needsKeyboard ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
 
     implicitWidth: masterWindow.screen ? masterWindow.screen.width : 0
     implicitHeight: masterWindow.screen ? masterWindow.screen.height : 0
