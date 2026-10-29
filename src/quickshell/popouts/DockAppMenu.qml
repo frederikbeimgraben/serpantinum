@@ -16,7 +16,16 @@ PanelWindow {
 
     WlrLayershell.namespace: "dockappmenu"
     WlrLayershell.layer: WlrLayer.Overlay
-    focusable: false
+    // While open, the menu holds the keyboard exclusively, so Esc closes it
+    // and does not reach the app below.
+    WlrLayershell.keyboardFocus: dockAppMenuWindow.isVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+
+    Shortcut {
+        sequence: "Escape"
+        context: Qt.WindowShortcut
+        enabled: dockAppMenuWindow.isVisible
+        onActivated: DockAppMenuController.hide()
+    }
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
 

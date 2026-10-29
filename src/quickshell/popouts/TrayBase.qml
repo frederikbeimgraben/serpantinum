@@ -16,7 +16,16 @@ PanelWindow {
 
     WlrLayershell.namespace: "traymenu"
     WlrLayershell.layer: WlrLayer.Overlay
-    focusable: false
+    // While open, the menu holds the keyboard exclusively, so Esc closes it
+    // and does not reach the app below.
+    WlrLayershell.keyboardFocus: trayMenuWindow.isVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+
+    Shortcut {
+        sequence: "Escape"
+        context: Qt.WindowShortcut
+        enabled: trayMenuWindow.isVisible
+        onActivated: TrayMenuController.hide()
+    }
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
 

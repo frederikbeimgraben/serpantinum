@@ -19,7 +19,16 @@ PanelWindow {
 
     WlrLayershell.namespace: "qs-applauncher"
     WlrLayershell.layer: WlrLayer.Overlay
-    focusable: launcherWindow.isVisible
+    // While open, the menu holds the keyboard exclusively, so Esc closes it
+    // and does not reach the app below.
+    WlrLayershell.keyboardFocus: launcherWindow.isVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+
+    Shortcut {
+        sequence: "Escape"
+        context: Qt.WindowShortcut
+        enabled: launcherWindow.isVisible
+        onActivated: launcherWindow.closeLauncher()
+    }
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
 

@@ -15,7 +15,16 @@ PanelWindow {
 
     WlrLayershell.namespace: "sidemusic"
     WlrLayershell.layer: WlrLayer.Top
-    focusable: false
+    // While open, the menu holds the keyboard exclusively, so Esc closes it
+    // and does not reach the app below.
+    WlrLayershell.keyboardFocus: sideMusicPopout.isVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+
+    Shortcut {
+        sequence: "Escape"
+        context: Qt.WindowShortcut
+        enabled: sideMusicPopout.isVisible
+        onActivated: SideMusicController.hide()
+    }
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
 

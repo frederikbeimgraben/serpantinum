@@ -16,7 +16,16 @@ PanelWindow {
 
     WlrLayershell.namespace: "desktopmenu"
     WlrLayershell.layer: WlrLayer.Bottom
-    focusable: desktopMenuWindow.isVisible
+    // While open, the menu holds the keyboard exclusively, so Esc closes it
+    // and does not reach the app below.
+    WlrLayershell.keyboardFocus: desktopMenuWindow.isVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+
+    Shortcut {
+        sequence: "Escape"
+        context: Qt.WindowShortcut
+        enabled: desktopMenuWindow.isVisible
+        onActivated: DesktopMenuController.hide()
+    }
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
 

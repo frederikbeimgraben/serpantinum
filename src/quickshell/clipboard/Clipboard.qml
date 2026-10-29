@@ -18,7 +18,16 @@ PanelWindow {
 
     WlrLayershell.namespace: "qs-clipboard"
     WlrLayershell.layer: WlrLayer.Overlay
-    focusable: clipboardWindow.isVisible
+    // While open, the menu holds the keyboard exclusively, so Esc closes it
+    // and does not reach the app below.
+    WlrLayershell.keyboardFocus: clipboardWindow.isVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+
+    Shortcut {
+        sequence: "Escape"
+        context: Qt.WindowShortcut
+        enabled: clipboardWindow.isVisible
+        onActivated: ClipboardController.hide()
+    }
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
 
