@@ -185,6 +185,28 @@ QtObject {
                 }
             }
         },
+        "lid": {
+            name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.lid", "Lid suspend") : "Lid suspend",
+            icon: "󰅶",
+            defaultVariant: "button",
+            face: "faces/lid/LidFace.qml",
+            variants: {
+                "button": {
+                    id: "button",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.lid.style.name.button", "Button") : "Button",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.lid.style.button", "Interactive button pill with background") : "Interactive button pill with background",
+                    icon: "󰅶",
+                    face: "faces/lid/LidFace.qml"
+                },
+                "text": {
+                    id: "text",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.lid.style.name.text", "Text") : "Text",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.lid.style.text", "Clean text and icon without background") : "Clean text and icon without background",
+                    icon: "󰅶",
+                    face: "faces/lid/LidFace.qml"
+                }
+            }
+        },
         "bt": {
             name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.bluetooth", "Bluetooth") : "Bluetooth",
             icon: "󰂲",
@@ -289,6 +311,10 @@ QtObject {
         }
         if (norm === "bt") {
             if (bs.btStyle) return bs.btStyle;
+            return "button";
+        }
+        if (norm === "lid") {
+            if (bs.lidStyle) return bs.lidStyle;
             return "button";
         }
         if (norm === "vol") {

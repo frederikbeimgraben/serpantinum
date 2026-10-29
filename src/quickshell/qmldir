@@ -55,6 +55,7 @@ singleton DateTime 1.0 singletons/system/DateTime.qml
 singleton FirstLaunch 1.0 singletons/system/FirstLaunch.qml
 singleton I18n 1.0 singletons/system/I18n.qml
 singleton KeyboardLayout 1.0 singletons/system/KeyboardLayout.qml
+singleton LidInhibit 1.0 singletons/system/LidInhibit.qml
 singleton MangoState 1.0 singletons/system/MangoState.qml
 singleton NiriState 1.0 singletons/system/NiriState.qml
 singleton RecordingState 1.0 singletons/system/RecordingState.qml

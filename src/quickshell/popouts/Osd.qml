@@ -41,12 +41,13 @@ PanelWindow {
     readonly property color capsColor: Qt.lighter(ThemeBackend.peach, 1.2)
     readonly property color numColor: Qt.lighter(ThemeBackend.sapphire, 1.4)
     readonly property color airColor: Qt.lighter(ThemeBackend.red, 1.2)
+    readonly property color lidColor: Qt.lighter(ThemeBackend.peach, 1.1)
 
     property string kind: OsdController.kind
     property int briVal: OsdController.briVal
     property string stateVal: OsdController.stateVal
 
-    readonly property bool isToggleKind: kind === "capslock" || kind === "numlock" || kind === "airplane"
+    readonly property bool isToggleKind: kind === "capslock" || kind === "numlock" || kind === "airplane" || kind === "lid"
     readonly property bool isToggleActive: stateVal === "on" || stateVal === "true" || stateVal === "1"
 
     readonly property bool isToggleAllowed: {
@@ -64,6 +65,7 @@ PanelWindow {
         if (kind === "capslock") return capsColor;
         if (kind === "numlock") return numColor;
         if (kind === "airplane") return airColor;
+        if (kind === "lid") return lidColor;
         return ThemeBackend.mauve;
     }
 
@@ -71,6 +73,7 @@ PanelWindow {
         if (kind === "capslock") return "Caps Lock";
         if (kind === "numlock") return "Num Lock";
         if (kind === "airplane") return "Airplane Mode";
+        if (kind === "lid") return "Suspend Block";
         return "";
     }
 
@@ -468,6 +471,8 @@ PanelWindow {
                             return "󰎠";
                         } else if (osdWindow.kind === "airplane") {
                             return "󰀝";
+                        } else if (osdWindow.kind === "lid") {
+                            return osdWindow.isToggleActive ? "󰅶" : "󰒲";
                         } else {
                             return osdWindow.briVal > 66 ? "󰃠" : (osdWindow.briVal > 33 ? "󰃟" : "󰃞");
                         }
@@ -496,6 +501,8 @@ PanelWindow {
                             if (osdWindow.activeSource) {
                                 Audio.toggleMute(osdWindow.activeSource);
                             }
+                        } else if (osdWindow.kind === "lid") {
+                            LidInhibit.toggle();
                         } else if (osdWindow.kind === "airplane") {
                             if (osdWindow.isToggleActive) {
                                 Networking.wifiEnabled = true;

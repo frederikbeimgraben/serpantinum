@@ -109,6 +109,7 @@ show_help() {
     echo "  location                     $(t "cli.scripts.location")"
     echo "  screenshot                   $(t "cli.scripts.screenshot")"
     echo "  brightness                   $(t "cli.scripts.brightness")"
+    echo "  lid                          Toggle the block of suspend on a lid close"
     echo "  current_focus                $(t "cli.scripts.current_focus")"
     echo "  monitors_detect              $(t "cli.scripts.monitors_detect")"
     echo "  location_manual              $(t "cli.scripts.location_manual")"
@@ -721,6 +722,7 @@ ALLOWED_SCRIPTS=(
     "monitors_detect"
     "location_manual"
     "blue_light_filter"
+    "lid"
 )
 
 COMMAND="$1"

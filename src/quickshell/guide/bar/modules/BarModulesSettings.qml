@@ -100,6 +100,7 @@ GuideTab {
     readonly property var batStyles: BarModuleRegistry.variantList("bat")
     readonly property var wifiStyles: BarModuleRegistry.variantList("wifi")
     readonly property var btStyles: BarModuleRegistry.variantList("bt")
+    readonly property var lidStyles: BarModuleRegistry.variantList("lid")
     readonly property var volStyles: BarModuleRegistry.variantList("vol")
     readonly property var kbStyles: BarModuleRegistry.variantList("kb")
 
@@ -155,6 +156,24 @@ GuideTab {
         let bs = Config.getSetting("bar", {});
         if (bs && bs.btShowName !== undefined) return Boolean(bs.btShowName);
         return true;
+    }
+
+    property string lidStyle: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.lidStyle) return bs.lidStyle;
+        return "button";
+    }
+
+    property bool lidShowIcon: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.lidShowIcon !== undefined) return Boolean(bs.lidShowIcon);
+        return true;
+    }
+
+    property bool lidShowName: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.lidShowName !== undefined) return Boolean(bs.lidShowName);
+        return false;
     }
 
     property string volStyle: {
@@ -371,6 +390,24 @@ GuideTab {
             barModulesRoot.btShowName = true;
         }
 
+        if (bs && bs.lidStyle) {
+            barModulesRoot.lidStyle = bs.lidStyle;
+        } else {
+            barModulesRoot.lidStyle = "button";
+        }
+
+        if (bs && bs.lidShowIcon !== undefined) {
+            barModulesRoot.lidShowIcon = Boolean(bs.lidShowIcon);
+        } else {
+            barModulesRoot.lidShowIcon = true;
+        }
+
+        if (bs && bs.lidShowName !== undefined) {
+            barModulesRoot.lidShowName = Boolean(bs.lidShowName);
+        } else {
+            barModulesRoot.lidShowName = false;
+        }
+
         if (bs && bs.volStyle) {
             barModulesRoot.volStyle = bs.volStyle;
         } else {
@@ -424,6 +461,9 @@ GuideTab {
         }
         if (!barModulesRoot.btShowIcon && !barModulesRoot.btShowName) {
             barModulesRoot.btShowIcon = true;
+        }
+        if (!barModulesRoot.lidShowIcon && !barModulesRoot.lidShowName) {
+            barModulesRoot.lidShowIcon = true;
         }
         if (!barModulesRoot.volShowIcon && !barModulesRoot.volShowPercent) {
             barModulesRoot.volShowIcon = true;
@@ -615,6 +655,29 @@ GuideTab {
         barModulesRoot.btShowName = val;
         let current = Config.getSetting("bar", {});
         current.btShowName = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setLidStyle(styleName) {
+        barModulesRoot.lidStyle = styleName;
+        let current = Config.getSetting("bar", {});
+        current.lidStyle = styleName;
+        Config.setSetting("bar", current);
+    }
+
+    function setLidShowIcon(val) {
+        if (!val && !barModulesRoot.lidShowName) return;
+        barModulesRoot.lidShowIcon = val;
+        let current = Config.getSetting("bar", {});
+        current.lidShowIcon = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setLidShowName(val) {
+        if (!val && !barModulesRoot.lidShowIcon) return;
+        barModulesRoot.lidShowName = val;
+        let current = Config.getSetting("bar", {});
+        current.lidShowName = val;
         Config.setSetting("bar", current);
     }
 
