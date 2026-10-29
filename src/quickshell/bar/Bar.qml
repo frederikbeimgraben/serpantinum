@@ -50,7 +50,10 @@ Variants {
                 }
             }
 
-            WlrLayershell.keyboardFocus: (barWindowRoot.isNotifOpen || barWindowRoot.isSysOpen)
+            // While a panel with keyboard focus is open, a click on the bar
+            // moves the focus to the bar. Without this, the compositor gives
+            // the focus back to the last window, and that swallows the click.
+            WlrLayershell.keyboardFocus: (barWindowRoot.isNotifOpen || barWindowRoot.isSysOpen || barWindowRoot.isKeyboardPanelOpen || LauncherController.isVisible)
                 ? WlrKeyboardFocus.OnDemand
                 : WlrKeyboardFocus.None
 
@@ -301,6 +304,7 @@ Variants {
             property string activeWidget: ""
             property bool isNotifOpen: activeWidget === "notifications"
             property bool isSysOpen: activeWidget === "system"
+            property bool isKeyboardPanelOpen: activeWidget === "guide" || activeWidget === "wallpaper" || activeWidget === "network"
 
             onActiveWidgetChanged: {
                 if (!barWindowRoot.isNotifOpen && !barWindowRoot.isSysOpen && barWindowRoot.pendingReload) {
@@ -333,7 +337,7 @@ Variants {
 
                     let myScreenName = (barWindowRoot.screen && barWindowRoot.screen.name) ? barWindowRoot.screen.name : "";
                     let effectiveWidget = "";
-                    if (widget === "notifications" || widget === "system") {
+                    if (widget === "notifications" || widget === "system" || widget === "guide" || widget === "wallpaper" || widget === "network") {
                         if (!targetScreen || targetScreen === myScreenName) {
                             effectiveWidget = widget;
                         }
