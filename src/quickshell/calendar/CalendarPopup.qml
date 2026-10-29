@@ -551,49 +551,6 @@ Item {
             }
 
             Item {
-                anchors.centerIn: parent
-                anchors.verticalCenterOffset: window.centerOffset
-                z: 0
-                opacity: window.introAmbient * window.weatherContentOpacity
-
-                Text {
-                    id: parallaxIcon
-                    anchors.centerIn: parent
-                    text: {
-                        if (!window.weatherData) return "";
-                        if (window.weatherView === 0 && window.weatherData.current_icon) return window.weatherData.current_icon;
-                        if (window.weatherData.forecast && window.weatherData.forecast[window.weatherView]) return window.weatherData.forecast[window.weatherView].icon;
-                        return "";
-                    }
-                    font.family: ThemeBackend.fontFamily
-                    font.pixelSize: window.s(520)
-                    color: window.activeWeatherHex
-                    Behavior on color { ColorAnimation { duration: 1500 } }
-
-                    opacity: 0.015
-                    SequentialAnimation on opacity {
-                        loops: Animation.Infinite
-                        running: window.visible
-                        NumberAnimation { from: 0.015; to: 0.018; duration: 5625; easing.type: Easing.OutSine }
-                        NumberAnimation { from: 0.018; to: 0.012; duration: 11250; easing.type: Easing.InOutSine }
-                        NumberAnimation { from: 0.012; to: 0.015; duration: 5625; easing.type: Easing.InSine }
-                    }
-
-                    transform: [
-                        Translate {
-                            SequentialAnimation on y {
-                                loops: Animation.Infinite
-                                running: window.visible
-                                NumberAnimation { to: -window.s(8); duration: 6000; easing.type: Easing.InOutSine }
-                                NumberAnimation { to: 0; duration: 6000; easing.type: Easing.InOutSine }
-                            }
-                        },
-                        Translate { x: window.weatherContentOffset * 2 }
-                    ]
-                }
-            }
-
-            Item {
                 id: centralHub
                 anchors.centerIn: parent
                 anchors.verticalCenterOffset: window.centerOffset
