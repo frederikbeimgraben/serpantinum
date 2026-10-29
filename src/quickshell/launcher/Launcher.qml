@@ -1873,7 +1873,7 @@ PanelWindow {
                                                     if (model.isCommand) return "󰆍";
                                                     return "󰵆";
                                                 }
-                                                font.family: ThemeBackend.fontFamily
+                                                font.family: ThemeBackend.iconFont
                                                 font.pixelSize: launcherWindow.s(16)
                                                 color: delegateRoot.isSelected ? ThemeBackend.mauve : ThemeBackend.subtext0
                                                 verticalAlignment: Text.AlignVCenter
