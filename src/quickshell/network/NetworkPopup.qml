@@ -129,12 +129,21 @@ Item {
     SequentialAnimation {
         id: exitAnim
         running: false
-        NumberAnimation {
-            target: popupWindowRoot
-            property: "exitOpacity"
-            to: 0.0
-            duration: 85
-            easing.type: Easing.OutQuad
+        ParallelAnimation {
+            NumberAnimation {
+                target: popupWindowRoot
+                property: "introState"
+                to: 0.0
+                duration: 250
+                easing.type: Easing.InCubic
+            }
+            NumberAnimation {
+                target: popupWindowRoot
+                property: "exitOpacity"
+                to: 0.0
+                duration: 250
+                easing.type: Easing.InCubic
+            }
         }
         ScriptAction {
             script: {
