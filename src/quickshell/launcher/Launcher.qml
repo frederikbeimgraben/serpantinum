@@ -162,7 +162,7 @@ PanelWindow {
             if (launcherWindow.isVisible) {
                 launcherWindow.loadApps();
                 if (launcherWindow.currentTabIndex === 0) {
-                    launcherWindow.executeFilter(searchInput.text);
+                    launcherWindow.refreshKeepingSelection();
                 } else if (launcherWindow.currentTabIndex === 1) {
                     launcherWindow.executeFileSearch(searchInput.text);
                 } else {
@@ -180,7 +180,7 @@ PanelWindow {
             if (launcherWindow.isVisible) {
                 launcherWindow.loadApps();
                 if (launcherWindow.currentTabIndex === 0) {
-                    launcherWindow.executeFilter(searchInput.text);
+                    launcherWindow.refreshKeepingSelection();
                 }
             } else {
                 launcherWindow.appsLoaded = false;
@@ -194,7 +194,7 @@ PanelWindow {
             if (launcherWindow.isVisible) {
                 launcherWindow.loadApps();
                 if (launcherWindow.currentTabIndex === 0) {
-                    launcherWindow.executeFilter(searchInput.text);
+                    launcherWindow.refreshKeepingSelection();
                 }
             } else {
                 launcherWindow.appsLoaded = false;
@@ -839,7 +839,28 @@ PanelWindow {
         return i === sub.length;
     }
 
+    // A background refresh (changed desktop entries, new ranks) runs the
+    // filter again with the same query. It sets keepSelection, so the list
+    // keeps the selected entry and the scroll position instead of jumping to
+    // the first entry at the top.
+    property bool keepSelection: false
+
+    function refreshKeepingSelection() {
+        launcherWindow.keepSelection = true;
+        launcherWindow.executeFilter(searchInput.text);
+        launcherWindow.keepSelection = false;
+    }
+
     function applyModelItems(filtered) {
+        let keep = launcherWindow.keepSelection;
+        let prevIndex = appList.currentIndex;
+        let prevKey = "";
+        if (keep && prevIndex >= 0 && prevIndex < appModel.count) {
+            let prev = appModel.get(prevIndex);
+            prevKey = prev.desktop_id || prev.name || "";
+        }
+        let prevContentY = appList.contentY;
+
         let minCount = Math.min(appModel.count, filtered.length);
         for (let i = 0; i < minCount; i++) {
             let cur = appModel.get(i);
@@ -873,6 +894,19 @@ PanelWindow {
             for (let i = appModel.count; i < filtered.length; i++) {
                 appModel.append(filtered[i]);
             }
+        }
+
+        if (keep && appModel.count > 0) {
+            let found = -1;
+            if (prevKey !== "") {
+                for (let i = 0; i < appModel.count; i++) {
+                    let it = appModel.get(i);
+                    if ((it.desktop_id || it.name || "") === prevKey) { found = i; break; }
+                }
+            }
+            appList.currentIndex = found >= 0 ? found : Math.min(Math.max(prevIndex, 0), appModel.count - 1);
+            appList.contentY = prevContentY;
+            return;
         }
 
         appList.resetScroll();
