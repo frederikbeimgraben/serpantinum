@@ -198,7 +198,9 @@ PanelWindow {
     }
 
     property bool autohide: rawDockSettings.autohide !== undefined ? rawDockSettings.autohide : false
-    readonly property bool effectiveAutohide: smartAutohide ? isWorkspaceBusy : autohide
+    // The dock never hides in the niri overview, where it is the launcher.
+    readonly property bool niriOverviewOpen: typeof NiriState !== "undefined" && NiriState.overviewOpen
+    readonly property bool effectiveAutohide: !niriOverviewOpen && (smartAutohide ? isWorkspaceBusy : autohide)
 
 
     property alias swayPoller: swayPoller

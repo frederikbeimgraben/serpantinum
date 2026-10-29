@@ -18,6 +18,7 @@ Item {
     property var workspacesMap: ({})
     signal windowsUpdated()
 
+    property bool overviewOpen: false
     property var keyboardLayouts: []
     property int keyboardLayoutIndex: 0
     property bool keyboardReady: false
@@ -205,6 +206,9 @@ Item {
             keyboardLayouts = kl.names || [];
             keyboardLayoutIndex = kl.current_idx || 0;
             keyboardReady = true;
+            return;
+        } else if ((p = ev.OverviewOpenedOrClosed)) {
+            overviewOpen = !!p.is_open;
             return;
         } else if ((p = ev.KeyboardLayoutSwitched)) {
             keyboardLayoutIndex = p.idx || 0;
