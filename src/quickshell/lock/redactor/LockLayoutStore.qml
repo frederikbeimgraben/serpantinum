@@ -8,8 +8,13 @@ import "../../widgets"
 QtObject {
     id: root
 
-    readonly property real screenW: Quickshell.screens.length > 0 ? Quickshell.screens[0].width : 1920
-    readonly property real screenH: Quickshell.screens.length > 0 ? Quickshell.screens[0].height : 1080
+    // The default layout uses a fixed 1920x1080 reference, and each lock
+    // surface scales it to its own screen. The first screen was the
+    // reference before, and that screen depends on the order of the outputs:
+    // with a portrait screen first, the layout was about half size on a
+    // landscape screen.
+    readonly property real screenW: 1920
+    readonly property real screenH: 1080
 
     readonly property real defaultPanelW: 1280
     readonly property real defaultPanelH: 566
