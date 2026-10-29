@@ -361,7 +361,8 @@
         "weather": "Weather",
         "notifications": "Notifications",
         "usage": "System usage",
-        "clock": "Clock"
+        "clock": "Clock",
+        "lid": "Lid suspend"
       },
       "position": {
         "title": "Bar position",
@@ -630,6 +631,26 @@
           },
           "button": "Interactive icon buttons with background",
           "icon": "Clean icons without background"
+        }
+      },
+      "lid": {
+        "show_icon": {
+          "title": "Show icon",
+          "desc": "Display the suspend block icon"
+        },
+        "show_name": {
+          "title": "Show name",
+          "desc": "Display Awake or Auto next to the icon"
+        },
+        "style": {
+          "title": "Style",
+          "desc": "Choose the visual appearance of the lid suspend module",
+          "name": {
+            "button": "Button",
+            "text": "Text"
+          },
+          "button": "Interactive button pill with background",
+          "text": "Clean text and icon without background"
         }
       }
     },
@@ -1843,5 +1864,11 @@
   },
   "common": {
     "select": "Select..."
+  },
+  "bar": {
+    "lid": {
+      "active": "Awake",
+      "inactive": "Auto"
+    }
   }
 }
