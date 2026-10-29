@@ -172,6 +172,19 @@ Item {
         }
     }
 
+    // The frame animation updates the offset after a frame has rendered, so
+    // the blur trailed one frame behind a panel that moved. A panel of the
+    // main window moves through _animX and _animY of its window, and the
+    // offset now follows those in the same frame.
+    Connections {
+        target: root.active ? root.hostWindow : null
+        ignoreUnknownSignals: true
+        function on_AnimXChanged() { root.refreshGeometry(); }
+        function on_AnimYChanged() { root.refreshGeometry(); }
+        function on_AnimWChanged() { root.refreshGeometry(); }
+        function on_AnimHChanged() { root.refreshGeometry(); }
+    }
+
     onActiveChanged: {
         if (active) refreshGeometry();
     }
@@ -238,7 +251,7 @@ Item {
                     anchors.fill: parent
                     anchors.margins: -root.blurPad
                     visible: false
-                    layer.enabled: true
+                    layer.enabled: root.liquid
                     layer.mipmap: root.liquid
                     layer.smooth: true
 
@@ -270,30 +283,87 @@ Item {
                     }
                 }
 
+                // The plain blur works on the whole screen once: the wallpaper,
+                // untransformed, at textureSize, blurred into one texture per
+                // instance. The panel then shows a shifted section of that
+                // texture. Moving a panel moves the texture and does not run
+                // the blur again. textureSize is a quarter of the screen, so
+                // blurMax is a quarter of the earlier 64 px for the same look.
+                Item {
+                    id: screenContent
+                    width: root.screenWidth
+                    height: root.screenHeight
+                    visible: false
+                    layer.enabled: !root.liquid
+                    layer.textureSize: root.textureSize
+                    layer.smooth: true
+
+                    ShaderEffect {
+                        anchors.fill: parent
+                        visible: !root.liquid
+
+                        property variant oldTex: oldLayer
+                        property variant newTex: newLayer
+                        property vector2d itemSize: Qt.vector2d(width, height)
+                        property real progress: blend.progress
+                        property real transitionType: blend.transitionType
+                        property vector2d origin: blend.origin
+                        property vector4d params: blend.params
+
+                        fragmentShader: blend.fragmentShader
+                    }
+
+                    Rectangle {
+                        anchors.fill: parent
+                        visible: root.tint > 0
+                        color: Qt.alpha(ThemeBackend.base, root.tint)
+                    }
+                }
+
+                MultiEffect {
+                    id: blurredScreen
+                    width: root.screenWidth
+                    height: root.screenHeight
+                    visible: false
+                    source: root.liquid ? null : screenContent
+                    autoPaddingEnabled: false
+                    blurEnabled: !root.liquid
+                    blurMax: 16
+                    blur: Math.min(1.0, root.blurStrength)
+                    layer.enabled: !root.liquid
+                    layer.textureSize: root.textureSize
+                    layer.smooth: true
+                }
+
                 Item {
                     id: rendered
                     anchors.fill: parent
 
-                    MultiEffect {
-                        id: blurred
-                        x: -root.blurPad
-                        y: -root.blurPad
-                        width: root.width + 2 * root.blurPad
-                        height: root.height + 2 * root.blurPad
+                    Item {
+                        id: shifted
+                        anchors.fill: parent
                         visible: false
-                        source: root.liquid ? null : content
-                        autoPaddingEnabled: false
-                        blurEnabled: !root.liquid
-                        blurMax: 64
-                        blur: Math.min(1.0, root.blurStrength)
+                        clip: true
+
+                        ShaderEffectSource {
+                            x: root.imageX
+                            y: root.imageY
+                            width: root.screenWidth
+                            height: root.screenHeight
+                            scale: root.imageScale
+                            transformOrigin: Item.TopLeft
+                            rotation: root.imageRotation
+                            sourceItem: root.liquid ? null : blurredScreen
+                            textureSize: root.textureSize
+                            smooth: true
+                        }
                     }
 
                     ShaderEffectSource {
                         id: blurCrop
                         anchors.fill: parent
                         visible: false
-                        sourceItem: root.liquid ? null : blurred
-                        sourceRect: Qt.rect(root.blurPad, root.blurPad, root.width, root.height)
+                        sourceItem: root.liquid ? null : shifted
                         smooth: true
                     }
 
