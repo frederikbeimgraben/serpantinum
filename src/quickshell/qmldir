@@ -59,6 +59,7 @@ singleton LidInhibit 1.0 singletons/system/LidInhibit.qml
 singleton MangoState 1.0 singletons/system/MangoState.qml
 singleton NiriState 1.0 singletons/system/NiriState.qml
 singleton RecordingState 1.0 singletons/system/RecordingState.qml
+singleton ShellBus 1.0 singletons/system/ShellBus.qml
 singleton SysNotif 1.0 singletons/system/SysNotif.qml
 singleton TimerState 1.0 singletons/system/TimerState.qml
 singleton Updater 1.0 singletons/system/Updater.qml

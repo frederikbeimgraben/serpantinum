@@ -77,6 +77,7 @@ PanelWindow {
     }
 
     IpcHandler {
+        id: mainIpc
         target: "main"
 
         function forceReload(): void {
@@ -204,6 +205,15 @@ PanelWindow {
                     switchWidget(cmd, legacyArg);
                 }
             }
+        }
+    }
+
+    // Commands that arrive in-process or through the command socket, see
+    // ShellBus. They take the same route as an IPC call of qs_manager.sh.
+    Connections {
+        target: ShellBus
+        function onCommand(action, target, arg) {
+            mainIpc.handleCommand(action, target, arg);
         }
     }
 
