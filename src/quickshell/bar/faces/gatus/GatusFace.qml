@@ -82,7 +82,10 @@ Item {
     // red when an endpoint fails, grey when an instance does not answer. Before
     // the first result it has the plain look of the other modules.
     readonly property bool isActive: isPreview || Gatus.loaded
-    readonly property color statusColor: hasProblem ? ThemeBackend.red : (unreachable ? ThemeBackend.overlay1 : ThemeBackend.green)
+    // The green is the light start of the gradient fill of the charging
+    // battery, so the pill does not look duller next to the battery pill.
+    readonly property color okColor: Qt.lighter(isVertical ? ThemeBackend.green : Qt.lighter(ThemeBackend.green, 1.15), 1.065)
+    readonly property color statusColor: hasProblem ? ThemeBackend.red : (unreachable ? ThemeBackend.overlay1 : okColor)
     readonly property string effectiveIcon: String.fromCodePoint(hasProblem ? 0xF0028 : (unreachable ? 0xF0319 : 0xF05F6))
     readonly property string effectiveName: hasProblem ? String(failing) : ""
 
