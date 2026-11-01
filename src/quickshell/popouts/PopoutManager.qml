@@ -12,4 +12,7 @@ Item {
     DockAppMenu {}
     PhoneMenu {}
     GatusMenu {}
+    ColorpickOverlay {}
+    PrivacyMenu {}
+    VpnMenu {}
 }

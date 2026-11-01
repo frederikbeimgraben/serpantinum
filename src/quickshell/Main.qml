@@ -176,6 +176,12 @@ PanelWindow {
                 if (typeof GatusMenuController !== "undefined") {
                     GatusMenuController.hide();
                 }
+                if (typeof PrivacyMenuController !== "undefined") {
+                    PrivacyMenuController.hide();
+                }
+                if (typeof VpnMenuController !== "undefined") {
+                    VpnMenuController.hide();
+                }
                 switchWidget("hidden", "");
             } else if (cmd === "toggle" || cmd === "open") {
                 if (targetWidget === effectivelyActive) {

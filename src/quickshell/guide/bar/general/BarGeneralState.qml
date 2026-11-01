@@ -232,6 +232,10 @@ GuideTab {
             "lid": ThemeBackend.peach,
             "phone": ThemeBackend.green,
             "gatus": ThemeBackend.red,
+            "colorpick": ThemeBackend.pink,
+            "privacy": ThemeBackend.peach,
+            "btbat": ThemeBackend.sky,
+            "vpn": ThemeBackend.green,
             "vol": ThemeBackend.peach,
             "bat": ThemeBackend.green
         };

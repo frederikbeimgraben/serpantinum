@@ -188,6 +188,16 @@ Rectangle {
     Loader {
         id: faceLoader
         anchors.fill: parent
+        // The module clips its face, and its width grows from 0 when it
+        // appears. The clip showed the round pill as a square at first. The
+        // face now stays almost invisible until the module has nearly its full
+        // size, so the pill appears round.
+        readonly property real grown: {
+            let full = root.isVertical ? root.targetHeight : root.targetWidth;
+            let now = root.isVertical ? root.height : root.width;
+            return full > 0 ? Math.max(0, Math.min(1, now / full)) : 1;
+        }
+        opacity: Math.pow(grown, 4)
 
         onLoaded: {
             if (item) {

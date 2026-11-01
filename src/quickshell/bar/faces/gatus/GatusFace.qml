@@ -203,7 +203,13 @@ Item {
 
             property real targetWidth: (root.showIcon || root.showCount) ? implicitWidth : 0
             width: targetWidth
-            Behavior on width { NumberAnimation { duration: 480; easing.type: Easing.OutQuint } }
+            // A pill that appears from width 0 takes its full width at once and
+            // fades in. Grown from 0, it was narrower than high, so the corner
+            // radius did not fit and it showed as a square first.
+            Behavior on width {
+                enabled: gatusPill.width > 1
+                NumberAnimation { duration: 480; easing.type: Easing.OutQuint }
+            }
 
             opacity: initAnimTrigger ? 1.0 : 0.0
             transform: Translate { y: gatusPill.initAnimTrigger ? 0 : s(15); Behavior on y { NumberAnimation { duration: 620; easing.type: Easing.OutQuint } } }

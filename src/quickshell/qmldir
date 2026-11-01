@@ -25,6 +25,9 @@ DockAppMenu 1.0 popouts/DockAppMenu.qml
 BarListMenu 1.0 popouts/BarListMenu.qml
 PhoneMenu 1.0 popouts/PhoneMenu.qml
 GatusMenu 1.0 popouts/GatusMenu.qml
+ColorpickOverlay 1.0 popouts/ColorpickOverlay.qml
+PrivacyMenu 1.0 popouts/PrivacyMenu.qml
+VpnMenu 1.0 popouts/VpnMenu.qml
 
 WidgetLoader 1.0 widgets/WidgetLoader.qml
 WidgetRedactor 1.0 widgets/WidgetRedactor.qml
@@ -61,6 +64,12 @@ singleton KeyboardLayout 1.0 singletons/system/KeyboardLayout.qml
 singleton LidInhibit 1.0 singletons/system/LidInhibit.qml
 singleton Phone 1.0 singletons/system/Phone.qml
 singleton Gatus 1.0 singletons/system/Gatus.qml
+singleton Session 1.0 singletons/system/Session.qml
+singleton NiriBinds 1.0 singletons/system/NiriBinds.qml
+singleton Colorpick 1.0 singletons/system/Colorpick.qml
+singleton Privacy 1.0 singletons/system/Privacy.qml
+singleton Btbat 1.0 singletons/system/Btbat.qml
+singleton Vpn 1.0 singletons/system/Vpn.qml
 singleton MangoState 1.0 singletons/system/MangoState.qml
 singleton NiriState 1.0 singletons/system/NiriState.qml
 singleton RecordingState 1.0 singletons/system/RecordingState.qml
@@ -84,3 +93,5 @@ singleton DesktopMenuController singletons/widgetcontrols/DesktopMenuController.
 singleton DockAppMenuController 1.0 singletons/widgetcontrols/DockAppMenuController.qml
 singleton PhoneMenuController 1.0 singletons/widgetcontrols/PhoneMenuController.qml
 singleton GatusMenuController 1.0 singletons/widgetcontrols/GatusMenuController.qml
+singleton PrivacyMenuController 1.0 singletons/widgetcontrols/PrivacyMenuController.qml
+singleton VpnMenuController 1.0 singletons/widgetcontrols/VpnMenuController.qml

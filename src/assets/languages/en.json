@@ -76,6 +76,10 @@
       "search": {
         "title": "Web search provider",
         "desc": "Search engine used when a query starts with ?"
+      },
+      "search_windows": {
+        "title": "Search open windows",
+        "desc": "Show open windows in the results, and focus a window with Enter"
       }
     },
     "notifications": {
@@ -112,7 +116,21 @@
         "desc": "Dismiss a notification by right-clicking it"
       },
       "test": "Test notification",
-      "test_desc": "This is a test notification"
+      "test_desc": "This is a test notification",
+      "otp": {
+        "enabled": {
+          "title": "Copy one-time codes",
+          "desc": "Add a button that copies a login code from a notification"
+        },
+        "keyword": {
+          "title": "Only with a keyword",
+          "desc": "Count digits only when a word such as code, PIN, OTP or TAN appears"
+        },
+        "digits": {
+          "title": "Code length",
+          "desc": "Smallest and largest number of digits of a code"
+        }
+      }
     },
     "idle": {
       "enabled": {
@@ -251,6 +269,25 @@
       "screenshot_on_release": {
         "title": "Capture region on mouse release",
         "desc": "Take the screenshot as soon as you finish dragging, without clicking the shutter"
+      },
+      "session": {
+        "enabled": {
+          "title": "Restore the session",
+          "desc": "Start the open apps again after a login, on their workspaces"
+        },
+        "mode": {
+          "title": "When to restore",
+          "desc": "Ask in a notification, or restore at once",
+          "ask": "Ask",
+          "auto": "Automatic"
+        },
+        "ignored": {
+          "title": "Left out"
+        },
+        "ignore": {
+          "title": "Leave an app out",
+          "desc": "Enter the app id, such as org.gnome.Ptyxis, and press Enter"
+        }
       }
     },
     "display": {
@@ -364,7 +401,11 @@
         "clock": "Clock",
         "lid": "Lid suspend",
         "phone": "Phone",
-        "gatus": "Status pages"
+        "gatus": "Status pages",
+        "vpn": "VPN",
+        "btbat": "Device batteries",
+        "privacy": "Microphone and camera",
+        "colorpick": "Color picker"
       },
       "position": {
         "title": "Bar position",
@@ -705,6 +746,145 @@
         "add": {
           "title": "Add status page",
           "desc": "Enter the URL and press Enter"
+        }
+      },
+      "vpn": {
+        "show_icon": {
+          "title": "Show icon",
+          "desc": "Display the VPN icon"
+        },
+        "show_label": {
+          "title": "Show name",
+          "desc": "Display the name of the connection next to the icon"
+        },
+        "style": {
+          "title": "Style",
+          "desc": "Choose the visual appearance of the vpn module",
+          "name": {
+            "button": "Button",
+            "text": "Text"
+          },
+          "button": "Interactive button pill with background",
+          "text": "Clean text and icon without background"
+        },
+        "connection": {
+          "title": "Connection",
+          "desc": "The WireGuard connection that the bar shows"
+        },
+        "check": {
+          "title": "Check host",
+          "desc": "A host behind the tunnel that answers ping. Empty: no check"
+        }
+      },
+      "btbat": {
+        "show_icon": {
+          "title": "Show icon",
+          "desc": "Display the device type icon"
+        },
+        "style": {
+          "title": "Device battery style",
+          "desc": "Choose the visual appearance of the device battery indicator",
+          "name": {
+            "classic": "Classic",
+            "minimal": "Minimal",
+            "text": "Text",
+            "button": "Button"
+          },
+          "classic": "Pill with gradient wave fill",
+          "minimal": "iOS/Android capsule with cap",
+          "text": "Clean text and icon without background",
+          "button": "Interactive button pill with background"
+        },
+        "show_percent": {
+          "title": "Show percentage",
+          "desc": "Display the charge percentage of each device"
+        },
+        "warn": {
+          "title": "Low battery warning",
+          "desc": "Send a notification when a device falls below the threshold"
+        },
+        "threshold": {
+          "title": "Warning threshold",
+          "desc": "Charge level in percent that counts as low"
+        }
+      },
+      "privacy": {
+        "show_icon": {
+          "title": "Show icon",
+          "desc": "Display the microphone and camera icons"
+        },
+        "show_label": {
+          "title": "Show apps",
+          "desc": "Display the names of the apps next to the icons"
+        },
+        "style": {
+          "title": "Style",
+          "desc": "Choose the visual appearance of the microphone and camera module",
+          "name": {
+            "button": "Button",
+            "text": "Text"
+          },
+          "button": "Interactive button pill with background",
+          "text": "Clean text and icon without background"
+        },
+        "mic": {
+          "title": "Microphone",
+          "desc": "Show when an app uses the microphone"
+        },
+        "cam": {
+          "title": "Camera",
+          "desc": "Show when an app uses the camera"
+        },
+        "ignored": {
+          "title": "Ignored app"
+        },
+        "ignore": {
+          "title": "Ignore an app",
+          "desc": "Enter the app name as the menu shows it and press Enter"
+        }
+      },
+      "colorpick": {
+        "show_icon": {
+          "title": "Show icon",
+          "desc": "Display the pipette icon"
+        },
+        "show_label": {
+          "title": "Show value",
+          "desc": "Display the last picked color value next to the icon"
+        },
+        "style": {
+          "title": "Style",
+          "desc": "Choose the visual appearance of the color picker module",
+          "name": {
+            "button": "Button",
+            "text": "Text"
+          },
+          "button": "Interactive button pill with background",
+          "text": "Clean text and icon without background"
+        },
+        "format": {
+          "title": "Format",
+          "desc": "Format of the value in the clipboard"
+        },
+        "notify": {
+          "title": "Notification",
+          "desc": "Show the picked color in a notification"
+        },
+        "lens": {
+          "title": "Magnifier",
+          "desc": "Show a zoomed lens around the pointer while picking"
+        },
+        "zoom": {
+          "title": "Zoom",
+          "desc": "Enlargement of the magnifier, 2 to 24"
+        },
+        "reset": {
+          "title": "Reset after",
+          "desc": "Seconds until the pill returns to its idle look. 0 keeps the color"
+        },
+        "shortcut": {
+          "title": "Shortcut",
+          "desc": "niri key that starts the picker, such as Mod+Shift+C. Empty: none"
         }
       }
     },
@@ -1105,7 +1285,8 @@
     "tab_emojis": "Emojis",
     "placeholder_emojis": "Search emojis by name or keyword...",
     "search_run": "Search {provider}",
-    "search_hint": "Type to search with {provider}"
+    "search_hint": "Type to search with {provider}",
+    "window": "Open window"
   },
   "calendar": {
     "loading": "Loading...",
@@ -1298,6 +1479,9 @@
         "fallback_summary": "Captured screen",
         "click_to_open": "Click to open the screenshot folder"
       }
+    },
+    "otp": {
+      "copy": "Copy {code}"
     }
   },
   "quickactions": {
@@ -1957,5 +2141,39 @@
       "open": "Open status page",
       "loading": "Checking…"
     }
+  },
+  "vpn": {
+    "menu": {
+      "title": "WireGuard",
+      "connected": "Connected",
+      "off": "Off",
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "checking": "Checking…",
+      "reachable": "Reachable",
+      "unreachable": "Unreachable"
+    }
+  },
+  "btbat": {
+    "device": "Device",
+    "low": {
+      "title": "{name} battery low",
+      "body": "{level} % left"
+    }
+  },
+  "privacy": {
+    "menu": {
+      "mic": "Microphone",
+      "cam": "Camera",
+      "none": "No app records"
+    }
+  },
+  "colorpick": {
+    "copied": "Copied to the clipboard"
+  },
+  "session": {
+    "restore": "Restore",
+    "title": "Restore the last session?",
+    "body": "{count} windows: {apps}"
   }
 }

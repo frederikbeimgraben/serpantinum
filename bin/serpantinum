@@ -682,6 +682,14 @@ if [[ "$1" == "ipc" ]]; then
 fi
 
 case "$1" in
+    cmd)
+        # Writes one command line, such as "pick colorpick", to the command
+        # socket of the running shell. It starts no quickshell process, so a
+        # key binding acts at once. See quickshell/singletons/system/ShellBus.qml.
+        shift
+        printf '%s\n' "$*" | socat - "UNIX-CONNECT:${XDG_RUNTIME_DIR:-/tmp}/serpantinum/cmd.sock"
+        exit $?
+        ;;
     config)
         shift
         cli_config "$@"

@@ -42,6 +42,14 @@ ShellRoot {
         }
     }
 
+    // Singletons start on first use. These have no element that uses them
+    // early: Session restores the last session after a login, Colorpick
+    // answers the key binding "pick colorpick" also without its bar module,
+    // and NiriBinds writes the key bindings of the modules for niri.
+    readonly property bool sessionLoaded: Session.ready
+    readonly property bool colorpickLoaded: Colorpick.hasColor
+    readonly property string niriBindsLoaded: NiriBinds.content
+
     Main {}
     Bar {}
     Lock {}

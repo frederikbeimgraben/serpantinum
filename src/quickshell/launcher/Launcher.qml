@@ -237,6 +237,57 @@ PanelWindow {
     property string terminalCommand: (rawLauncherSettings && rawLauncherSettings.terminalCommand !== undefined) ? rawLauncherSettings.terminalCommand : "kitty -e"
     property string searchProvider: (rawLauncherSettings && rawLauncherSettings.searchProvider !== undefined) ? rawLauncherSettings.searchProvider : SearchProviders.DEFAULT_ID
     property bool smartRanking: (rawLauncherSettings && rawLauncherSettings.smartRanking !== undefined) ? rawLauncherSettings.smartRanking : true
+    // Open windows appear in the results while a query is typed, and Enter
+    // focuses the window. An entry of a window uses the widget fields:
+    // isWidget is true and widgetTarget is "window:" and the window id, so the
+    // list model needs no new roles. launcher.searchWindows turns it off.
+    property bool searchWindows: !(rawLauncherSettings && rawLauncherSettings.searchWindows === false)
+
+    function windowEntries(q) {
+        let out = [];
+        let list = (typeof WindowTracker !== "undefined" && WindowTracker.windows) ? WindowTracker.windows : [];
+        for (let i = 0; i < list.length; i++) {
+            let w = list[i];
+            let title = (w.title || "").toLowerCase();
+            let appId = (w.appId || "").toLowerCase();
+            let quality = 0;
+            if (title.startsWith(q)) quality = 60000;
+            else if (title.includes(q)) quality = 20000;
+            else if (appId.includes(q)) quality = 8000;
+            if (quality === 0) continue;
+            let app = allApps.find(a => a.desktop_id && w.desktopId && (a.desktop_id === w.desktopId || a.desktop_id + ".desktop" === w.desktopId));
+            out.push({
+                name: w.title || w.appId,
+                description: (typeof I18n !== "undefined" ? I18n.t("applauncher.window", "Open window") : "Open window") + " · " + (app ? app.name : w.appId),
+                desktop_id: "window:" + w.id,
+                icon: app ? app.icon : (w.appId || ""),
+                fontIcon: "",
+                score: quality,
+                isCommand: false,
+                command: "",
+                isCalc: false,
+                isSearch: false,
+                searchUrl: "",
+                calcResult: "",
+                isWidget: true,
+                widgetTarget: "window:" + w.id,
+                isFile: false,
+                filePath: "",
+                isDir: false
+            });
+        }
+        return out;
+    }
+
+    property bool windowsSubscribed: false
+
+    function syncWindowSubscription() {
+        if (typeof WindowTracker === "undefined") return;
+        let want = isVisible && searchWindows;
+        if (want && !windowsSubscribed) WindowTracker.subscribe();
+        else if (!want && windowsSubscribed) WindowTracker.unsubscribe();
+        windowsSubscribed = want;
+    }
 
     onSmartRankingChanged: {
         if (launcherWindow.isVisible) {
@@ -516,6 +567,7 @@ PanelWindow {
     }
 
     onIsVisibleChanged: {
+        syncWindowSubscription();
         if (isVisible) {
             tabSwitch.currentIndex = launcherWindow.currentTabIndex;
             restartItemsIntro();
@@ -1031,6 +1083,10 @@ PanelWindow {
             });
         }
 
+        if (searchWindows && q.length > 0 && !rawTrimmed.startsWith(">")) {
+            filtered = filtered.concat(windowEntries(q));
+        }
+
         for (let i = 0; i < allApps.length; i++) {
             let app = allApps[i];
             let nameLower = app.name ? app.name.toLowerCase() : "";
@@ -1146,6 +1202,14 @@ PanelWindow {
 
         if (item.isCalc) {
             Quickshell.execDetached(["wl-copy", "--", item.calcResult]);
+            closeLauncher();
+            return;
+        }
+
+        if (item.isWidget && String(item.widgetTarget).startsWith("window:")) {
+            let id = String(item.widgetTarget).substring(7);
+            let w = (WindowTracker.windows || []).find(x => String(x.id) === id);
+            if (w) WindowTracker.focusWindow(w);
             closeLauncher();
             return;
         }

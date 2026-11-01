@@ -103,6 +103,10 @@ GuideTab {
     readonly property var lidStyles: BarModuleRegistry.variantList("lid")
     readonly property var phoneStyles: BarModuleRegistry.variantList("phone")
     readonly property var gatusStyles: BarModuleRegistry.variantList("gatus")
+    readonly property var colorpickStyles: BarModuleRegistry.variantList("colorpick")
+    readonly property var privacyStyles: BarModuleRegistry.variantList("privacy")
+    readonly property var btbatStyles: BarModuleRegistry.variantList("btbat")
+    readonly property var vpnStyles: BarModuleRegistry.variantList("vpn")
     readonly property var volStyles: BarModuleRegistry.variantList("vol")
     readonly property var kbStyles: BarModuleRegistry.variantList("kb")
 
@@ -213,6 +217,100 @@ GuideTab {
         if (bs && bs.gatusShowCount !== undefined) return Boolean(bs.gatusShowCount);
         return true;
     }
+
+    property string colorpickStyle: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.colorpickStyle) return bs.colorpickStyle;
+        return "button";
+    }
+
+    property bool colorpickShowIcon: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.colorpickShowIcon !== undefined) return Boolean(bs.colorpickShowIcon);
+        return true;
+    }
+
+    property bool colorpickShowLabel: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.colorpickShowLabel !== undefined) return Boolean(bs.colorpickShowLabel);
+        return true;
+    }
+
+    property string colorpickFormat: (Config.getSetting("colorpick", {}) || {}).format || "hex"
+    property bool colorpickNotify: (Config.getSetting("colorpick", {}) || {}).notify !== false
+    property bool colorpickLens: (Config.getSetting("colorpick", {}) || {}).lens !== false
+    property string colorpickShortcut: (Config.getSetting("colorpick", {}) || {}).shortcut || ""
+    property int colorpickZoom: Number((Config.getSetting("colorpick", {}) || {}).zoom) || 8
+    property int colorpickResetAfter: {
+        let c = Config.getSetting("colorpick", {}) || {};
+        return c.resetAfter === undefined ? 5 : (Number(c.resetAfter) || 0);
+    }
+
+    property string privacyStyle: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.privacyStyle) return bs.privacyStyle;
+        return "button";
+    }
+
+    property bool privacyShowIcon: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.privacyShowIcon !== undefined) return Boolean(bs.privacyShowIcon);
+        return true;
+    }
+
+    property bool privacyShowLabel: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.privacyShowLabel !== undefined) return Boolean(bs.privacyShowLabel);
+        return true;
+    }
+
+    property bool privacyShowMic: (Config.getSetting("privacy", {}) || {}).showMic !== false
+    property bool privacyShowCam: (Config.getSetting("privacy", {}) || {}).showCam !== false
+    property var privacyIgnore: {
+        let p = Config.getSetting("privacy", {}) || {};
+        return Array.isArray(p.ignore) ? p.ignore : [];
+    }
+
+    property string btbatStyle: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.btbatStyle) return bs.btbatStyle;
+        return "classic";
+    }
+
+    property bool btbatShowIcon: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.btbatShowIcon !== undefined) return Boolean(bs.btbatShowIcon);
+        return true;
+    }
+
+    property bool btbatShowPercent: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.btbatShowPercent !== undefined) return Boolean(bs.btbatShowPercent);
+        return true;
+    }
+
+    property int btbatLowThreshold: Number((Config.getSetting("btbat", {}) || {}).lowThreshold) || 20
+    property bool btbatWarn: (Config.getSetting("btbat", {}) || {}).warn !== false
+
+    property string vpnStyle: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.vpnStyle) return bs.vpnStyle;
+        return "button";
+    }
+
+    property bool vpnShowIcon: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.vpnShowIcon !== undefined) return Boolean(bs.vpnShowIcon);
+        return true;
+    }
+
+    property bool vpnShowLabel: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.vpnShowLabel !== undefined) return Boolean(bs.vpnShowLabel);
+        return true;
+    }
+
+    property string vpnCheckHost: (Config.getSetting("vpn", {}) || {}).checkHost || ""
 
     property var gatusUrls: {
         let g = Config.getSetting("gatus", {});
@@ -487,6 +585,78 @@ GuideTab {
             barModulesRoot.gatusShowCount = true;
         }
 
+        if (bs && bs.colorpickStyle) {
+            barModulesRoot.colorpickStyle = bs.colorpickStyle;
+        } else {
+            barModulesRoot.colorpickStyle = "button";
+        }
+
+        if (bs && bs.colorpickShowIcon !== undefined) {
+            barModulesRoot.colorpickShowIcon = Boolean(bs.colorpickShowIcon);
+        } else {
+            barModulesRoot.colorpickShowIcon = true;
+        }
+
+        if (bs && bs.colorpickShowLabel !== undefined) {
+            barModulesRoot.colorpickShowLabel = Boolean(bs.colorpickShowLabel);
+        } else {
+            barModulesRoot.colorpickShowLabel = true;
+        }
+
+        if (bs && bs.privacyStyle) {
+            barModulesRoot.privacyStyle = bs.privacyStyle;
+        } else {
+            barModulesRoot.privacyStyle = "button";
+        }
+
+        if (bs && bs.privacyShowIcon !== undefined) {
+            barModulesRoot.privacyShowIcon = Boolean(bs.privacyShowIcon);
+        } else {
+            barModulesRoot.privacyShowIcon = true;
+        }
+
+        if (bs && bs.privacyShowLabel !== undefined) {
+            barModulesRoot.privacyShowLabel = Boolean(bs.privacyShowLabel);
+        } else {
+            barModulesRoot.privacyShowLabel = true;
+        }
+
+        if (bs && bs.btbatStyle) {
+            barModulesRoot.btbatStyle = bs.btbatStyle;
+        } else {
+            barModulesRoot.btbatStyle = "classic";
+        }
+
+        if (bs && bs.btbatShowIcon !== undefined) {
+            barModulesRoot.btbatShowIcon = Boolean(bs.btbatShowIcon);
+        } else {
+            barModulesRoot.btbatShowIcon = true;
+        }
+
+        if (bs && bs.btbatShowPercent !== undefined) {
+            barModulesRoot.btbatShowPercent = Boolean(bs.btbatShowPercent);
+        } else {
+            barModulesRoot.btbatShowPercent = true;
+        }
+
+        if (bs && bs.vpnStyle) {
+            barModulesRoot.vpnStyle = bs.vpnStyle;
+        } else {
+            barModulesRoot.vpnStyle = "button";
+        }
+
+        if (bs && bs.vpnShowIcon !== undefined) {
+            barModulesRoot.vpnShowIcon = Boolean(bs.vpnShowIcon);
+        } else {
+            barModulesRoot.vpnShowIcon = true;
+        }
+
+        if (bs && bs.vpnShowLabel !== undefined) {
+            barModulesRoot.vpnShowLabel = Boolean(bs.vpnShowLabel);
+        } else {
+            barModulesRoot.vpnShowLabel = true;
+        }
+
         let gs = Config.getSetting("gatus", {});
         barModulesRoot.gatusUrls = (gs && Array.isArray(gs.urls)) ? gs.urls : [];
 
@@ -552,6 +722,18 @@ GuideTab {
         }
         if (!barModulesRoot.gatusShowIcon && !barModulesRoot.gatusShowCount) {
             barModulesRoot.gatusShowIcon = true;
+        }
+        if (!barModulesRoot.colorpickShowIcon && !barModulesRoot.colorpickShowLabel) {
+            barModulesRoot.colorpickShowIcon = true;
+        }
+        if (!barModulesRoot.privacyShowIcon && !barModulesRoot.privacyShowLabel) {
+            barModulesRoot.privacyShowIcon = true;
+        }
+        if (!barModulesRoot.btbatShowIcon && !barModulesRoot.btbatShowPercent) {
+            barModulesRoot.btbatShowIcon = true;
+        }
+        if (!barModulesRoot.vpnShowIcon && !barModulesRoot.vpnShowLabel) {
+            barModulesRoot.vpnShowIcon = true;
         }
         if (!barModulesRoot.volShowIcon && !barModulesRoot.volShowPercent) {
             barModulesRoot.volShowIcon = true;
@@ -813,6 +995,106 @@ GuideTab {
         let current = Config.getSetting("bar", {});
         current.gatusShowCount = val;
         Config.setSetting("bar", current);
+    }
+
+    function setColorpickStyle(styleName) {
+        barModulesRoot.colorpickStyle = styleName;
+        let current = Config.getSetting("bar", {});
+        current.colorpickStyle = styleName;
+        Config.setSetting("bar", current);
+    }
+
+    function setColorpickShowIcon(val) {
+        if (!val && !barModulesRoot.colorpickShowLabel) return;
+        barModulesRoot.colorpickShowIcon = val;
+        let current = Config.getSetting("bar", {});
+        current.colorpickShowIcon = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setColorpickShowLabel(val) {
+        if (!val && !barModulesRoot.colorpickShowIcon) return;
+        barModulesRoot.colorpickShowLabel = val;
+        let current = Config.getSetting("bar", {});
+        current.colorpickShowLabel = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setPrivacyStyle(styleName) {
+        barModulesRoot.privacyStyle = styleName;
+        let current = Config.getSetting("bar", {});
+        current.privacyStyle = styleName;
+        Config.setSetting("bar", current);
+    }
+
+    function setPrivacyShowIcon(val) {
+        if (!val && !barModulesRoot.privacyShowLabel) return;
+        barModulesRoot.privacyShowIcon = val;
+        let current = Config.getSetting("bar", {});
+        current.privacyShowIcon = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setPrivacyShowLabel(val) {
+        if (!val && !barModulesRoot.privacyShowIcon) return;
+        barModulesRoot.privacyShowLabel = val;
+        let current = Config.getSetting("bar", {});
+        current.privacyShowLabel = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setBtbatStyle(styleName) {
+        barModulesRoot.btbatStyle = styleName;
+        let current = Config.getSetting("bar", {});
+        current.btbatStyle = styleName;
+        Config.setSetting("bar", current);
+    }
+
+    function setBtbatShowIcon(val) {
+        if (!val && !barModulesRoot.btbatShowPercent) return;
+        barModulesRoot.btbatShowIcon = val;
+        let current = Config.getSetting("bar", {});
+        current.btbatShowIcon = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setBtbatShowPercent(val) {
+        if (!val && !barModulesRoot.btbatShowIcon) return;
+        barModulesRoot.btbatShowPercent = val;
+        let current = Config.getSetting("bar", {});
+        current.btbatShowPercent = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setVpnStyle(styleName) {
+        barModulesRoot.vpnStyle = styleName;
+        let current = Config.getSetting("bar", {});
+        current.vpnStyle = styleName;
+        Config.setSetting("bar", current);
+    }
+
+    function setVpnShowIcon(val) {
+        if (!val && !barModulesRoot.vpnShowLabel) return;
+        barModulesRoot.vpnShowIcon = val;
+        let current = Config.getSetting("bar", {});
+        current.vpnShowIcon = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setVpnShowLabel(val) {
+        if (!val && !barModulesRoot.vpnShowIcon) return;
+        barModulesRoot.vpnShowLabel = val;
+        let current = Config.getSetting("bar", {});
+        current.vpnShowLabel = val;
+        Config.setSetting("bar", current);
+    }
+
+    // Writes one field of a top-level settings object of a module, such as
+    // vpn.connection.
+    function setModuleConfig(key, field, value) {
+        let current = Config.getSetting(key, {}) || {};
+        current[field] = value;
+        Config.setSetting(key, current);
     }
 
     // The Gatus base URLs. A URL without a scheme gets https://, and a slash at

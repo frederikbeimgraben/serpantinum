@@ -158,6 +158,8 @@ GuideTab {
 
             GeneralBehaviorSection { tab: generalTabRoot }
 
+            GeneralSessionSection { tab: generalTabRoot }
+
             GeneralLocationSection { id: locationSection; tab: generalTabRoot }
 
             SettingsRow {

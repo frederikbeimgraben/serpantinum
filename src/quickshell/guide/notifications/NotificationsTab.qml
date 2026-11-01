@@ -373,6 +373,8 @@ GuideTab {
 
             NotificationsBehaviorSection { tab: notificationsTabRoot }
 
+            NotificationsCodeSection { tab: notificationsTabRoot }
+
             NotificationsSoundSection { id: soundSection; tab: notificationsTabRoot }
 
             RowLayout {

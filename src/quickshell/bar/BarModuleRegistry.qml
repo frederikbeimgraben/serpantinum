@@ -265,6 +265,108 @@ QtObject {
                 }
             }
         },
+        "colorpick": {
+            name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.colorpick", "Color picker") : "Color picker",
+            icon: "󰈊",
+            defaultVariant: "button",
+            face: "faces/colorpick/ColorpickFace.qml",
+            variants: {
+                "button": {
+                    id: "button",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.colorpick.style.name.button", "Button") : "Button",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.colorpick.style.button", "Interactive button pill with background") : "Interactive button pill with background",
+                    icon: "󰈊",
+                    face: "faces/colorpick/ColorpickFace.qml"
+                },
+                "text": {
+                    id: "text",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.colorpick.style.name.text", "Text") : "Text",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.colorpick.style.text", "Clean text and icon without background") : "Clean text and icon without background",
+                    icon: "󰈊",
+                    face: "faces/colorpick/ColorpickFace.qml"
+                }
+            }
+        },
+        "privacy": {
+            name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.privacy", "Microphone and camera") : "Microphone and camera",
+            icon: "󰍬",
+            defaultVariant: "button",
+            face: "faces/privacy/PrivacyFace.qml",
+            variants: {
+                "button": {
+                    id: "button",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.privacy.style.name.button", "Button") : "Button",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.privacy.style.button", "Interactive button pill with background") : "Interactive button pill with background",
+                    icon: "󰍬",
+                    face: "faces/privacy/PrivacyFace.qml"
+                },
+                "text": {
+                    id: "text",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.privacy.style.name.text", "Text") : "Text",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.privacy.style.text", "Clean text and icon without background") : "Clean text and icon without background",
+                    icon: "󰍬",
+                    face: "faces/privacy/PrivacyFace.qml"
+                }
+            }
+        },
+        "btbat": {
+            name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.btbat", "Device batteries") : "Device batteries",
+            icon: "󰂯",
+            defaultVariant: "classic",
+            face: "faces/btbat/BtbatFace.qml",
+            variants: {
+                "classic": {
+                    id: "classic",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.btbat.style.name.classic", "Classic") : "Classic",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.btbat.style.classic", "Pill with gradient wave fill") : "Pill with gradient wave fill",
+                    icon: "󰁹",
+                    face: "faces/btbat/BtbatFace.qml"
+                },
+                "minimal": {
+                    id: "minimal",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.btbat.style.name.minimal", "Minimal") : "Minimal",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.btbat.style.minimal", "iOS/Android capsule with cap") : "iOS/Android capsule with cap",
+                    icon: "󰂄",
+                    face: "faces/btbat/BtbatFace.qml"
+                },
+                "text": {
+                    id: "text",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.btbat.style.name.text", "Text") : "Text",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.btbat.style.text", "Clean text and icon without background") : "Clean text and icon without background",
+                    icon: "󰁹",
+                    face: "faces/btbat/BtbatFace.qml"
+                },
+                "button": {
+                    id: "button",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.btbat.style.name.button", "Button") : "Button",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.btbat.style.button", "Interactive button pill with background") : "Interactive button pill with background",
+                    icon: "󰂄",
+                    face: "faces/btbat/BtbatFace.qml"
+                }
+            }
+        },
+        "vpn": {
+            name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.vpn", "VPN") : "VPN",
+            icon: "󰖂",
+            defaultVariant: "button",
+            face: "faces/vpn/VpnFace.qml",
+            variants: {
+                "button": {
+                    id: "button",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.vpn.style.name.button", "Button") : "Button",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.vpn.style.button", "Interactive button pill with background") : "Interactive button pill with background",
+                    icon: "󰖂",
+                    face: "faces/vpn/VpnFace.qml"
+                },
+                "text": {
+                    id: "text",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.vpn.style.name.text", "Text") : "Text",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.vpn.style.text", "Clean text and icon without background") : "Clean text and icon without background",
+                    icon: "󰖂",
+                    face: "faces/vpn/VpnFace.qml"
+                }
+            }
+        },
         "bt": {
             name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.bluetooth", "Bluetooth") : "Bluetooth",
             icon: "󰂲",
@@ -381,6 +483,22 @@ QtObject {
         }
         if (norm === "gatus") {
             if (bs.gatusStyle) return bs.gatusStyle;
+            return "button";
+        }
+        if (norm === "colorpick") {
+            if (bs.colorpickStyle) return bs.colorpickStyle;
+            return "button";
+        }
+        if (norm === "privacy") {
+            if (bs.privacyStyle) return bs.privacyStyle;
+            return "button";
+        }
+        if (norm === "btbat") {
+            if (bs.btbatStyle) return bs.btbatStyle;
+            return "classic";
+        }
+        if (norm === "vpn") {
+            if (bs.vpnStyle) return bs.vpnStyle;
             return "button";
         }
         if (norm === "vol") {

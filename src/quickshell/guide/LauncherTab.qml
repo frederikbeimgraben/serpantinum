@@ -32,6 +32,7 @@ GuideTab {
     property int currentItemCount: launcherSettings && launcherSettings.itemCount !== undefined ? launcherSettings.itemCount : 6
     property string currentTerminalCommand: launcherSettings && launcherSettings.terminalCommand !== undefined ? launcherSettings.terminalCommand : "kitty -e"
     property bool currentSmartRanking: launcherSettings && launcherSettings.smartRanking !== undefined ? launcherSettings.smartRanking : true
+    property bool currentSearchWindows: !(launcherSettings && launcherSettings.searchWindows === false)
 
     property string currentSearchProvider: launcherSettings && launcherSettings.searchProvider !== undefined ? launcherSettings.searchProvider : SearchProviders.DEFAULT_ID
 
@@ -262,6 +263,28 @@ GuideTab {
                         onToggled: function(val) {
                             launcherTabRoot.currentSmartRanking = val;
                             launcherTabRoot.updateLauncherSetting("smartRanking", val);
+                        }
+                    }
+                }
+
+                SettingsRow {
+                    rootObj: launcherTabRoot.rootObj
+                    settingId: "launcher_search_windows"
+                    searchKeywords: "launcher search open windows switch focus"
+                    icon: "󰖲"
+                    title: I18n.t("guide.launcher.search_windows.title", "Search open windows")
+                    description: I18n.t("guide.launcher.search_windows.desc", "Show open windows in the results, and focus a window with Enter")
+
+                    Toggle {
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        checked: launcherTabRoot.currentSearchWindows
+                        accentColor: ThemeBackend.mauve
+                        baseColor: ThemeBackend.surface1
+                        handleColor: ThemeBackend.crust
+                        handleOffColor: ThemeBackend.text
+                        onToggled: function(val) {
+                            launcherTabRoot.currentSearchWindows = val;
+                            launcherTabRoot.updateLauncherSetting("searchWindows", val);
                         }
                     }
                 }

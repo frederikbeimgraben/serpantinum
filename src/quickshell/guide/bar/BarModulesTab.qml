@@ -68,6 +68,14 @@ BarModulesSettings {
 
             BarGatusCard { tab: barModulesRoot }
 
+            BarColorpickCard { tab: barModulesRoot }
+
+            BarPrivacyCard { tab: barModulesRoot }
+
+            BarBtbatCard { tab: barModulesRoot }
+
+            BarVpnCard { tab: barModulesRoot }
+
             BarBluetoothCard { tab: barModulesRoot }
 
             BarVolumeCard { tab: barModulesRoot }

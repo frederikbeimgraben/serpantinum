@@ -14,6 +14,10 @@ BarBluetoothCard 1.0 BarBluetoothCard.qml
 BarLidCard 1.0 BarLidCard.qml
 BarPhoneCard 1.0 BarPhoneCard.qml
 BarGatusCard 1.0 BarGatusCard.qml
+BarColorpickCard 1.0 BarColorpickCard.qml
+BarPrivacyCard 1.0 BarPrivacyCard.qml
+BarBtbatCard 1.0 BarBtbatCard.qml
+BarVpnCard 1.0 BarVpnCard.qml
 BarVolumeCard 1.0 BarVolumeCard.qml
 BarKeyboardCard 1.0 BarKeyboardCard.qml
 BarMediaCard 1.0 BarMediaCard.qml

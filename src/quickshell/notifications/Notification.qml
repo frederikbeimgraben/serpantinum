@@ -34,8 +34,27 @@ Rectangle {
     property string fullSummary: ""
     property string fullBody: ""
     property string combinedBodyText: fullBody
+
+    // A one-time code in the notification, such as a login code from the
+    // phone, gets a button that copies it. notifications.otp sets whether a
+    // keyword must also appear and how many digits a code has, see
+    // guide/notifications/NotificationsCodeSection.qml.
+    readonly property var otpSettings: {
+        let n = Config.getSetting("notifications", {}) || {};
+        return (n.otp && typeof n.otp === "object") ? n.otp : {};
+    }
+    readonly property string otpCode: {
+        if (otpSettings.enabled === false) return "";
+        let text = fullSummary + "\n" + fullBody;
+        if (otpSettings.requireKeyword !== false
+            && !/(code|pin|otp|tan|passcode|verification|verify|token|bestätigung|kennwort|sicherheitscode)/i.test(text)) return "";
+        let lo = Math.max(3, Number(otpSettings.minDigits) || 4);
+        let hi = Math.max(lo, Number(otpSettings.maxDigits) || 8);
+        let m = text.match(new RegExp("(?:^|\\D)(\\d{" + lo + "," + hi + "})(?!\\d)"));
+        return m ? m[1] : "";
+    }
     property int msgCount: 1
-    readonly property bool canExpand: fullBody.length > 50 || fullBody.indexOf("\n") !== -1 || (delegateWrapper && delegateWrapper.actionArray && delegateWrapper.actionArray.length > 0)
+    readonly property bool canExpand: fullBody.length > 50 || fullBody.indexOf("\n") !== -1 || otpCode !== "" || (delegateWrapper && delegateWrapper.actionArray && delegateWrapper.actionArray.length > 0)
 
     property alias bgContent: bgContainer.data
     property alias iconArea: iconContainer.data
@@ -843,7 +862,7 @@ Rectangle {
 
                     Item {
                         Layout.fillWidth: true
-                        Layout.preferredHeight: (delegateWrapper && delegateWrapper.actionArray && delegateWrapper.actionArray.length > 0) ? (actionLayout.implicitHeight + s(12)) * typeRoot.expandProgress : 0
+                        Layout.preferredHeight: (typeRoot.otpCode !== "" || (delegateWrapper && delegateWrapper.actionArray && delegateWrapper.actionArray.length > 0)) ? (actionLayout.implicitHeight + s(12)) * typeRoot.expandProgress : 0
                         opacity: Math.max(0.0, (typeRoot.expandProgress - 0.2) / 0.8)
                         visible: opacity > 0.001
                         clip: true
@@ -861,6 +880,26 @@ Rectangle {
 
                             Item {
                                 Layout.fillWidth: true
+                            }
+
+                            ClickButton {
+                                visible: typeRoot.otpCode !== ""
+                                Layout.minimumWidth: s(84)
+                                Layout.preferredHeight: s(28)
+                                cornerRadius: s(6)
+                                horizontalPadding: s(12)
+                                buttonText: I18n.t("notifications.otp.copy", "Copy {code}").replace("{code}", typeRoot.otpCode)
+                                textFontSize: typeRoot.isPopup ? s(12) : s(11)
+                                buttonIcon: String.fromCodePoint(0xF018F)
+                                iconFontSize: s(11)
+                                accentColor: typeRoot.accentColor
+                                textColor: ThemeBackend.crust
+                                onTriggered: {
+                                    Quickshell.execDetached(["wl-copy", typeRoot.otpCode]);
+                                    if (delegateWrapper && typeof delegateWrapper.removeThisNotif === "function") {
+                                        delegateWrapper.removeThisNotif();
+                                    }
+                                }
                             }
 
                             Repeater {
