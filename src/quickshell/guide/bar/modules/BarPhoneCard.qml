@@ -21,7 +21,7 @@ BarModuleCard {
         BarPreviewWidget {
             property string phoneStyle: variantId !== "" ? variantId : tab.phoneStyle
             property bool phoneShowIcon: tab.phoneShowIcon
-            property bool phoneShowBattery: tab.phoneShowBattery
+            property bool phoneShowPercent: tab.phoneShowPercent
         }
     }
 
@@ -37,7 +37,7 @@ BarModuleCard {
         Toggle {
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
             checked: card.tab.phoneShowIcon
-            enabled: !checked || card.tab.phoneShowBattery
+            enabled: !checked || card.tab.phoneShowPercent
             accentColor: ThemeBackend.mauve
             baseColor: ThemeBackend.surface1
             handleColor: ThemeBackend.crust
@@ -50,23 +50,23 @@ BarModuleCard {
 
     SettingsRow {
         rootObj: card.rootObj
-        settingId: "bar_phone_show_battery"
+        settingId: "bar_phone_show_percent"
         searchKeywords: "phone kdeconnect valent battery percent"
         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
         icon: "󰁹"
-        title: I18n.t("guide.bar.phone.show_battery.title", "Show battery")
-        description: I18n.t("guide.bar.phone.show_battery.desc", "Display the battery level of the phone next to the icon")
+        title: I18n.t("guide.bar.phone.show_percent.title", "Show percentage")
+        description: I18n.t("guide.bar.phone.show_percent.desc", "Display the numeric phone charge percentage")
 
         Toggle {
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-            checked: card.tab.phoneShowBattery
+            checked: card.tab.phoneShowPercent
             enabled: !checked || card.tab.phoneShowIcon
             accentColor: ThemeBackend.mauve
             baseColor: ThemeBackend.surface1
             handleColor: ThemeBackend.crust
             handleOffColor: ThemeBackend.text
             onToggled: function(c) {
-                card.tab.setPhoneShowBattery(c);
+                card.tab.setPhoneShowPercent(c);
             }
         }
     }

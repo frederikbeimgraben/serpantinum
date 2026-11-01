@@ -660,19 +660,23 @@
           "title": "Show icon",
           "desc": "Display the phone icon"
         },
-        "show_battery": {
-          "title": "Show battery",
-          "desc": "Display the battery level of the phone next to the icon"
-        },
         "style": {
-          "title": "Style",
-          "desc": "Choose the visual appearance of the phone module",
+          "title": "Phone style",
+          "desc": "Choose the visual appearance of the phone indicator",
           "name": {
-            "button": "Button",
-            "text": "Text"
+            "classic": "Classic",
+            "minimal": "Minimal",
+            "text": "Text",
+            "button": "Button"
           },
-          "button": "Interactive button pill with background",
-          "text": "Clean text and icon without background"
+          "classic": "Pill with gradient wave fill",
+          "minimal": "iOS/Android capsule with cap",
+          "text": "Clean text and icon without background",
+          "button": "Interactive button pill with background"
+        },
+        "show_percent": {
+          "title": "Show percentage",
+          "desc": "Display the numeric phone charge percentage"
         }
       },
       "gatus": {

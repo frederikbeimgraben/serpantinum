@@ -181,7 +181,7 @@ GuideTab {
     property string phoneStyle: {
         let bs = Config.getSetting("bar", {});
         if (bs && bs.phoneStyle) return bs.phoneStyle;
-        return "button";
+        return "classic";
     }
 
     property bool phoneShowIcon: {
@@ -190,9 +190,9 @@ GuideTab {
         return true;
     }
 
-    property bool phoneShowBattery: {
+    property bool phoneShowPercent: {
         let bs = Config.getSetting("bar", {});
-        if (bs && bs.phoneShowBattery !== undefined) return Boolean(bs.phoneShowBattery);
+        if (bs && bs.phoneShowPercent !== undefined) return Boolean(bs.phoneShowPercent);
         return true;
     }
 
@@ -454,7 +454,7 @@ GuideTab {
         if (bs && bs.phoneStyle) {
             barModulesRoot.phoneStyle = bs.phoneStyle;
         } else {
-            barModulesRoot.phoneStyle = "button";
+            barModulesRoot.phoneStyle = "classic";
         }
 
         if (bs && bs.phoneShowIcon !== undefined) {
@@ -463,10 +463,10 @@ GuideTab {
             barModulesRoot.phoneShowIcon = true;
         }
 
-        if (bs && bs.phoneShowBattery !== undefined) {
-            barModulesRoot.phoneShowBattery = Boolean(bs.phoneShowBattery);
+        if (bs && bs.phoneShowPercent !== undefined) {
+            barModulesRoot.phoneShowPercent = Boolean(bs.phoneShowPercent);
         } else {
-            barModulesRoot.phoneShowBattery = true;
+            barModulesRoot.phoneShowPercent = true;
         }
 
         if (bs && bs.gatusStyle) {
@@ -547,7 +547,7 @@ GuideTab {
         if (!barModulesRoot.lidShowIcon && !barModulesRoot.lidShowName) {
             barModulesRoot.lidShowIcon = true;
         }
-        if (!barModulesRoot.phoneShowIcon && !barModulesRoot.phoneShowBattery) {
+        if (!barModulesRoot.phoneShowIcon && !barModulesRoot.phoneShowPercent) {
             barModulesRoot.phoneShowIcon = true;
         }
         if (!barModulesRoot.gatusShowIcon && !barModulesRoot.gatusShowCount) {
@@ -777,18 +777,18 @@ GuideTab {
     }
 
     function setPhoneShowIcon(val) {
-        if (!val && !barModulesRoot.phoneShowBattery) return;
+        if (!val && !barModulesRoot.phoneShowPercent) return;
         barModulesRoot.phoneShowIcon = val;
         let current = Config.getSetting("bar", {});
         current.phoneShowIcon = val;
         Config.setSetting("bar", current);
     }
 
-    function setPhoneShowBattery(val) {
+    function setPhoneShowPercent(val) {
         if (!val && !barModulesRoot.phoneShowIcon) return;
-        barModulesRoot.phoneShowBattery = val;
+        barModulesRoot.phoneShowPercent = val;
         let current = Config.getSetting("bar", {});
-        current.phoneShowBattery = val;
+        current.phoneShowPercent = val;
         Config.setSetting("bar", current);
     }
 

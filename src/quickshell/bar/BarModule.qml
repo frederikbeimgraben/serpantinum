@@ -153,6 +153,38 @@ Rectangle {
         updateVisible();
     }
 
+    // A face with its own MouseArea, such as the clock, the media player, the
+    // battery or the launcher button, played no click sound. Only the
+    // ClickButton pills of Wi-Fi, Bluetooth and the others did. This area
+    // plays the same click when a face is pressed and passes the press on, so
+    // the face handles it as before. Over a ClickButton it plays nothing,
+    // because the button plays its own click.
+    readonly property string faceClickSound: "reusables/clickbutton/click.wav"
+
+    function overClickButton(x, y) {
+        let cur = faceLoader.item;
+        while (cur) {
+            if (cur.clickSound !== undefined) return true;
+            let local = root.mapToItem(cur, x, y);
+            let child = cur.childAt(local.x, local.y);
+            if (!child) return false;
+            cur = child;
+        }
+        return false;
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        z: 1
+        acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
+        onPressed: mouse => {
+            mouse.accepted = false;
+            if (typeof Sounds !== "undefined" && !root.overClickButton(mouse.x, mouse.y)) {
+                Sounds.playSfx(root.faceClickSound);
+            }
+        }
+    }
+
     Loader {
         id: faceLoader
         anchors.fill: parent

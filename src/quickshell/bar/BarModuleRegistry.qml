@@ -210,21 +210,35 @@ QtObject {
         "phone": {
             name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.phone", "Phone") : "Phone",
             icon: "󰄜",
-            defaultVariant: "button",
+            defaultVariant: "classic",
             face: "faces/phone/PhoneFace.qml",
             variants: {
-                "button": {
-                    id: "button",
-                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.name.button", "Button") : "Button",
-                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.button", "Interactive button pill with background") : "Interactive button pill with background",
-                    icon: "󰄜",
+                "classic": {
+                    id: "classic",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.name.classic", "Classic") : "Classic",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.classic", "Pill with gradient wave fill") : "Pill with gradient wave fill",
+                    icon: "󰁹",
+                    face: "faces/phone/PhoneFace.qml"
+                },
+                "minimal": {
+                    id: "minimal",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.name.minimal", "Minimal") : "Minimal",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.minimal", "iOS/Android capsule with cap") : "iOS/Android capsule with cap",
+                    icon: "󰂄",
                     face: "faces/phone/PhoneFace.qml"
                 },
                 "text": {
                     id: "text",
                     name: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.name.text", "Text") : "Text",
                     desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.text", "Clean text and icon without background") : "Clean text and icon without background",
-                    icon: "󰄜",
+                    icon: "󰁹",
+                    face: "faces/phone/PhoneFace.qml"
+                },
+                "button": {
+                    id: "button",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.name.button", "Button") : "Button",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.phone.style.button", "Interactive button pill with background") : "Interactive button pill with background",
+                    icon: "󰂄",
                     face: "faces/phone/PhoneFace.qml"
                 }
             }
@@ -363,7 +377,7 @@ QtObject {
         }
         if (norm === "phone") {
             if (bs.phoneStyle) return bs.phoneStyle;
-            return "button";
+            return "classic";
         }
         if (norm === "gatus") {
             if (bs.gatusStyle) return bs.gatusStyle;

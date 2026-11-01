@@ -16,6 +16,22 @@ Item {
     property var module: null
     property var widget: module
 
+    // Another face can show its own source in the look of the battery, see
+    // PhoneFace.qml. The source gives capacity (0 to 100), charging, icon and
+    // chargingIcon. The face then reads nothing from UPower, and a click sends
+    // activated(item) instead of opening the system panel. settingPrefix
+    // selects the settings of the style: "bat" reads batStyle, batShowPercent
+    // and batShowIcon, "phone" reads phoneStyle and the others.
+    property var source: null
+    property string settingPrefix: "bat"
+    signal activated(var item)
+
+    function click(item) {
+        if (root.isPreview) return;
+        if (root.source) root.activated(item);
+        else ShellBus.send("toggle", "system", "");
+    }
+
     property string orientation: (activeTarget && activeTarget.orientation !== undefined) ? activeTarget.orientation : "horizontal"
     readonly property bool isVertical: orientation === "vertical"
 
@@ -40,41 +56,41 @@ Item {
     }
 
     property string batStyle: {
-        if (widget && widget !== root && widget.batStyle !== undefined) return widget.batStyle;
-        if (module && module.batStyle !== undefined) return module.batStyle;
+        if (widget && widget !== root && widget[root.settingPrefix + "Style"] !== undefined) return widget[root.settingPrefix + "Style"];
+        if (module && module[root.settingPrefix + "Style"] !== undefined) return module[root.settingPrefix + "Style"];
         let dummy = configRevision;
         if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar) {
             let bs = Config.rawSettings.bar;
-            if (bs.batStyle) return bs.batStyle;
-            if (bs.bat && bs.bat.style) return bs.bat.style;
+            if (bs[root.settingPrefix + "Style"]) return bs[root.settingPrefix + "Style"];
+            if (bs[root.settingPrefix] && bs[root.settingPrefix].style) return bs[root.settingPrefix].style;
         }
         return "classic";
     }
 
     property bool showPercent: {
-        if (widget && widget !== root && widget.batShowPercent !== undefined) return widget.batShowPercent;
+        if (widget && widget !== root && widget[root.settingPrefix + "ShowPercent"] !== undefined) return widget[root.settingPrefix + "ShowPercent"];
         if (widget && widget !== root && widget.showPercent !== undefined) return widget.showPercent;
-        if (module && module.batShowPercent !== undefined) return module.batShowPercent;
+        if (module && module[root.settingPrefix + "ShowPercent"] !== undefined) return module[root.settingPrefix + "ShowPercent"];
         if (module && module.showPercent !== undefined) return module.showPercent;
         let dummy = configRevision;
         if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar) {
             let bs = Config.rawSettings.bar;
-            if (bs.batShowPercent !== undefined) return Boolean(bs.batShowPercent);
-            if (bs.bat && bs.bat.showPercent !== undefined) return Boolean(bs.bat.showPercent);
+            if (bs[root.settingPrefix + "ShowPercent"] !== undefined) return Boolean(bs[root.settingPrefix + "ShowPercent"]);
+            if (bs[root.settingPrefix] && bs[root.settingPrefix].showPercent !== undefined) return Boolean(bs[root.settingPrefix].showPercent);
         }
         return true;
     }
 
     property bool showIcon: {
-        if (widget && widget !== root && widget.batShowIcon !== undefined) return widget.batShowIcon;
+        if (widget && widget !== root && widget[root.settingPrefix + "ShowIcon"] !== undefined) return widget[root.settingPrefix + "ShowIcon"];
         if (widget && widget !== root && widget.showIcon !== undefined) return widget.showIcon;
-        if (module && module.batShowIcon !== undefined) return module.batShowIcon;
+        if (module && module[root.settingPrefix + "ShowIcon"] !== undefined) return module[root.settingPrefix + "ShowIcon"];
         if (module && module.showIcon !== undefined) return module.showIcon;
         let dummy = configRevision;
         if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar) {
             let bs = Config.rawSettings.bar;
-            if (bs.batShowIcon !== undefined) return Boolean(bs.batShowIcon);
-            if (bs.bat && bs.bat.showIcon !== undefined) return Boolean(bs.bat.showIcon);
+            if (bs[root.settingPrefix + "ShowIcon"] !== undefined) return Boolean(bs[root.settingPrefix + "ShowIcon"]);
+            if (bs[root.settingPrefix] && bs[root.settingPrefix].showIcon !== undefined) return Boolean(bs[root.settingPrefix].showIcon);
         }
         return true;
     }
@@ -82,14 +98,14 @@ Item {
     readonly property bool effectiveShowPercent: root.isDesktop ? false : showPercent
     readonly property bool effectiveShowIcon: root.isDesktop ? true : showIcon
 
-    property bool isDesktop: isPreview ? false : (UPower.displayDevice.ready ? !UPower.displayDevice.isLaptopBattery : SystemInfo.isDesktop)
-    readonly property int batCap: isPreview ? 82 : (UPower.displayDevice.ready ? Math.round(UPower.displayDevice.percentage * 100) : 0)
+    property bool isDesktop: (isPreview || source) ? false : (UPower.displayDevice.ready ? !UPower.displayDevice.isLaptopBattery : SystemInfo.isDesktop)
+    readonly property int batCap: source ? Math.round(Number(source.capacity) || 0) : isPreview ? 82 : (UPower.displayDevice.ready ? Math.round(UPower.displayDevice.percentage * 100) : 0)
     readonly property string batPercent: batCap + "%"
-    readonly property bool isCharging: isPreview ? false : (UPower.displayDevice.ready && (UPower.displayDevice.state === UPowerDeviceState.Charging || UPower.displayDevice.state === UPowerDeviceState.FullyCharged))
-    readonly property bool isActivelyCharging: isCharging && UPower.displayDevice.changeRate > 0.5
+    readonly property bool isCharging: source ? Boolean(source.charging) : isPreview ? false : (UPower.displayDevice.ready && (UPower.displayDevice.state === UPowerDeviceState.Charging || UPower.displayDevice.state === UPowerDeviceState.FullyCharged))
+    readonly property bool isActivelyCharging: isCharging && (source ? true : UPower.displayDevice.changeRate > 0.5)
 
-    readonly property string batStatus: isPreview ? "Discharging" : (UPower.displayDevice.ready ? (UPower.displayDevice.state === UPowerDeviceState.FullyCharged ? "Full" : (UPower.displayDevice.state === UPowerDeviceState.Charging ? "Charging" : "Unknown")) : "Unknown")
-    readonly property string batIcon: isDesktop ? "󰐥" : (isCharging ? "󰂄" : (batCap > 20 ? "󰁹" : "󰂃"))
+    readonly property string batStatus: source ? (isCharging ? "Charging" : "Discharging") : isPreview ? "Discharging" : (UPower.displayDevice.ready ? (UPower.displayDevice.state === UPowerDeviceState.FullyCharged ? "Full" : (UPower.displayDevice.state === UPowerDeviceState.Charging ? "Charging" : "Unknown")) : "Unknown")
+    readonly property string batIcon: source ? (isCharging ? source.chargingIcon : source.icon) : isDesktop ? "󰐥" : (isCharging ? "󰂄" : (batCap > 20 ? "󰁹" : "󰂃"))
 
     property real wavePhase: 0.8
 
@@ -170,8 +186,13 @@ Item {
     readonly property real pillLength: pillLoader.item ? (isVertical ? pillLoader.item.implicitHeight : pillLoader.item.implicitWidth) : 0
     readonly property real textLength: isVertical ? textLayout.implicitHeight : textLayout.implicitWidth
 
+    // A face that uses this one for another source sets hidden while it has
+    // nothing to show. The face then has no size in the bar.
+    property bool hidden: false
+
     property real targetLength: {
         if (module && !module.moduleActive) return 0;
+        if (root.hidden) return 0;
         if (root.batStyle === "text") {
             return (textLength > 0) ? (textLength + (isPreview ? 0 : s(isCompact ? (isVertical ? 14 : 12) : 16))) : 0;
         }
@@ -215,7 +236,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         enabled: root.batStyle === "text" && !root.isPreview
-        onClicked: ShellBus.send("toggle", "system", "")
+        onClicked: root.click(textMouseArea)
     }
 
     AxisFlow {
@@ -286,7 +307,7 @@ Item {
                 textFontSize: s(root.isCompact ? 11 : 12)
                 accentColor: Qt.lighter(ThemeBackend.surface0, root.isCompact && !root.lockLook ? 1.18 : 1.28)
                 textColor: root.lockLook ? root.lockBatColor : root.batDynamicColor
-                onClicked: if (!root.isPreview) ShellBus.send("toggle", "system", "")
+                onClicked: root.click(parent)
             }
         }
     }
@@ -303,7 +324,7 @@ Item {
                 id: batPill
                 property bool initAnimTrigger: root.isPreview
 
-                property real value: root.isDesktop ? 0.0 : (root.isPreview ? 0.82 : (UPower.displayDevice.ready ? UPower.displayDevice.percentage : 0.0))
+                property real value: root.source ? root.batCap / 100 : root.isDesktop ? 0.0 : (root.isPreview ? 0.82 : (UPower.displayDevice.ready ? UPower.displayDevice.percentage : 0.0))
                 property real animValue: value
                 Behavior on animValue { NumberAnimation { duration: 600; easing.type: Easing.OutQuint } }
 
@@ -461,7 +482,7 @@ Item {
                     hoverEnabled: true
                     enabled: !root.isPreview
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: ShellBus.send("toggle", "system", "")
+                    onClicked: root.click(parent)
                 }
             }
 
@@ -534,7 +555,7 @@ Item {
                 scale: sideBatMouseArea.pressed ? 0.94 : (sideBatMouseArea.containsMouse ? 1.04 : 1.0)
                 Behavior on scale { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
 
-                property real value: root.isDesktop ? 0.0 : (root.isPreview ? 0.82 : (UPower.displayDevice.ready ? UPower.displayDevice.percentage : 0.0))
+                property real value: root.source ? root.batCap / 100 : root.isDesktop ? 0.0 : (root.isPreview ? 0.82 : (UPower.displayDevice.ready ? UPower.displayDevice.percentage : 0.0))
                 property color baseAccentColor: root.batDynamicColor
                 property color accentColor: sideBatMouseArea.pressed ? Qt.darker(baseAccentColor, 1.15) : (sideBatMouseArea.containsMouse ? Qt.lighter(baseAccentColor, 1.08) : baseAccentColor)
                 property bool initAnimTrigger: root.isPreview
@@ -624,7 +645,7 @@ Item {
                     hoverEnabled: true
                     enabled: !root.isPreview
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: ShellBus.send("toggle", "system", "")
+                    onClicked: root.click(parent)
                 }
             }
         }
