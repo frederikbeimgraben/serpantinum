@@ -363,7 +363,8 @@
         "usage": "System usage",
         "clock": "Clock",
         "lid": "Lid suspend",
-        "phone": "Phone"
+        "phone": "Phone",
+        "gatus": "Status pages"
       },
       "position": {
         "title": "Bar position",
@@ -672,6 +673,34 @@
           },
           "button": "Interactive button pill with background",
           "text": "Clean text and icon without background"
+        }
+      },
+      "gatus": {
+        "show_icon": {
+          "title": "Show icon",
+          "desc": "Display the status icon"
+        },
+        "show_count": {
+          "title": "Show count",
+          "desc": "Display the number of failing endpoints next to the icon"
+        },
+        "style": {
+          "title": "Style",
+          "desc": "Choose the visual appearance of the status pages module",
+          "name": {
+            "button": "Button",
+            "text": "Text"
+          },
+          "button": "Interactive button pill with background",
+          "text": "Clean text and icon without background"
+        },
+        "url": {
+          "title": "Status page",
+          "desc": "Base URL of a Gatus instance"
+        },
+        "add": {
+          "title": "Add status page",
+          "desc": "Enter the URL and press Enter"
         }
       }
     },
@@ -1914,6 +1943,15 @@
       "share": "Send files…",
       "messages": "Messages",
       "disconnected": "Disconnected"
+    }
+  },
+  "gatus": {
+    "menu": {
+      "unreachable": "Unreachable",
+      "failing": "{count} failing",
+      "ok": "All {count} up",
+      "open": "Open status page",
+      "loading": "Checking…"
     }
   }
 }

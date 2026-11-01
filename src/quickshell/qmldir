@@ -22,7 +22,9 @@ SideMusicPopout 1.0 popouts/SideMusicPopout.qml
 TrayBase 1.0 popouts/TrayBase.qml
 DesktopMenu 1.0 popouts/DesktopMenu.qml
 DockAppMenu 1.0 popouts/DockAppMenu.qml
+BarListMenu 1.0 popouts/BarListMenu.qml
 PhoneMenu 1.0 popouts/PhoneMenu.qml
+GatusMenu 1.0 popouts/GatusMenu.qml
 
 WidgetLoader 1.0 widgets/WidgetLoader.qml
 WidgetRedactor 1.0 widgets/WidgetRedactor.qml
@@ -58,6 +60,7 @@ singleton I18n 1.0 singletons/system/I18n.qml
 singleton KeyboardLayout 1.0 singletons/system/KeyboardLayout.qml
 singleton LidInhibit 1.0 singletons/system/LidInhibit.qml
 singleton Phone 1.0 singletons/system/Phone.qml
+singleton Gatus 1.0 singletons/system/Gatus.qml
 singleton MangoState 1.0 singletons/system/MangoState.qml
 singleton NiriState 1.0 singletons/system/NiriState.qml
 singleton RecordingState 1.0 singletons/system/RecordingState.qml
@@ -80,3 +83,4 @@ singleton WidgetSync 1.0 singletons/widgetcontrols/WidgetSync.qml
 singleton DesktopMenuController singletons/widgetcontrols/DesktopMenuController.qml
 singleton DockAppMenuController 1.0 singletons/widgetcontrols/DockAppMenuController.qml
 singleton PhoneMenuController 1.0 singletons/widgetcontrols/PhoneMenuController.qml
+singleton GatusMenuController 1.0 singletons/widgetcontrols/GatusMenuController.qml

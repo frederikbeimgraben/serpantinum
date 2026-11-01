@@ -231,6 +231,7 @@ GuideTab {
             "bt": ThemeBackend.mauve,
             "lid": ThemeBackend.peach,
             "phone": ThemeBackend.green,
+            "gatus": ThemeBackend.red,
             "vol": ThemeBackend.peach,
             "bat": ThemeBackend.green
         };

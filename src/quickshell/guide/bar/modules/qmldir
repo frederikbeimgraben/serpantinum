@@ -13,6 +13,7 @@ BarNetworkCard 1.0 BarNetworkCard.qml
 BarBluetoothCard 1.0 BarBluetoothCard.qml
 BarLidCard 1.0 BarLidCard.qml
 BarPhoneCard 1.0 BarPhoneCard.qml
+BarGatusCard 1.0 BarGatusCard.qml
 BarVolumeCard 1.0 BarVolumeCard.qml
 BarKeyboardCard 1.0 BarKeyboardCard.qml
 BarMediaCard 1.0 BarMediaCard.qml

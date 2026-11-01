@@ -14,6 +14,7 @@
 , cava
 , calf
 , cliphist
+, curl
 , easyeffects
 , fastfetch
 , fd
@@ -69,6 +70,7 @@ let
     cava
     calf
     cliphist
+    curl
     easyeffects
     fastfetch
     fd

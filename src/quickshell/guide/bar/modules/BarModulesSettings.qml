@@ -102,6 +102,7 @@ GuideTab {
     readonly property var btStyles: BarModuleRegistry.variantList("bt")
     readonly property var lidStyles: BarModuleRegistry.variantList("lid")
     readonly property var phoneStyles: BarModuleRegistry.variantList("phone")
+    readonly property var gatusStyles: BarModuleRegistry.variantList("gatus")
     readonly property var volStyles: BarModuleRegistry.variantList("vol")
     readonly property var kbStyles: BarModuleRegistry.variantList("kb")
 
@@ -193,6 +194,29 @@ GuideTab {
         let bs = Config.getSetting("bar", {});
         if (bs && bs.phoneShowBattery !== undefined) return Boolean(bs.phoneShowBattery);
         return true;
+    }
+
+    property string gatusStyle: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.gatusStyle) return bs.gatusStyle;
+        return "button";
+    }
+
+    property bool gatusShowIcon: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.gatusShowIcon !== undefined) return Boolean(bs.gatusShowIcon);
+        return true;
+    }
+
+    property bool gatusShowCount: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.gatusShowCount !== undefined) return Boolean(bs.gatusShowCount);
+        return true;
+    }
+
+    property var gatusUrls: {
+        let g = Config.getSetting("gatus", {});
+        return (g && Array.isArray(g.urls)) ? g.urls : [];
     }
 
     property string volStyle: {
@@ -445,6 +469,27 @@ GuideTab {
             barModulesRoot.phoneShowBattery = true;
         }
 
+        if (bs && bs.gatusStyle) {
+            barModulesRoot.gatusStyle = bs.gatusStyle;
+        } else {
+            barModulesRoot.gatusStyle = "button";
+        }
+
+        if (bs && bs.gatusShowIcon !== undefined) {
+            barModulesRoot.gatusShowIcon = Boolean(bs.gatusShowIcon);
+        } else {
+            barModulesRoot.gatusShowIcon = true;
+        }
+
+        if (bs && bs.gatusShowCount !== undefined) {
+            barModulesRoot.gatusShowCount = Boolean(bs.gatusShowCount);
+        } else {
+            barModulesRoot.gatusShowCount = true;
+        }
+
+        let gs = Config.getSetting("gatus", {});
+        barModulesRoot.gatusUrls = (gs && Array.isArray(gs.urls)) ? gs.urls : [];
+
         if (bs && bs.volStyle) {
             barModulesRoot.volStyle = bs.volStyle;
         } else {
@@ -504,6 +549,9 @@ GuideTab {
         }
         if (!barModulesRoot.phoneShowIcon && !barModulesRoot.phoneShowBattery) {
             barModulesRoot.phoneShowIcon = true;
+        }
+        if (!barModulesRoot.gatusShowIcon && !barModulesRoot.gatusShowCount) {
+            barModulesRoot.gatusShowIcon = true;
         }
         if (!barModulesRoot.volShowIcon && !barModulesRoot.volShowPercent) {
             barModulesRoot.volShowIcon = true;
@@ -742,6 +790,64 @@ GuideTab {
         let current = Config.getSetting("bar", {});
         current.phoneShowBattery = val;
         Config.setSetting("bar", current);
+    }
+
+    function setGatusStyle(styleName) {
+        barModulesRoot.gatusStyle = styleName;
+        let current = Config.getSetting("bar", {});
+        current.gatusStyle = styleName;
+        Config.setSetting("bar", current);
+    }
+
+    function setGatusShowIcon(val) {
+        if (!val && !barModulesRoot.gatusShowCount) return;
+        barModulesRoot.gatusShowIcon = val;
+        let current = Config.getSetting("bar", {});
+        current.gatusShowIcon = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setGatusShowCount(val) {
+        if (!val && !barModulesRoot.gatusShowIcon) return;
+        barModulesRoot.gatusShowCount = val;
+        let current = Config.getSetting("bar", {});
+        current.gatusShowCount = val;
+        Config.setSetting("bar", current);
+    }
+
+    // The Gatus base URLs. A URL without a scheme gets https://, and a slash at
+    // the end is removed, so the API path joins cleanly.
+    function normalizeGatusUrl(u) {
+        u = String(u || "").trim().replace(/\/+$/, "");
+        if (u !== "" && !/^https?:\/\//.test(u)) u = "https://" + u;
+        return u;
+    }
+
+    function setGatusUrls(list) {
+        barModulesRoot.gatusUrls = list;
+        let current = Config.getSetting("gatus", {}) || {};
+        current.urls = list;
+        Config.setSetting("gatus", current);
+    }
+
+    function addGatusUrl(u) {
+        u = normalizeGatusUrl(u);
+        if (u === "" || barModulesRoot.gatusUrls.indexOf(u) !== -1) return;
+        setGatusUrls(barModulesRoot.gatusUrls.concat([u]));
+    }
+
+    function setGatusUrl(index, u) {
+        u = normalizeGatusUrl(u);
+        let list = barModulesRoot.gatusUrls.slice();
+        if (u === "") list.splice(index, 1);
+        else list[index] = u;
+        setGatusUrls(list);
+    }
+
+    function removeGatusUrl(index) {
+        let list = barModulesRoot.gatusUrls.slice();
+        list.splice(index, 1);
+        setGatusUrls(list);
     }
 
     function setVolStyle(styleName) {

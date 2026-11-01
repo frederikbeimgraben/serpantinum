@@ -173,6 +173,9 @@ PanelWindow {
                 if (typeof PhoneMenuController !== "undefined") {
                     PhoneMenuController.hide();
                 }
+                if (typeof GatusMenuController !== "undefined") {
+                    GatusMenuController.hide();
+                }
                 switchWidget("hidden", "");
             } else if (cmd === "toggle" || cmd === "open") {
                 if (targetWidget === effectivelyActive) {

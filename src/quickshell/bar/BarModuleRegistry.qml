@@ -229,6 +229,28 @@ QtObject {
                 }
             }
         },
+        "gatus": {
+            name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.gatus", "Status pages") : "Status pages",
+            icon: "󰗶",
+            defaultVariant: "button",
+            face: "faces/gatus/GatusFace.qml",
+            variants: {
+                "button": {
+                    id: "button",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.gatus.style.name.button", "Button") : "Button",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.gatus.style.button", "Interactive button pill with background") : "Interactive button pill with background",
+                    icon: "󰗶",
+                    face: "faces/gatus/GatusFace.qml"
+                },
+                "text": {
+                    id: "text",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.gatus.style.name.text", "Text") : "Text",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.gatus.style.text", "Clean text and icon without background") : "Clean text and icon without background",
+                    icon: "󰗶",
+                    face: "faces/gatus/GatusFace.qml"
+                }
+            }
+        },
         "bt": {
             name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.bluetooth", "Bluetooth") : "Bluetooth",
             icon: "󰂲",
@@ -341,6 +363,10 @@ QtObject {
         }
         if (norm === "phone") {
             if (bs.phoneStyle) return bs.phoneStyle;
+            return "button";
+        }
+        if (norm === "gatus") {
+            if (bs.gatusStyle) return bs.gatusStyle;
             return "button";
         }
         if (norm === "vol") {
