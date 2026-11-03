@@ -25,6 +25,9 @@ if [[ -z "$PROJECT_ROOT" || ! -f "$PROJECT_ROOT/install/modules/deps.sh" || ! -d
             sudo pacman -Sy --noconfirm --needed git
         elif command -v dnf &>/dev/null; then
             sudo dnf install -y git
+        elif command -v xbps-install &>/dev/null; then
+            sudo xbps-install -Suy xbps || true
+            sudo xbps-install -Sy git
         fi
     fi
     if [ ! -d "$CACHE_BASE/.git" ]; then
@@ -49,6 +52,7 @@ source "$PROJECT_ROOT/src/scripts/i18n.sh"
 source "$MODULES_DIR/pm.sh"
 source "$MODULES_DIR/deps.sh"
 source "$MODULES_DIR/ski.sh"
+source "$MODULES_DIR/audio.sh"
 source "$MODULES_DIR/state.sh"
 source "$MODULES_DIR/migrate.sh"
 source "$MODULES_DIR/deploy.sh"
@@ -59,6 +63,9 @@ source "$MODULES_DIR/ui.sh"
 
 TELEMETRY_ID=$(get_telemetry_id)
 ENABLE_TELEMETRY=$(get_telemetry_enabled)
+OPT_SDDM=$(get_saved_preference OPT_SDDM "$OPT_SDDM")
+SDDM_WAYLAND=$(get_saved_preference SDDM_WAYLAND "$SDDM_WAYLAND")
+INSTALL_FULL_WALLPAPERS=$(get_saved_preference INSTALL_FULL_WALLPAPERS "$INSTALL_FULL_WALLPAPERS")
 
 check_supported_os
 bootstrap_installer_deps
@@ -87,6 +94,7 @@ fi
 
 install_dependencies "$INSTALL_STATE" "$IS_REINSTALL" "${SELECTED_COMPOSITORS[@]}"
 install_ski
+install_audio_daemon
 
 deploy_package "$PROJECT_ROOT" "$OLD_COMMIT" "$TARGET_COMMIT" "$IS_REINSTALL" "$INSTALL_STATE" "${SELECTED_COMPOSITORS[@]}"
 setup_sddm "$PROJECT_ROOT" "$INSTALL_STATE" "$IS_REINSTALL"
@@ -97,7 +105,8 @@ init_serpantinum_config "$PROJECT_ROOT" "$WALLPAPER_DIR" "$INSTALL_STATE" "$IS_R
 configure_ski_defaults
 
 setup_services
-write_version_state "$TARGET_VERSION" "$TARGET_COMMIT" "$TELEMETRY_ID" "$ENABLE_TELEMETRY" "${SELECTED_COMPOSITORS[*]}"
+hand_over_from_easyeffects
+write_version_state "$TARGET_VERSION" "$TARGET_COMMIT" "$TELEMETRY_ID" "$ENABLE_TELEMETRY" "${SELECTED_COMPOSITORS[*]}" "$OPT_SDDM" "$SDDM_WAYLAND" "$INSTALL_FULL_WALLPAPERS"
 
 if [[ "$INSTALL_STATE" == "legacy" || "$INSTALL_STATE" == "fresh" || "$IS_REINSTALL" == true ]]; then
     rm -f "$HOME/.local/state/serpantinum/first_launch.done" "$HOME/.local/state/quickshell/first_launch.done"

@@ -129,6 +129,9 @@
       },
       "setting": {
         "show_text": "テキストを表示"
+      },
+      "category": {
+        "lockscreen": "ロック画面"
       }
     }
   },
@@ -143,7 +146,9 @@
     "equalizer": "イコライザー",
     "eq": {
       "apply": "適用",
-      "saved": "保存済み"
+      "saved": "保存済み",
+      "dynamic": "ダイナミック",
+      "dynamic_active": "サウンドに合わせて調整中"
     },
     "presets": {
       "flat": "フラット",
@@ -538,11 +543,21 @@
     },
     "redactor": {
       "no_widgets_active": "アクティブなウィジェットがありません",
-      "click_to_add": "下部ツールバーのウィジェットアイコンをクリックして追加",
+      "click_to_add": "下部ツールバーでカテゴリを選ぶか検索してウィジェットを追加",
       "done": "完了",
       "widget_singular": "ウィジェット",
       "widgets_plural": "ウィジェット",
-      "widgets_short": "個"
+      "widgets_short": "個",
+      "category": {
+        "time": "時刻とテキスト",
+        "media": "メディア",
+        "system": "システム",
+        "info": "情報",
+        "other": "その他"
+      },
+      "search": "ウィジェットを検索",
+      "results": "結果",
+      "no_results": "見つかりませんでした"
     },
     "types": {
       "clock": "時計",
@@ -555,7 +570,8 @@
       "battery": "バッテリー",
       "github": "GitHub",
       "time": "時刻",
-      "notes": "メモ"
+      "notes": "メモ",
+      "text": "テキスト"
     },
     "variants": {
       "digital": "デジタル",
@@ -601,7 +617,8 @@
     },
     "settings": {
       "lyricsLines": "行数",
-      "lyricsAlignment": "配置"
+      "lyricsAlignment": "配置",
+      "textContent": "テキスト"
     },
     "align": {
       "left": "左揃え",
@@ -610,6 +627,9 @@
     },
     "notes": {
       "empty": "メモはまだありません"
+    },
+    "text": {
+      "placeholder": "テキストを入力"
     }
   },
   "cli": {
@@ -617,7 +637,7 @@
     "description": "Wayland コンポジター向けデスクトップシェル。",
     "commands": "コマンド:",
     "script_commands": "スクリプトコマンド:",
-    "launch_desc": "スタンドアロンコンポーネントの起動 (start, widgetredactor, lock-redactor)",
+    "launch_desc": "スタンドアロンコンポーネントの起動 (start)",
     "msg_desc": "UI マネージャーへのコマンドやワークスペース切り替えの送信",
     "ipc_desc": "シェルへの直接 IPC 呼び出しの転送",
     "kill_desc": "実行中のデーモンを安全に停止",
@@ -631,18 +651,16 @@
     "daemon_restarted": "Serpantinum デーモンを再起動しました。",
     "starting_daemon": "デーモンが実行されていません。バックグラウンドで serpantinumd を起動中...",
     "error_missing_qml": "エラー: 起動対象が指定されていません。",
-    "launch_usage": "使用法: serpantinum launch <start|widgetredactor|lock-redactor> [引数...]",
+    "launch_usage": "使用法: serpantinum launch <start> [引数...]",
     "error_qml_not_found": "エラー: {DIR} 内で {NAME}.qml を解決できませんでした",
     "error_shell_qml_not_found": "エラー: {DIR} 内で shell.qml へのパスを解決できませんでした",
     "error_unknown_command": "エラー: 不明なコマンド '{CMD}' です。",
     "error_unknown_target": "エラー: 不明な対象 '{TARGET}' です。",
     "launch_help": {
-      "usage": "使用法: serpantinum launch <start|widgetredactor|lock-redactor> [引数...]",
+      "usage": "使用法: serpantinum launch <start> [引数...]",
       "description": "ランナーモードでスタンドアロンコンポーネントを直接起動します。",
       "available_targets": "利用可能な対象:",
-      "target_start": "初期設定インターフェースを起動",
-      "target_widgetredactor": "デスクトップウィジェット編集インターフェースを起動",
-      "target_lock_redactor": "ロック画面のレイアウトエディターを切り替え、開く、または閉じる"
+      "target_start": "初期設定インターフェースを起動"
     },
     "msg_help": {
       "usage": "使用法: serpantinum msg <command|workspace> [引数...]",
@@ -675,7 +693,8 @@
       "hibernate": "システムをハイバネートする",
       "reboot": "システムを再起動する",
       "poweroff": "システムの電源を切る",
-      "redactor": "デスクトップウィジェットのレイアウトエディターを開く、または切り替える"
+      "redactor": "デスクトップウィジェットのレイアウトエディターを開く、または切り替える",
+      "lock_redactor": "ロック画面のレイアウトエディターを切り替え、開く、または閉じる"
     },
     "usage_label": "使い方:",
     "config_desc": "設定の読み取りと変更 (get, set, dump, path, edit)",
@@ -687,9 +706,9 @@
     "error_unknown_theme": "エラー: 不明なテーマ '{NAME}' です。",
     "error_no_wallpapers": "エラー: 壁紙ディレクトリに壁紙が見つかりません。",
     "error_file_not_found": "エラー: ファイルが見つかりません: {PATH}",
-    "info_desc": "設定の現在の状態を表示 (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
-    "set_desc": "設定を変更 (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "単発のアクションを実行 (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "info_desc": "設定の現在の状態を表示 (notifications, idle, dock, sfx, theme, lang, wallpaper, monitors, updates)",
+    "set_desc": "設定を変更 (notifications, idle, dock, sfx, theme, lang, wallpaper)",
+    "trigger_desc": "単発のアクションを実行 (idle, notifications, theme, firstlaunch)",
     "settings_desc": "設定ウィンドウを開く（タブの指定も可能）"
   },
   "daemon": {
@@ -711,6 +730,11 @@
       "status_running": "Serpantinum デーモンが実行中です (PID: {PID})。",
       "status_stopped": "Serpantinum デーモンは実行されていません。",
       "unknown_arg": "不明な引数: {ARG}"
+    },
+    "app_name": "Serpantinum",
+    "easyeffects": {
+      "title": "EasyEffects がまだ有効です",
+      "body": "Serpantinum に独自のオーディオエンジンが搭載され、EasyEffects はそれと干渉する可能性があります。EasyEffects を Serpantinum のためだけに使っていた場合は、ログイン時に起動しないようにしてください。"
     }
   },
   "installer": {
@@ -1046,10 +1070,6 @@
       "quickactions": {
         "title": "クイックアクション",
         "desc": "フローティングクイックアクションオーバーレイを有効にします"
-      },
-      "separatewindow": {
-        "title": "設定を別ウィンドウで開く",
-        "desc": "シェル内のパネルではなく、サイズ変更可能な通常のアプリウィンドウとして設定を開きます"
       },
       "location": {
         "title": "位置情報",
@@ -1425,6 +1445,10 @@
         "show_controls": {
           "title": "コントロールを表示",
           "desc": "前へ・再生・次へボタンを表示します"
+        },
+        "hide_when_idle": {
+          "title": "何も再生していないときは非表示",
+          "desc": "メディアが再生されていない間はバーからウィジェットを隠す"
         },
         "preview": {
           "title": "曲のタイトル",

@@ -219,10 +219,6 @@
         "title": "क्विक एक्शन्स",
         "desc": "फ़्लोटिंग क्विक एक्शन्स ओवरले सक्षम करें"
       },
-      "separatewindow": {
-        "title": "सेटिंग्स को अलग विंडो में खोलें",
-        "desc": "शेल के अंदर पैनल के बजाय सेटिंग्स को आकार बदलने योग्य सामान्य ऐप विंडो के रूप में खोलें"
-      },
       "location": {
         "title": "स्थान",
         "desc": "स्वचालित सूर्य समय सारणी और मौसम के लिए स्थान कॉन्फ़िगर करें",
@@ -597,6 +593,10 @@
         "show_controls": {
           "title": "नियंत्रण दिखाएं",
           "desc": "पिछला, चलाएं और अगला बटन दिखाएं"
+        },
+        "hide_when_idle": {
+          "title": "कुछ न चलने पर छिपाएं",
+          "desc": "कोई मीडिया सक्रिय न होने पर विजेट को बार से छिपाएं"
         },
         "preview": {
           "title": "गाने का शीर्षक",
@@ -1103,6 +1103,9 @@
       },
       "setting": {
         "show_text": "टेक्स्ट दिखाएँ"
+      },
+      "category": {
+        "lockscreen": "लॉक स्क्रीन"
       }
     }
   },
@@ -1117,7 +1120,9 @@
     "equalizer": "इक्वलाइज़र",
     "eq": {
       "apply": "लागू करें",
-      "saved": "सहेजा गया"
+      "saved": "सहेजा गया",
+      "dynamic": "डायनामिक",
+      "dynamic_active": "आपकी ध्वनि के अनुसार ढल रहा है"
     },
     "presets": {
       "flat": "फ़्लैट",
@@ -1512,11 +1517,21 @@
     },
     "redactor": {
       "no_widgets_active": "कोई विजेट सक्रिय नहीं है",
-      "click_to_add": "जोड़ने के लिए नीचे दिए गए टूलबार में विजेट आइकन पर क्लिक करें",
+      "click_to_add": "विजेट जोड़ने के लिए नीचे दिए गए टूलबार में एक श्रेणी चुनें या खोजें",
       "done": "हो गया",
       "widget_singular": "विजेट",
       "widgets_plural": "विजेट्स",
-      "widgets_short": "वि"
+      "widgets_short": "वि",
+      "category": {
+        "time": "समय और टेक्स्ट",
+        "media": "मीडिया",
+        "system": "सिस्टम",
+        "info": "जानकारी",
+        "other": "अन्य"
+      },
+      "search": "विजेट खोजें",
+      "results": "परिणाम",
+      "no_results": "कुछ नहीं मिला"
     },
     "types": {
       "clock": "घड़ी",
@@ -1529,7 +1544,8 @@
       "battery": "बैटरी",
       "github": "Github",
       "time": "समय",
-      "notes": "नोट्स"
+      "notes": "नोट्स",
+      "text": "टेक्स्ट"
     },
     "variants": {
       "digital": "डिजिटल",
@@ -1575,7 +1591,8 @@
     },
     "settings": {
       "lyricsLines": "पंक्तियां",
-      "lyricsAlignment": "संरेखण"
+      "lyricsAlignment": "संरेखण",
+      "textContent": "टेक्स्ट"
     },
     "align": {
       "left": "बाएं",
@@ -1584,6 +1601,9 @@
     },
     "notes": {
       "empty": "अभी कोई नोट नहीं"
+    },
+    "text": {
+      "placeholder": "टेक्स्ट दर्ज करें"
     }
   },
   "cli": {
@@ -1591,7 +1611,7 @@
     "description": "वेरलैंड कंपोजिटर्स के लिए एक डेस्कटॉप शेल।",
     "commands": "कमांड:",
     "script_commands": "स्क्रिप्ट कमांड:",
-    "launch_desc": "स्टैंडअलोन घटक लॉन्च करें (start, widgetredactor, lock-redactor)",
+    "launch_desc": "स्टैंडअलोन घटक लॉन्च करें (start)",
     "msg_desc": "यूआई प्रबंधक को कमांड या वर्कस्पेस स्विच भेजें",
     "ipc_desc": "आईपीसी कॉल सीधे शेल को अग्रेषित करें",
     "kill_desc": "चल रहे डेमन को सुरक्षित रूप से रोकें",
@@ -1605,18 +1625,16 @@
     "daemon_restarted": "Serpantinum डेमन पुनः आरंभ हुआ।",
     "starting_daemon": "डेमन नहीं चल रहा है। पृष्ठभूमि में serpantinumd शुरू किया जा रहा है...",
     "error_missing_qml": "त्रुटि: लॉन्च करने के लिए लक्ष्य अनुपलब्ध है।",
-    "launch_usage": "उपयोग: serpantinum launch <start|widgetredactor|lock-redactor> [args...]",
+    "launch_usage": "उपयोग: serpantinum launch <start> [args...]",
     "error_qml_not_found": "त्रुटि: {DIR} में {NAME}.qml हल नहीं किया जा सका",
     "error_shell_qml_not_found": "त्रुटि: {DIR} में shell.qml का पथ हल नहीं किया जा सका",
     "error_unknown_command": "त्रुटि: अज्ञात कमांड '{CMD}'।",
     "error_unknown_target": "त्रुटि: अज्ञात लक्ष्य '{TARGET}'।",
     "launch_help": {
-      "usage": "उपयोग: serpantinum launch <start|widgetredactor|lock-redactor> [तर्क...]",
+      "usage": "उपयोग: serpantinum launch <start> [तर्क...]",
       "description": "स्टैंडअलोन घटकों को सीधे रनर मोड में लॉन्च करें।",
       "available_targets": "उपलब्ध लक्ष्य:",
-      "target_start": "प्रारंभिक सेटअप इंटरफ़ेस लॉन्च करें",
-      "target_widgetredactor": "डेस्कटॉप विजेट संपादक इंटरफ़ेस लॉन्च करें",
-      "target_lock_redactor": "लॉक स्क्रीन लेआउट संपादक को टॉगल, खोलें या बंद करें"
+      "target_start": "प्रारंभिक सेटअप इंटरफ़ेस लॉन्च करें"
     },
     "msg_help": {
       "usage": "उपयोग: serpantinum msg <command|workspace> [तर्क...]",
@@ -1649,7 +1667,8 @@
       "hibernate": "सिस्टम को हाइबरनेट करें",
       "reboot": "सिस्टम को रीबूट करें",
       "poweroff": "सिस्टम को बंद करें",
-      "redactor": "डेस्कटॉप विजेट लेआउट संपादक खोलें या टॉगल करें"
+      "redactor": "डेस्कटॉप विजेट लेआउट संपादक खोलें या टॉगल करें",
+      "lock_redactor": "लॉक स्क्रीन लेआउट संपादक को टॉगल, खोलें या बंद करें"
     },
     "usage_label": "उपयोग:",
     "config_desc": "सेटिंग्स पढ़ें और बदलें (get, set, dump, path, edit)",
@@ -1661,9 +1680,9 @@
     "error_unknown_theme": "त्रुटि: अज्ञात थीम '{NAME}'।",
     "error_no_wallpapers": "त्रुटि: वॉलपेपर निर्देशिका में कोई वॉलपेपर नहीं मिला।",
     "error_file_not_found": "त्रुटि: फ़ाइल नहीं मिली: {PATH}",
-    "info_desc": "किसी सेटिंग की वर्तमान स्थिति दिखाएँ (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
-    "set_desc": "कोई सेटिंग बदलें (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "एक बार की क्रिया चलाएँ (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "info_desc": "किसी सेटिंग की वर्तमान स्थिति दिखाएँ (notifications, idle, dock, sfx, theme, lang, wallpaper, monitors, updates)",
+    "set_desc": "कोई सेटिंग बदलें (notifications, idle, dock, sfx, theme, lang, wallpaper)",
+    "trigger_desc": "एक बार की क्रिया चलाएँ (idle, notifications, theme, firstlaunch)",
     "settings_desc": "सेटिंग्स विंडो खोलें (वैकल्पिक रूप से किसी टैब पर)"
   },
   "daemon": {
@@ -1685,6 +1704,11 @@
       "status_running": "Serpantinum डेमन चल रहा है (PID: {PID})।",
       "status_stopped": "Serpantinum डेमन नहीं चल रहा है।",
       "unknown_arg": "अज्ञात तर्क: {ARG}"
+    },
+    "app_name": "Serpantinum",
+    "easyeffects": {
+      "title": "EasyEffects अभी भी चालू है",
+      "body": "Serpantinum के पास अब अपना ऑडियो इंजन है, और EasyEffects इसमें बाधा डाल सकता है। अगर आप EasyEffects का उपयोग केवल Serpantinum के लिए करते थे, तो लॉगिन पर इसका अपने-आप शुरू होना बंद करें।"
     }
   },
   "installer": {

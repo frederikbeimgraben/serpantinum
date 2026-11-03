@@ -219,10 +219,6 @@
         "title": "Бързи действия",
         "desc": "Активиране на плаващия панел за бързи действия"
       },
-      "separatewindow": {
-        "title": "Отваряне на настройките в отделен прозорец",
-        "desc": "Отваряне на настройките като обикновен прозорец с променлив размер вместо панел в обвивката"
-      },
       "location": {
         "title": "Местоположение",
         "desc": "Конфигуриране на местоположение за автоматичен график на слънцето и времето",
@@ -597,6 +593,10 @@
         "show_controls": {
           "title": "Показване на контроли",
           "desc": "Показва бутоните за предишна, възпроизвеждане и следваща"
+        },
+        "hide_when_idle": {
+          "title": "Скриване, когато нищо не се възпроизвежда",
+          "desc": "Скриване на модула от лентата, докато няма активна медия"
         },
         "preview": {
           "title": "Заглавие на песента",
@@ -1103,6 +1103,9 @@
       },
       "setting": {
         "show_text": "Показване на текст"
+      },
+      "category": {
+        "lockscreen": "Заключен екран"
       }
     }
   },
@@ -1117,7 +1120,9 @@
     "equalizer": "Еквалайзер",
     "eq": {
       "apply": "Прилагане",
-      "saved": "Запазено"
+      "saved": "Запазено",
+      "dynamic": "Динамичен",
+      "dynamic_active": "Адаптира се към вашия звук"
     },
     "presets": {
       "flat": "Плосък",
@@ -1512,11 +1517,21 @@
     },
     "redactor": {
       "no_widgets_active": "Няма активни уиджети",
-      "click_to_add": "Щракнете върху икона на уиджет в долната лента с инструменти, за да го добавите",
+      "click_to_add": "Изберете категория или потърсете в долната лента с инструменти, за да добавите уиджет",
       "done": "Готово",
       "widget_singular": "уиджет",
       "widgets_plural": "уиджета",
-      "widgets_short": "у"
+      "widgets_short": "у",
+      "category": {
+        "time": "Час и текст",
+        "media": "Медия",
+        "system": "Система",
+        "info": "Информация",
+        "other": "Други"
+      },
+      "search": "Търсене на уиджети",
+      "results": "Резултати",
+      "no_results": "Нищо не е намерено"
     },
     "types": {
       "clock": "Часовник",
@@ -1529,7 +1544,8 @@
       "battery": "Батерия",
       "github": "Github",
       "time": "Час",
-      "notes": "Бележки"
+      "notes": "Бележки",
+      "text": "Текст"
     },
     "variants": {
       "digital": "Дигитален",
@@ -1575,7 +1591,8 @@
     },
     "settings": {
       "lyricsLines": "Редове",
-      "lyricsAlignment": "Подравняване"
+      "lyricsAlignment": "Подравняване",
+      "textContent": "Текст"
     },
     "align": {
       "left": "Ляво",
@@ -1584,6 +1601,9 @@
     },
     "notes": {
       "empty": "Все още няма бележки"
+    },
+    "text": {
+      "placeholder": "Въведете текст"
     }
   },
   "cli": {
@@ -1591,7 +1611,7 @@
     "description": "Работна среда за wayland композитори.",
     "commands": "Команди:",
     "script_commands": "Скриптови команди:",
-    "launch_desc": "Стартиране на самостоятелни компоненти (start, widgetredactor, lock-redactor)",
+    "launch_desc": "Стартиране на самостоятелни компоненти (start)",
     "msg_desc": "Изпращане на команди или смяна на работни пространства към мениджъра на интерфейса",
     "ipc_desc": "Препращане на IPC повиквания директно към обвивката",
     "kill_desc": "Чисто спиране на работещия демон",
@@ -1605,18 +1625,16 @@
     "daemon_restarted": "Демонът на Serpantinum е рестартиран.",
     "starting_daemon": "Демонът не работи. Стартиране на serpantinumd във фонов режим...",
     "error_missing_qml": "Грешка: липсва цел за стартиране.",
-    "launch_usage": "Употреба: serpantinum launch <start|widgetredactor|lock-redactor> [аргументи...]",
+    "launch_usage": "Употреба: serpantinum launch <start> [аргументи...]",
     "error_qml_not_found": "Грешка: {NAME}.qml не може да бъде намерен в {DIR}",
     "error_shell_qml_not_found": "Грешка: пътят до shell.qml не може да бъде намерен в {DIR}",
     "error_unknown_command": "Грешка: неизвестна команда '{CMD}'.",
     "error_unknown_target": "Грешка: неизвестна цел '{TARGET}'.",
     "launch_help": {
-      "usage": "Употреба: serpantinum launch <start|widgetredactor|lock-redactor> [аргументи...]",
+      "usage": "Употреба: serpantinum launch <start> [аргументи...]",
       "description": "Стартиране на самостоятелни компоненти директно в режим на изпълнение.",
       "available_targets": "Налични цели:",
-      "target_start": "Стартиране на интерфейса за начална настройка",
-      "target_widgetredactor": "Стартиране на редактора на уиджети на работния плот",
-      "target_lock_redactor": "Превключване, отваряне или затваряне на редактора на разположението на заключения екран"
+      "target_start": "Стартиране на интерфейса за начална настройка"
     },
     "msg_help": {
       "usage": "Употреба: serpantinum msg <команда|работно_пространство> [аргументи...]",
@@ -1649,7 +1667,8 @@
       "hibernate": "Хибернация на системата",
       "reboot": "Рестартиране на системата",
       "poweroff": "Изключване на системата",
-      "redactor": "Отваряне или превключване на редактора на разположението на работния плот"
+      "redactor": "Отваряне или превключване на редактора на разположението на работния плот",
+      "lock_redactor": "Превключване, отваряне или затваряне на редактора на разположението на заключения екран"
     },
     "usage_label": "Използване:",
     "config_desc": "Четене и промяна на настройките (get, set, dump, path, edit)",
@@ -1661,9 +1680,9 @@
     "error_unknown_theme": "Грешка: непозната тема '{NAME}'.",
     "error_no_wallpapers": "Грешка: в директорията с тапети не са намерени тапети.",
     "error_file_not_found": "Грешка: файлът не е намерен: {PATH}",
-    "info_desc": "Показване на текущото състояние на настройка (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
-    "set_desc": "Промяна на настройка (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Изпълнение на еднократно действие (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "info_desc": "Показване на текущото състояние на настройка (notifications, idle, dock, sfx, theme, lang, wallpaper, monitors, updates)",
+    "set_desc": "Промяна на настройка (notifications, idle, dock, sfx, theme, lang, wallpaper)",
+    "trigger_desc": "Изпълнение на еднократно действие (idle, notifications, theme, firstlaunch)",
     "settings_desc": "Отваряне на прозореца с настройки (по избор на конкретен раздел)"
   },
   "daemon": {
@@ -1685,6 +1704,11 @@
       "status_running": "Демонът на Serpantinum работи (PID: {PID}).",
       "status_stopped": "Демонът на Serpantinum не работи.",
       "unknown_arg": "Неизвестен аргумент: {ARG}"
+    },
+    "app_name": "Serpantinum",
+    "easyeffects": {
+      "title": "EasyEffects все още е активен",
+      "body": "Serpantinum вече има собствен аудио двигател и EasyEffects може да му пречи. Ако сте използвали EasyEffects само за Serpantinum, спрете стартирането му при вход."
     }
   },
   "installer": {

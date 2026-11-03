@@ -220,10 +220,6 @@
         "title": "Быстрые действия",
         "desc": "Включить плавающий оверлей быстрых действий"
       },
-      "separatewindow": {
-        "title": "Открывать настройки в отдельном окне",
-        "desc": "Открывать настройки как обычное окно приложения с изменяемым размером вместо панели внутри оболочки"
-      },
       "location": {
         "title": "Местоположение",
         "desc": "Настройка местоположения для погоды и времени восхода/заката",
@@ -599,6 +595,10 @@
           "title": "Показывать управление",
           "desc": "Отображать кнопки «назад», «воспроизведение» и «вперёд»"
         },
+        "hide_when_idle": {
+          "title": "Скрывать, когда ничего не играет",
+          "desc": "Скрывать виджет с панели, пока нет активного воспроизведения"
+        },
         "preview": {
           "title": "Название трека",
           "author": "Исполнитель"
@@ -809,7 +809,7 @@
       "empty_title": "Нет приложений в автозапуске",
       "empty_desc": "Нажмите «добавить приложение», чтобы указать команды, бинарники, задержку и количество запусков.",
       "name_label": "Название",
-      "name_placeholder": "например, discord, EasyEffects, скрипт",
+      "name_placeholder": "например, discord, Telegram, скрипт",
       "exec_label": "Команда / исполняемый файл",
       "exec_placeholder": "Путь к бинарнику или команда с флагами (например, discord --start-minimized)",
       "browse_file": "Выбрать файл",
@@ -1147,6 +1147,9 @@
       },
       "setting": {
         "show_text": "Показывать текст"
+      },
+      "category": {
+        "lockscreen": "Экран блокировки"
       }
     }
   },
@@ -1161,7 +1164,9 @@
     "equalizer": "Эквалайзер",
     "eq": {
       "apply": "Применить",
-      "saved": "Сохранено"
+      "saved": "Сохранено",
+      "dynamic": "Динамический",
+      "dynamic_active": "Подстраивается под ваш звук"
     },
     "audio": {
       "title": "Аудио",
@@ -1556,11 +1561,21 @@
     },
     "redactor": {
       "no_widgets_active": "Нет активных виджетов",
-      "click_to_add": "Нажмите на иконку виджета на нижней панели, чтобы добавить его",
+      "click_to_add": "Выберите категорию или воспользуйтесь поиском на нижней панели, чтобы добавить виджет",
       "done": "Готово",
       "widget_singular": "виджет",
       "widgets_plural": "виджетов",
-      "widgets_short": "в"
+      "widgets_short": "в",
+      "category": {
+        "time": "Время и текст",
+        "media": "Медиа",
+        "system": "Система",
+        "info": "Информация",
+        "other": "Другое"
+      },
+      "search": "Поиск виджетов",
+      "results": "Результаты",
+      "no_results": "Ничего не найдено"
     },
     "types": {
       "clock": "Часы",
@@ -1573,7 +1588,8 @@
       "battery": "Батарея",
       "github": "Github",
       "time": "Время",
-      "notes": "Заметки"
+      "notes": "Заметки",
+      "text": "Текст"
     },
     "variants": {
       "digital": "Цифровые",
@@ -1623,7 +1639,8 @@
     "settings": {
       "lyricsLines": "Строки",
       "lyricsAlignment": "Выравнивание",
-      "showNoLyrics": "Показывать текст «нет текста песни»"
+      "showNoLyrics": "Показывать текст «нет текста песни»",
+      "textContent": "Текст"
     },
     "align": {
       "left": "Слева",
@@ -1632,6 +1649,9 @@
     },
     "notes": {
       "empty": "Пока нет заметок"
+    },
+    "text": {
+      "placeholder": "Введите текст"
     }
   },
   "cli": {
@@ -1639,7 +1659,7 @@
     "description": "Оболочка рабочего стола для композиторов wayland.",
     "commands": "Команды:",
     "script_commands": "Команды скриптов:",
-    "launch_desc": "Запуск автономных компонентов (start, widgetredactor, lock-redactor)",
+    "launch_desc": "Запуск автономных компонентов (start)",
     "msg_desc": "Отправка команд или переключение рабочих пространств менеджеру интерфейса",
     "ipc_desc": "Передача вызовов IPC напрямую оболочке",
     "kill_desc": "Корректная остановка работающей службы",
@@ -1653,18 +1673,16 @@
     "daemon_restarted": "Служба serpantinum перезапущена.",
     "starting_daemon": "Служба не запущена. Запуск serpantinumd в фоновом режиме...",
     "error_missing_qml": "Ошибка: не указана цель для запуска.",
-    "launch_usage": "Использование: serpantinum launch <start|widgetredactor|lock-redactor> [аргументы...]",
+    "launch_usage": "Использование: serpantinum launch <start> [аргументы...]",
     "error_qml_not_found": "Ошибка: не удалось найти {NAME}.qml в {DIR}",
     "error_shell_qml_not_found": "Ошибка: не удалось определить путь к shell.qml в {DIR}",
     "error_unknown_command": "Ошибка: неизвестная команда '{CMD}'.",
     "error_unknown_target": "Ошибка: неизвестная цель '{TARGET}'.",
     "launch_help": {
-      "usage": "Использование: serpantinum launch <start|widgetredactor|lock-redactor> [аргументы...]",
+      "usage": "Использование: serpantinum launch <start> [аргументы...]",
       "description": "Запуск автономных компонентов напрямую в режиме runner.",
       "available_targets": "Доступные цели:",
-      "target_start": "Запустить интерфейс начальной настройки",
-      "target_widgetredactor": "Запустить интерфейс редактора виджетов рабочего стола",
-      "target_lock_redactor": "Переключить, открыть или закрыть редактор макета экрана блокировки"
+      "target_start": "Запустить интерфейс начальной настройки"
     },
     "msg_help": {
       "usage": "Использование: serpantinum msg <команда|рабочеепространство> [аргументы...]",
@@ -1697,7 +1715,8 @@
       "hibernate": "Перевести систему в режим гибернации",
       "reboot": "Перезагрузить систему",
       "poweroff": "Выключить систему",
-      "redactor": "Открыть или переключить редактор макета виджетов рабочего стола"
+      "redactor": "Открыть или переключить редактор макета виджетов рабочего стола",
+      "lock_redactor": "Переключить, открыть или закрыть редактор макета экрана блокировки"
     },
     "usage_label": "Использование:",
     "config_desc": "Чтение и изменение настроек (get, set, dump, path, edit)",
@@ -1709,9 +1728,9 @@
     "error_unknown_theme": "Ошибка: неизвестная тема '{NAME}'.",
     "error_no_wallpapers": "Ошибка: в каталоге обоев не найдено обоев.",
     "error_file_not_found": "Ошибка: файл не найден: {PATH}",
-    "info_desc": "Показать текущее состояние настройки (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
-    "set_desc": "Изменить настройку (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Выполнить разовое действие (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "info_desc": "Показать текущее состояние настройки (notifications, idle, dock, sfx, theme, lang, wallpaper, monitors, updates)",
+    "set_desc": "Изменить настройку (notifications, idle, dock, sfx, theme, lang, wallpaper)",
+    "trigger_desc": "Выполнить разовое действие (idle, notifications, theme, firstlaunch)",
     "settings_desc": "Открыть окно настроек (при желании на нужной вкладке)"
   },
   "daemon": {
@@ -1733,6 +1752,11 @@
       "status_running": "Служба serpantinum запущена (PID: {PID}).",
       "status_stopped": "Служба serpantinum не запущена.",
       "unknown_arg": "Неизвестный аргумент: {ARG}"
+    },
+    "app_name": "Serpantinum",
+    "easyeffects": {
+      "title": "EasyEffects всё ещё включён",
+      "body": "Теперь у Serpantinum есть собственный аудиодвижок, и EasyEffects может ему мешать. Если вы использовали EasyEffects только для Serpantinum, отключите его запуск при входе в систему."
     }
   },
   "installer": {

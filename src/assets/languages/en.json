@@ -237,10 +237,6 @@
         "title": "Quickactions",
         "desc": "Enable floating quickactions overlay"
       },
-      "separatewindow": {
-        "title": "Make settings a separate window",
-        "desc": "Open settings as a regular resizable app window instead of a panel inside the shell"
-      },
       "location": {
         "title": "Location",
         "desc": "Configure location for automatic sun schedule and weather",
@@ -646,6 +642,10 @@
         "show_controls": {
           "title": "Show controls",
           "desc": "Display the previous, play and next buttons"
+        },
+        "hide_when_idle": {
+          "title": "Hide when nothing is playing",
+          "desc": "Hide the widget from the bar while no media is active"
         },
         "preview": {
           "title": "Song title",
@@ -1383,6 +1383,9 @@
       },
       "setting": {
         "show_text": "Show text"
+      },
+      "category": {
+        "lockscreen": "Lock screen"
       }
     }
   },
@@ -1397,7 +1400,9 @@
     "equalizer": "Equalizer",
     "eq": {
       "apply": "Apply",
-      "saved": "Saved"
+      "saved": "Saved",
+      "dynamic": "Dynamic",
+      "dynamic_active": "Adapting to your sound"
     },
     "audio": {
       "title": "Audio",
@@ -1795,11 +1800,21 @@
     },
     "redactor": {
       "no_widgets_active": "No widgets active",
-      "click_to_add": "Click a widget icon in the bottom toolbar to add it",
+      "click_to_add": "Pick a category or search in the bottom toolbar to add a widget",
       "done": "Done",
       "widget_singular": "widget",
       "widgets_plural": "widgets",
-      "widgets_short": "w"
+      "widgets_short": "w",
+      "category": {
+        "time": "Time and text",
+        "media": "Media",
+        "system": "System",
+        "info": "Info",
+        "other": "Other"
+      },
+      "search": "Search widgets",
+      "results": "Results",
+      "no_results": "Nothing found"
     },
     "types": {
       "clock": "Clock",
@@ -1812,7 +1827,8 @@
       "battery": "Battery",
       "github": "Github",
       "time": "Time",
-      "notes": "Notes"
+      "notes": "Notes",
+      "text": "Text"
     },
     "variants": {
       "digital": "Digital",
@@ -1863,7 +1879,8 @@
       "usageStyle": "Style",
       "lineThickness": "Thickness",
       "visualizerStyle": "Visualizer style",
-      "showNoLyrics": "Show \"no lyrics\" text"
+      "showNoLyrics": "Show \"no lyrics\" text",
+      "textContent": "Text"
     },
     "align": {
       "left": "Left",
@@ -1876,6 +1893,9 @@
     },
     "notes": {
       "empty": "No notes yet"
+    },
+    "text": {
+      "placeholder": "Enter text"
     }
   },
   "cli": {
@@ -1883,7 +1903,7 @@
     "description": "A desktop shell for wayland compositors.",
     "commands": "Commands:",
     "script_commands": "Script commands:",
-    "launch_desc": "Launch standalone components (start, widgetredactor, lock-redactor)",
+    "launch_desc": "Launch standalone components (start)",
     "msg_desc": "Dispatch commands or workspace switches to the UI manager",
     "ipc_desc": "Forward IPC calls directly to the shell",
     "kill_desc": "Cleanly stop the running daemon",
@@ -1897,18 +1917,16 @@
     "daemon_restarted": "Serpantinum daemon restarted.",
     "starting_daemon": "Daemon not running. Starting serpantinumd in the background...",
     "error_missing_qml": "Error: missing target to launch.",
-    "launch_usage": "Usage: serpantinum launch <start|widgetredactor|lock-redactor> [args...]",
+    "launch_usage": "Usage: serpantinum launch <start> [args...]",
     "error_qml_not_found": "Error: could not resolve {NAME}.qml in {DIR}",
     "error_shell_qml_not_found": "Error: could not resolve path to shell.qml in {DIR}",
     "error_unknown_command": "Error: unknown command '{CMD}'.",
     "error_unknown_target": "Error: unknown target '{TARGET}'.",
     "launch_help": {
-      "usage": "Usage: serpantinum launch <start|widgetredactor|lock-redactor> [arguments...]",
+      "usage": "Usage: serpantinum launch <start> [arguments...]",
       "description": "Launch standalone components directly in runner mode.",
       "available_targets": "Available targets:",
-      "target_start": "Launch the start setup interface",
-      "target_widgetredactor": "Launch the desktop widget editor interface",
-      "target_lock_redactor": "Toggle, open or close the lock screen layout editor"
+      "target_start": "Launch the start setup interface"
     },
     "msg_help": {
       "usage": "Usage: serpantinum msg <command|workspace> [arguments...]",
@@ -1941,7 +1959,8 @@
       "hibernate": "Hibernate the system",
       "reboot": "Reboot the system",
       "poweroff": "Power off the system",
-      "redactor": "Open or toggle the desktop widget layout editor"
+      "redactor": "Open or toggle the desktop widget layout editor",
+      "lock_redactor": "Toggle, open or close the lock screen layout editor"
     },
     "usage_label": "Usage:",
     "config_desc": "Read and change settings (get, set, dump, path, edit)",
@@ -1953,9 +1972,9 @@
     "error_unknown_theme": "Error: unknown theme '{NAME}'.",
     "error_no_wallpapers": "Error: no wallpapers found in the wallpaper directory.",
     "error_file_not_found": "Error: file not found: {PATH}",
-    "info_desc": "Show the current state of a setting (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
-    "set_desc": "Change a setting (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Run a one-off action (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "info_desc": "Show the current state of a setting (notifications, idle, dock, sfx, theme, lang, wallpaper, monitors, updates)",
+    "set_desc": "Change a setting (notifications, idle, dock, sfx, theme, lang, wallpaper)",
+    "trigger_desc": "Run a one-off action (idle, notifications, theme, firstlaunch)",
     "settings_desc": "Open the settings window, optionally on a given tab"
   },
   "daemon": {
@@ -1977,6 +1996,11 @@
       "status_running": "Serpantinum daemon is running (PID: {PID}).",
       "status_stopped": "Serpantinum daemon is not running.",
       "unknown_arg": "Unknown argument: {ARG}"
+    },
+    "app_name": "Serpantinum",
+    "easyeffects": {
+      "title": "EasyEffects is still enabled",
+      "body": "Serpantinum now has its own audio engine, and EasyEffects can interfere with it. If you only used EasyEffects for Serpantinum, stop it from starting at login."
     }
   },
   "installer": {
@@ -2055,6 +2079,7 @@
       "syncing": "Synchronizing and updating system packages (pacman -syyu)...",
       "enabling_copr": "Enabling COPR repository {repo}...",
       "enabling_terra": "Enabling the Terra repository...",
+      "enabling_repo": "Enabling repository {repo}...",
       "all_installed": "-> All packages are already installed! Skipping package download phase.",
       "missing_count": "-> Found {count} missing packages to install.",
       "installing_title": "Installing system packages and dependencies...",
@@ -2072,6 +2097,15 @@
       "download_failed": "Could not download Ski, skipping. You can install it later from github.com/ilyamiro/Ski.",
       "checksum_failed": "Ski download failed its checksum check, skipping.",
       "unsupported_arch": "Prebuilt Ski packages exist only for x86_64, skipping."
+    },
+    "audio": {
+      "installing": "Installing the Serpantinum audio engine...",
+      "up_to_date": "-> Serpantinum audio engine {version} is already installed.",
+      "installed": "Installed the Serpantinum audio engine {version}",
+      "building": "No prebuilt audio engine for this system, building it from source...",
+      "install_failed": "Failed to install the Serpantinum audio engine. The equalizer will not work until it is installed from github.com/ilyamiro/serpantinum-audio.",
+      "download_failed": "Could not download the Serpantinum audio engine, skipping. You can install it later from github.com/ilyamiro/serpantinum-audio.",
+      "checksum_failed": "The audio engine download failed its checksum check, skipping."
     },
     "deploy": {
       "configuring_sddm": "Configuring SDDM display manager...",

@@ -371,6 +371,12 @@ GuideTab {
         return true;
     }
 
+    property bool mediaHideWhenIdle: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.mediaHideWhenIdle !== undefined) return Boolean(bs.mediaHideWhenIdle);
+        return false;
+    }
+
     property string batStyle: {
         let bs = Config.getSetting("bar", {});
         if (bs && bs.batStyle) return bs.batStyle;
@@ -704,6 +710,8 @@ GuideTab {
         } else {
             barModulesRoot.mediaShowControls = true;
         }
+
+        barModulesRoot.mediaHideWhenIdle = (bs && bs.mediaHideWhenIdle !== undefined) ? Boolean(bs.mediaHideWhenIdle) : false;
 
         if (!barModulesRoot.batShowPercent && !barModulesRoot.batShowIcon) {
             barModulesRoot.batShowIcon = true;
@@ -1193,6 +1201,13 @@ GuideTab {
         barModulesRoot.mediaShowControls = val;
         let current = Config.getSetting("bar", {});
         current.mediaShowControls = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setMediaHideWhenIdle(val) {
+        barModulesRoot.mediaHideWhenIdle = val;
+        let current = Config.getSetting("bar", {});
+        current.mediaHideWhenIdle = val;
         Config.setSetting("bar", current);
     }
 

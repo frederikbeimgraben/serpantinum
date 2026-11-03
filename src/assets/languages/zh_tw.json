@@ -219,10 +219,6 @@
         "title": "快速控制項目",
         "desc": "啟用浮動快速控制面板"
       },
-      "separatewindow": {
-        "title": "在獨立視窗中開啟設定",
-        "desc": "將設定作為可調整大小的一般應用程式視窗開啟，而非殼層內的面板"
-      },
       "location": {
         "title": "位置",
         "desc": "設定位置以自動排程日照時間與天氣",
@@ -597,6 +593,10 @@
         "show_controls": {
           "title": "顯示控制按鈕",
           "desc": "顯示上一首、播放與下一首按鈕"
+        },
+        "hide_when_idle": {
+          "title": "無播放時隱藏",
+          "desc": "沒有媒體播放時從列中隱藏該元件"
         },
         "preview": {
           "title": "歌曲標題",
@@ -1103,6 +1103,9 @@
       },
       "setting": {
         "show_text": "顯示文字"
+      },
+      "category": {
+        "lockscreen": "鎖定畫面"
       }
     }
   },
@@ -1117,7 +1120,9 @@
     "equalizer": "等化器",
     "eq": {
       "apply": "套用",
-      "saved": "已儲存"
+      "saved": "已儲存",
+      "dynamic": "動態",
+      "dynamic_active": "正在適應你的聲音"
     },
     "presets": {
       "flat": "平直",
@@ -1512,11 +1517,21 @@
     },
     "redactor": {
       "no_widgets_active": "無啟用中的小工具",
-      "click_to_add": "按一下底部工具列中的小工具圖示以新增",
+      "click_to_add": "在底部工具列中選擇一個類別或進行搜尋以新增小工具",
       "done": "完成",
       "widget_singular": "個小工具",
       "widgets_plural": "個小工具",
-      "widgets_short": "個"
+      "widgets_short": "個",
+      "category": {
+        "time": "時間與文字",
+        "media": "媒體",
+        "system": "系統",
+        "info": "資訊",
+        "other": "其他"
+      },
+      "search": "搜尋小工具",
+      "results": "結果",
+      "no_results": "找不到任何內容"
     },
     "types": {
       "clock": "時鐘",
@@ -1529,7 +1544,8 @@
       "battery": "電池",
       "github": "GitHub",
       "time": "時間",
-      "notes": "筆記"
+      "notes": "筆記",
+      "text": "文字"
     },
     "variants": {
       "digital": "數位",
@@ -1575,7 +1591,8 @@
     },
     "settings": {
       "lyricsLines": "行數",
-      "lyricsAlignment": "對齊方式"
+      "lyricsAlignment": "對齊方式",
+      "textContent": "文字"
     },
     "align": {
       "left": "靠左",
@@ -1584,6 +1601,9 @@
     },
     "notes": {
       "empty": "尚無筆記"
+    },
+    "text": {
+      "placeholder": "輸入文字"
     }
   },
   "cli": {
@@ -1605,18 +1625,16 @@
     "daemon_restarted": "Serpantinum 常駐程式已重新啟動。",
     "starting_daemon": "常駐程式未執行。正在背景啟動 serpantinumd...",
     "error_missing_qml": "錯誤：缺少啟動目標。",
-    "launch_usage": "用法：serpantinum launch <start|widgetredactor|lock-redactor> [引數...]",
+    "launch_usage": "用法：serpantinum launch <start> [引數...]",
     "error_qml_not_found": "錯誤：無法在 {DIR} 中解析 {NAME}.qml",
     "error_shell_qml_not_found": "錯誤：無法在 {DIR} 中解析 shell.qml 的路徑",
     "error_unknown_command": "錯誤：未知的指令「{CMD}」。",
     "error_unknown_target": "錯誤：未知的目標「{TARGET}」。",
     "launch_help": {
-      "usage": "用法：serpantinum launch <start|widgetredactor|lock-redactor> [引數...]",
+      "usage": "用法：serpantinum launch <start> [引數...]",
       "description": "直接以執行器模式啟動獨立元件。",
       "available_targets": "可用目標：",
-      "target_start": "啟動初始設定介面",
-      "target_widgetredactor": "啟動桌面小工具編輯器介面",
-      "target_lock_redactor": "切換、開啟或關閉鎖定畫面版面編輯器"
+      "target_start": "啟動初始設定介面"
     },
     "msg_help": {
       "usage": "用法：serpantinum msg <command|workspace> [引數...]",
@@ -1649,7 +1667,8 @@
       "hibernate": "休眠系統",
       "reboot": "重新啟動系統",
       "poweroff": "關閉系統",
-      "redactor": "開啟或切換桌面小工具版面編輯器"
+      "redactor": "開啟或切換桌面小工具版面編輯器",
+      "lock_redactor": "切換、開啟或關閉鎖定畫面版面編輯器"
     },
     "usage_label": "用法:",
     "config_desc": "讀取和變更設定 (get, set, dump, path, edit)",
@@ -1661,9 +1680,9 @@
     "error_unknown_theme": "錯誤：未知主題「{NAME}」。",
     "error_no_wallpapers": "錯誤：桌布目錄中找不到桌布。",
     "error_file_not_found": "錯誤：找不到檔案：{PATH}",
-    "info_desc": "顯示設定的目前狀態 (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
-    "set_desc": "變更設定 (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "執行一次性操作 (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "info_desc": "顯示設定的目前狀態 (notifications, idle, dock, sfx, theme, lang, wallpaper, monitors, updates)",
+    "set_desc": "變更設定 (notifications, idle, dock, sfx, theme, lang, wallpaper)",
+    "trigger_desc": "執行一次性操作 (idle, notifications, theme, firstlaunch)",
     "settings_desc": "開啟設定視窗（可指定分頁）"
   },
   "daemon": {
@@ -1685,6 +1704,11 @@
       "status_running": "Serpantinum 常駐程式正在執行（PID: {PID}）。",
       "status_stopped": "Serpantinum 常駐程式未執行。",
       "unknown_arg": "未知引數：{ARG}"
+    },
+    "app_name": "Serpantinum",
+    "easyeffects": {
+      "title": "EasyEffects 仍處於啟用狀態",
+      "body": "Serpantinum 現在擁有自己的音訊引擎，EasyEffects 可能會與其衝突。如果你只是為 Serpantinum 使用 EasyEffects，請關閉它的登入自動啟動。"
     }
   },
   "installer": {

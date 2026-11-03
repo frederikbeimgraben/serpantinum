@@ -8,6 +8,12 @@ import "../../widgets"
 QtObject {
     id: root
 
+    signal redactorOpenRequested(string monitor)
+
+    function openRedactor(monitor) {
+        root.redactorOpenRequested(monitor || "");
+    }
+
     // The default layout uses a fixed 1920x1080 reference, and each lock
     // surface scales it to its own screen. The first screen was the
     // reference before, and that screen depends on the order of the outputs:
@@ -431,11 +437,7 @@ QtObject {
         saveTimer.stop();
         let text = root.serialize();
         root.lastWrittenText = text;
-        Quickshell.execDetached([
-            "bash", "-c",
-            "mkdir -p \"$1\" && printf '%s' \"$2\" > \"$1/layout.json.tmp\" && mv \"$1/layout.json.tmp\" \"$1/layout.json\"",
-            "bash", root.stateDir, text
-        ]);
+        layoutWriter.setText(text);
     }
 
     function flush() {
@@ -477,6 +479,13 @@ QtObject {
         interval: 250
         repeat: false
         onTriggered: root.saveNow()
+    }
+
+    property FileView layoutWriter: FileView {
+        path: root.filePath
+        printErrors: false
+        watchChanges: true
+        onFileChanged: reload()
     }
 
     property FileView fileView: FileView {

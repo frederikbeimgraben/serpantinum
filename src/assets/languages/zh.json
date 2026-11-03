@@ -219,10 +219,6 @@
         "title": "快捷操作",
         "desc": "启用悬浮快捷操作面板"
       },
-      "separatewindow": {
-        "title": "在单独窗口中打开设置",
-        "desc": "将设置作为可调整大小的普通应用窗口打开，而不是外壳内的面板"
-      },
       "location": {
         "title": "地理位置",
         "desc": "配置地理位置以用于日出日落计划和天气",
@@ -597,6 +593,10 @@
         "show_controls": {
           "title": "显示控制按钮",
           "desc": "显示上一首、播放和下一首按钮"
+        },
+        "hide_when_idle": {
+          "title": "无播放时隐藏",
+          "desc": "没有媒体播放时从栏中隐藏该组件"
         },
         "preview": {
           "title": "歌曲标题",
@@ -1103,6 +1103,9 @@
       },
       "setting": {
         "show_text": "显示文字"
+      },
+      "category": {
+        "lockscreen": "锁屏"
       }
     }
   },
@@ -1117,7 +1120,9 @@
     "equalizer": "均衡器",
     "eq": {
       "apply": "应用",
-      "saved": "已保存"
+      "saved": "已保存",
+      "dynamic": "动态",
+      "dynamic_active": "正在适应你的声音"
     },
     "presets": {
       "flat": "平直",
@@ -1512,11 +1517,21 @@
     },
     "redactor": {
       "no_widgets_active": "无活跃小组件",
-      "click_to_add": "点击底部工具栏中的小组件图标进行添加",
+      "click_to_add": "在底部工具栏中选择一个类别或进行搜索以添加小组件",
       "done": "完成",
       "widget_singular": "个小组件",
       "widgets_plural": "个小组件",
-      "widgets_short": "组件"
+      "widgets_short": "组件",
+      "category": {
+        "time": "时间与文本",
+        "media": "媒体",
+        "system": "系统",
+        "info": "信息",
+        "other": "其他"
+      },
+      "search": "搜索小组件",
+      "results": "结果",
+      "no_results": "未找到任何内容"
     },
     "types": {
       "clock": "时钟",
@@ -1529,7 +1544,8 @@
       "battery": "电池",
       "github": "Github",
       "time": "时间",
-      "notes": "笔记"
+      "notes": "笔记",
+      "text": "文本"
     },
     "variants": {
       "digital": "数字",
@@ -1575,7 +1591,8 @@
     },
     "settings": {
       "lyricsLines": "行数",
-      "lyricsAlignment": "对齐方式"
+      "lyricsAlignment": "对齐方式",
+      "textContent": "文本"
     },
     "align": {
       "left": "靠左",
@@ -1584,6 +1601,9 @@
     },
     "notes": {
       "empty": "暂无笔记"
+    },
+    "text": {
+      "placeholder": "输入文本"
     }
   },
   "cli": {
@@ -1591,7 +1611,7 @@
     "description": "专为 Wayland 合成器打造的桌面 Shell。",
     "commands": "命令：",
     "script_commands": "脚本命令：",
-    "launch_desc": "启动独立组件（start、widgetredactor, lock-redactor）",
+    "launch_desc": "启动独立组件（start）",
     "msg_desc": "向界面管理器发送命令或工作区切换",
     "ipc_desc": "直接向 Shell 转发 IPC 调用",
     "kill_desc": "干净地停止正在运行的守护进程",
@@ -1605,18 +1625,16 @@
     "daemon_restarted": "Serpantinum 守护进程已重启。",
     "starting_daemon": "守护进程未运行。正在后台启动 serpantinumd...",
     "error_missing_qml": "错误：缺少要启动的目标。",
-    "launch_usage": "Usage: serpantinum launch <start|widgetredactor|lock-redactor> [args...]",
+    "launch_usage": "Usage: serpantinum launch <start> [args...]",
     "error_qml_not_found": "Error: could not resolve {NAME}.qml in {DIR}",
     "error_shell_qml_not_found": "Error: could not resolve path to shell.qml in {DIR}",
     "error_unknown_command": "Error: unknown command '{CMD}'.",
     "error_unknown_target": "Error: unknown target '{TARGET}'.",
     "launch_help": {
-      "usage": "Usage: serpantinum launch <start|widgetredactor|lock-redactor> [arguments...]",
+      "usage": "Usage: serpantinum launch <start> [arguments...]",
       "description": "直接在运行器模式下启动独立组件。",
       "available_targets": "可用目标：",
-      "target_start": "启动初始设置引导界面",
-      "target_widgetredactor": "启动桌面小组件编辑器界面",
-      "target_lock_redactor": "切换、打开或关闭锁屏布局编辑器"
+      "target_start": "启动初始设置引导界面"
     },
     "msg_help": {
       "usage": "Usage: serpantinum msg <command|workspace> [arguments...]",
@@ -1649,7 +1667,8 @@
       "hibernate": "休眠系统",
       "reboot": "重启系统",
       "poweroff": "关闭系统",
-      "redactor": "打开或切换桌面小部件布局编辑器"
+      "redactor": "打开或切换桌面小部件布局编辑器",
+      "lock_redactor": "切换、打开或关闭锁屏布局编辑器"
     },
     "usage_label": "用法:",
     "config_desc": "读取和更改设置 (get, set, dump, path, edit)",
@@ -1661,9 +1680,9 @@
     "error_unknown_theme": "错误：未知主题“{NAME}”。",
     "error_no_wallpapers": "错误：壁纸目录中未找到壁纸。",
     "error_file_not_found": "错误：未找到文件：{PATH}",
-    "info_desc": "显示设置的当前状态 (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
-    "set_desc": "更改设置 (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "执行一次性操作 (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "info_desc": "显示设置的当前状态 (notifications, idle, dock, sfx, theme, lang, wallpaper, monitors, updates)",
+    "set_desc": "更改设置 (notifications, idle, dock, sfx, theme, lang, wallpaper)",
+    "trigger_desc": "执行一次性操作 (idle, notifications, theme, firstlaunch)",
     "settings_desc": "打开设置窗口（可指定标签页）"
   },
   "daemon": {
@@ -1685,6 +1704,11 @@
       "status_running": "Serpantinum 守护进程正在运行 (PID: {PID})。",
       "status_stopped": "Serpantinum 守护进程未运行。",
       "unknown_arg": "未知参数：{ARG}"
+    },
+    "app_name": "Serpantinum",
+    "easyeffects": {
+      "title": "EasyEffects 仍处于启用状态",
+      "body": "Serpantinum 现在拥有自己的音频引擎，EasyEffects 可能会与其冲突。如果你只是为 Serpantinum 使用 EasyEffects，请关闭它的登录自启动。"
     }
   },
   "installer": {

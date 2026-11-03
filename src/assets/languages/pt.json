@@ -219,10 +219,6 @@
         "title": "Ações rápidas",
         "desc": "Ativa o overlay flutuante de ações rápidas"
       },
-      "separatewindow": {
-        "title": "Abrir as configurações numa janela separada",
-        "desc": "Abrir as configurações como uma janela de aplicativo redimensionável em vez de um painel dentro do shell"
-      },
       "location": {
         "title": "Localização",
         "desc": "Configure a localização para ciclo solar automático e clima",
@@ -597,6 +593,10 @@
         "show_controls": {
           "title": "Mostrar controles",
           "desc": "Exibe os botões de anterior, reproduzir e próxima"
+        },
+        "hide_when_idle": {
+          "title": "Ocultar quando nada estiver tocando",
+          "desc": "Oculta o widget da barra enquanto nenhuma mídia estiver ativa"
         },
         "preview": {
           "title": "Título da música",
@@ -1103,6 +1103,9 @@
       },
       "setting": {
         "show_text": "Mostrar texto"
+      },
+      "category": {
+        "lockscreen": "Tela de bloqueio"
       }
     }
   },
@@ -1117,7 +1120,9 @@
     "equalizer": "Equalizador",
     "eq": {
       "apply": "Aplicar",
-      "saved": "Salvo"
+      "saved": "Salvo",
+      "dynamic": "Dinâmico",
+      "dynamic_active": "Adaptando-se ao seu som"
     },
     "audio": {
       "title": "Áudio",
@@ -1509,11 +1514,21 @@
     },
     "redactor": {
       "no_widgets_active": "Nenhum widget ativo",
-      "click_to_add": "Clique num ícone na barra inferior para adicionar",
+      "click_to_add": "Escolha uma categoria ou pesquise na barra inferior para adicionar um widget",
       "done": "Concluir",
       "widget_singular": "widget",
       "widgets_plural": "widgets",
-      "widgets_short": "w"
+      "widgets_short": "w",
+      "category": {
+        "time": "Hora e texto",
+        "media": "Mídia",
+        "system": "Sistema",
+        "info": "Informações",
+        "other": "Outros"
+      },
+      "search": "Pesquisar widgets",
+      "results": "Resultados",
+      "no_results": "Nada encontrado"
     },
     "types": {
       "clock": "Relógio",
@@ -1526,7 +1541,8 @@
       "battery": "Bateria",
       "github": "Github",
       "time": "Hora",
-      "notes": "Notas"
+      "notes": "Notas",
+      "text": "Texto"
     },
     "variants": {
       "digital": "Digital",
@@ -1575,7 +1591,8 @@
     },
     "settings": {
       "lyricsLines": "Linhas",
-      "lyricsAlignment": "Alinhamento"
+      "lyricsAlignment": "Alinhamento",
+      "textContent": "Texto"
     },
     "align": {
       "left": "Esquerda",
@@ -1584,6 +1601,9 @@
     },
     "notes": {
       "empty": "Ainda não há notas"
+    },
+    "text": {
+      "placeholder": "Digite o texto"
     }
   },
   "cli": {
@@ -1591,7 +1611,7 @@
     "description": "Um shell de desktop para compositores wayland.",
     "commands": "Comandos:",
     "script_commands": "Comandos de script:",
-    "launch_desc": "Inicia componentes avulsos (start, widgetredactor, lock-redactor)",
+    "launch_desc": "Inicia componentes avulsos (start)",
     "msg_desc": "Envia comandos ou trocas de espaço de trabalho ao gerenciador de UI",
     "ipc_desc": "Encaminha chamadas IPC direto para o shell",
     "kill_desc": "Encerra o daemon em execução de forma limpa",
@@ -1605,18 +1625,16 @@
     "daemon_restarted": "Daemon do serpantinum reiniciado.",
     "starting_daemon": "Daemon fora do ar. Iniciando serpantinumd em segundo plano...",
     "error_missing_qml": "Erro: alvo a iniciar não informado.",
-    "launch_usage": "Uso: serpantinum launch <start|widgetredactor|lock-redactor> [args...]",
+    "launch_usage": "Uso: serpantinum launch <start> [args...]",
     "error_qml_not_found": "Erro: não foi possível resolver {NAME}.qml em {DIR}",
     "error_shell_qml_not_found": "Erro: não foi possível resolver o caminho de shell.qml em {DIR}",
     "error_unknown_command": "Erro: comando desconhecido '{CMD}'.",
     "error_unknown_target": "Erro: alvo desconhecido '{TARGET}'.",
     "launch_help": {
-      "usage": "Uso: serpantinum launch <start|widgetredactor|lock-redactor> [argumentos...]",
+      "usage": "Uso: serpantinum launch <start> [argumentos...]",
       "description": "Inicia componentes avulsos direto em modo runner.",
       "available_targets": "Alvos disponíveis:",
-      "target_start": "Inicia a interface de configuração inicial",
-      "target_widgetredactor": "Inicia o editor de widgets do desktop",
-      "target_lock_redactor": "Alternar, abrir ou fechar o editor de layout da tela de bloqueio"
+      "target_start": "Inicia a interface de configuração inicial"
     },
     "msg_help": {
       "usage": "Uso: serpantinum msg <comando|workspace> [argumentos...]",
@@ -1649,7 +1667,8 @@
       "hibernate": "Hibernar o sistema",
       "reboot": "Reiniciar o sistema",
       "poweroff": "Desligar o sistema",
-      "redactor": "Abrir ou alternar o editor de layout de widgets da área de trabalho"
+      "redactor": "Abrir ou alternar o editor de layout de widgets da área de trabalho",
+      "lock_redactor": "Alternar, abrir ou fechar o editor de layout da tela de bloqueio"
     },
     "usage_label": "Uso:",
     "config_desc": "Ler e alterar as configurações (get, set, dump, path, edit)",
@@ -1661,9 +1680,9 @@
     "error_unknown_theme": "Erro: tema desconhecido '{NAME}'.",
     "error_no_wallpapers": "Erro: nenhum papel de parede encontrado no diretório de papéis de parede.",
     "error_file_not_found": "Erro: arquivo não encontrado: {PATH}",
-    "info_desc": "Mostrar o estado atual de uma configuração (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
-    "set_desc": "Alterar uma configuração (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Executar uma ação pontual (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "info_desc": "Mostrar o estado atual de uma configuração (notifications, idle, dock, sfx, theme, lang, wallpaper, monitors, updates)",
+    "set_desc": "Alterar uma configuração (notifications, idle, dock, sfx, theme, lang, wallpaper)",
+    "trigger_desc": "Executar uma ação pontual (idle, notifications, theme, firstlaunch)",
     "settings_desc": "Abre a janela de configurações (opcionalmente num separador)"
   },
   "daemon": {
@@ -1685,6 +1704,11 @@
       "status_running": "Daemon do serpantinum em execução (PID: {PID}).",
       "status_stopped": "O daemon do serpantinum não está em execução.",
       "unknown_arg": "Argumento desconhecido: {ARG}"
+    },
+    "app_name": "Serpantinum",
+    "easyeffects": {
+      "title": "O EasyEffects ainda está ativado",
+      "body": "O Serpantinum agora tem seu próprio mecanismo de áudio, e o EasyEffects pode interferir nele. Se você usava o EasyEffects só para o Serpantinum, impeça que ele inicie ao entrar na sessão."
     }
   },
   "installer": {

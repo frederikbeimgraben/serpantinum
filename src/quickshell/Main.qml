@@ -60,13 +60,13 @@ PanelWindow {
             widget: masterWindow.currentActive,
             screen: sName
         });
-        Quickshell.execDetached(["bash", "-c", "echo '" + payload + "' > " + Caching.runDir + "/current_widget"]);
+        currentWidgetFile.setText(payload + "\n");
     }
 
-    Process {
-        id: startupResetProcess
-        command: ["bash", "-c", `[ -n "${Caching.runDir}" ] && echo '{"widget":"hidden","screen":""}' > "${Caching.runDir}/current_widget"`]
-        running: true
+    FileView {
+        id: currentWidgetFile
+        path: (typeof Caching !== "undefined" && Caching.runDir) ? (Caching.runDir + "/current_widget") : ""
+        blockWrites: true
     }
 
     Connections {
@@ -97,7 +97,7 @@ PanelWindow {
             targetWidget = targetWidget || "";
             arg = arg || "";
 
-            if (cmd === "clearNotifications" || cmd === "clear_notifications" || cmd === "clearNotifs") {
+            if (cmd === "notifications" && targetWidget === "clear") {
                 NotificationManager.clearNotifications();
                 return;
             }
@@ -111,11 +111,7 @@ PanelWindow {
                 let settingsAction = cmd === "close" ? "close" : (cmd === "open" ? "open" : "toggle");
                 let settingsTab = (cmd === "settings" || cmd === "guide") ? targetWidget : arg;
                 if (settingsTab === "settings" || settingsTab === "guide") settingsTab = "";
-                if (masterWindow.settingsSeparateWindow && masterWindow.targetActive !== "guide") {
-                    Quickshell.execDetached(["bash", Caching.serpantinumDir + "/scripts/settings.sh", "--window", settingsAction, settingsTab]);
-                } else {
-                    masterWindow.handleEmbeddedSettings(settingsAction, settingsTab);
-                }
+                masterWindow.handleEmbeddedSettings(settingsAction, settingsTab);
                 return;
             }
 
@@ -145,7 +141,7 @@ PanelWindow {
                 return;
             }
 
-            if (cmd === "airplane" || targetWidget === "airplane" || cmd === "flight" || targetWidget === "flight") {
+            if (cmd === "network" && targetWidget === "airplane") {
                 let isAirplane = !Networking.wifiEnabled && !(Bluetooth.defaultAdapter && Bluetooth.defaultAdapter.enabled);
                 if (isAirplane) {
                     Networking.wifiEnabled = true;
@@ -157,7 +153,7 @@ PanelWindow {
                 return;
             }
 
-            if (cmd === "autohide" || targetWidget === "autohide") {
+            if (cmd === "bar" && targetWidget === "autohide") {
                 let bar = Config.getSetting("bar", {});
                 bar.autohide = !bar.autohide;
                 Config.setSetting("bar", bar);
@@ -253,7 +249,6 @@ PanelWindow {
     property var rawBarSettings: (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar) ? Config.rawSettings.bar : ({})
     property string barPosition: (rawBarSettings && rawBarSettings.position !== undefined) ? rawBarSettings.position : "top"
     property bool barAutohide: (rawBarSettings && rawBarSettings.autohide !== undefined) ? Boolean(rawBarSettings.autohide) : false
-    readonly property bool settingsSeparateWindow: (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.general) ? Boolean(Config.rawSettings.general.settingsSeparateWindow) : false
 
     function handleEmbeddedSettings(action, tab) {
         let isOpen = masterWindow.targetActive === "guide";
@@ -417,10 +412,8 @@ PanelWindow {
         interval: 4000
         onTriggered: {
             if (masterWindow.currentActive !== "hidden") return;
-            if (!masterWindow.settingsSeparateWindow) {
-                let t = masterWindow.getLayout("guide");
-                if (t) masterWindow.ensureWidgetItem("guide", t);
-            }
+            let t = masterWindow.getLayout("guide");
+            if (t) masterWindow.ensureWidgetItem("guide", t);
             let w = masterWindow.getLayout("wallpaper");
             if (w) masterWindow.ensureWidgetItem("wallpaper", w);
         }
@@ -428,7 +421,7 @@ PanelWindow {
 
     Component.onDestruction: {
         if (typeof Caching !== "undefined" && Caching.runDir) {
-            Quickshell.execDetached(["bash", "-c", "echo '{\"widget\":\"hidden\",\"screen\":\"\"}' > " + Caching.runDir + "/current_widget"]);
+            currentWidgetFile.setText("{\"widget\":\"hidden\",\"screen\":\"\"}\n");
         }
     }
 

@@ -217,10 +217,6 @@
         "title": "Sürətli əməliyyatlar",
         "desc": "Üzən sürətli əməliyyatlar qatını aktivləşdir"
       },
-      "separatewindow": {
-        "title": "Ayarları ayrıca pəncərədə aç",
-        "desc": "Ayarları shell daxilindəki panel əvəzinə ölçüsü dəyişdirilə bilən adi tətbiq pəncərəsi kimi aç"
-      },
       "location": {
         "title": "Məkan",
         "desc": "Günəşin doğuş və batış vaxtlarını avtomatik hesablamaq və hava məlumatını göstərmək üçün məkanı təyin edin",
@@ -595,6 +591,10 @@
         "show_controls": {
           "title": "İdarəetməni göstər",
           "desc": "Əvvəlki, oxut və növbəti düymələrini göstər"
+        },
+        "hide_when_idle": {
+          "title": "Heç nə oxunmayanda gizlət",
+          "desc": "Aktiv media olmadıqda vidceti paneldən gizlət"
         },
         "preview": {
           "title": "Mahnının adı",
@@ -1097,6 +1097,9 @@
       },
       "setting": {
         "show_text": "Mətni göstər"
+      },
+      "category": {
+        "lockscreen": "Kilid ekranı"
       }
     }
   },
@@ -1111,7 +1114,9 @@
     "equalizer": "Səs tezliyi tənzimləyicisi",
     "eq": {
       "apply": "Tətbiq et",
-      "saved": "Saxlanılıb"
+      "saved": "Saxlanılıb",
+      "dynamic": "Dinamik",
+      "dynamic_active": "Səsinizə uyğunlaşır"
     },
     "audio": {
       "title": "Səs",
@@ -1503,11 +1508,21 @@
     },
     "redactor": {
       "no_widgets_active": "Fəal vidcet yoxdur",
-      "click_to_add": "Vidcet əlavə etmək üçün aşağıdakı alətlər zolağında onun nişanına klikləyin",
+      "click_to_add": "Vidcet əlavə etmək üçün aşağıdakı alətlər zolağında kateqoriya seçin və ya axtarın",
       "done": "Hazırdır",
       "widget_singular": "vidcet",
       "widgets_plural": "vidcet",
-      "widgets_short": "v"
+      "widgets_short": "v",
+      "category": {
+        "time": "Vaxt və mətn",
+        "media": "Media",
+        "system": "Sistem",
+        "info": "Məlumat",
+        "other": "Digər"
+      },
+      "search": "Vidcetləri axtar",
+      "results": "Nəticələr",
+      "no_results": "Heç nə tapılmadı"
     },
     "types": {
       "clock": "Saat",
@@ -1520,7 +1535,8 @@
       "battery": "Batareya",
       "github": "Github",
       "time": "Vaxt",
-      "notes": "Qeydlər"
+      "notes": "Qeydlər",
+      "text": "Mətn"
     },
     "variants": {
       "digital": "Rəqəmsal",
@@ -1569,7 +1585,8 @@
     },
     "settings": {
       "lyricsLines": "Sətirlər",
-      "lyricsAlignment": "Hizalama"
+      "lyricsAlignment": "Hizalama",
+      "textContent": "Mətn"
     },
     "align": {
       "left": "Sol",
@@ -1578,6 +1595,9 @@
     },
     "notes": {
       "empty": "Hələ qeyd yoxdur"
+    },
+    "text": {
+      "placeholder": "Mətn daxil edin"
     }
   },
   "cli": {
@@ -1585,7 +1605,7 @@
     "description": "Wayland görüntü birləşdiriciləri üçün iş masası qabığı.",
     "commands": "Əmrlər:",
     "script_commands": "Skript əmrləri:",
-    "launch_desc": "Müstəqil tərkib hissələrini başlat (start, widgetredactor, lock-redactor)",
+    "launch_desc": "Müstəqil tərkib hissələrini başlat (start)",
     "msg_desc": "İnterfeys idarəedicisinə əmrləri və ya iş sahəsi keçidlərini göndər",
     "ipc_desc": "IPC çağırışlarını birbaşa qabığa ötür",
     "kill_desc": "İşləyən arxa plan xidmətini düzgün şəkildə dayandır",
@@ -1599,18 +1619,16 @@
     "daemon_restarted": "Serpantinum arxa plan xidməti yenidən başladıldı.",
     "starting_daemon": "Arxa plan xidməti işləmir. serpantinumd arxa planda başladılır...",
     "error_missing_qml": "Xəta: başladılacaq hədəf göstərilməyib.",
-    "launch_usage": "İstifadə: serpantinum launch <start|widgetredactor|lock-redactor> [args...]",
+    "launch_usage": "İstifadə: serpantinum launch <start> [args...]",
     "error_qml_not_found": "Xəta: {DIR} daxilində {NAME}.qml tapılmadı",
     "error_shell_qml_not_found": "Xəta: {DIR} daxilində shell.qml yolu tapılmadı",
     "error_unknown_command": "Xəta: naməlum əmr '{CMD}'.",
     "error_unknown_target": "Xəta: naməlum hədəf '{TARGET}'.",
     "launch_help": {
-      "usage": "İstifadə: serpantinum launch <start|widgetredactor|lock-redactor> [arguments...]",
+      "usage": "İstifadə: serpantinum launch <start> [arguments...]",
       "description": "Müstəqil tərkib hissələrini birbaşa icra rejimində başlat.",
       "available_targets": "Mövcud hədəflər:",
-      "target_start": "İlkin quraşdırma interfeysini başlat",
-      "target_widgetredactor": "İş masası vidcetlərinə düzəliş etmək üçün interfeysi başlat",
-      "target_lock_redactor": "Kilid ekranı düzən redaktorunu dəyiş, aç və ya bağla"
+      "target_start": "İlkin quraşdırma interfeysini başlat"
     },
     "msg_help": {
       "usage": "İstifadə: serpantinum msg <command|workspace> [arguments...]",
@@ -1643,7 +1661,8 @@
       "hibernate": "Sistemi hibernasiyaya göndər",
       "reboot": "Sistemi yenidən başlat",
       "poweroff": "Sistemi söndür",
-      "redactor": "İş masası vidjet düzəni redaktorunu aç və ya dəyiş"
+      "redactor": "İş masası vidjet düzəni redaktorunu aç və ya dəyiş",
+      "lock_redactor": "Kilid ekranı düzən redaktorunu dəyiş, aç və ya bağla"
     },
     "usage_label": "İstifadə:",
     "config_desc": "Ayarları oxu və dəyiş (get, set, dump, path, edit)",
@@ -1655,9 +1674,9 @@
     "error_unknown_theme": "Xəta: naməlum mövzu '{NAME}'.",
     "error_no_wallpapers": "Xəta: divar kağızı qovluğunda divar kağızı tapılmadı.",
     "error_file_not_found": "Xəta: fayl tapılmadı: {PATH}",
-    "info_desc": "Ayarın cari vəziyyətini göstərmək (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
-    "set_desc": "Ayarı dəyişmək (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Birdəfəlik əməliyyat icra etmək (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "info_desc": "Ayarın cari vəziyyətini göstərmək (notifications, idle, dock, sfx, theme, lang, wallpaper, monitors, updates)",
+    "set_desc": "Ayarı dəyişmək (notifications, idle, dock, sfx, theme, lang, wallpaper)",
+    "trigger_desc": "Birdəfəlik əməliyyat icra etmək (idle, notifications, theme, firstlaunch)",
     "settings_desc": "Ayarlar pəncərəsini aç (istəyə görə müəyyən tabda)"
   },
   "daemon": {
@@ -1679,6 +1698,11 @@
       "status_running": "Serpantinum arxa plan xidməti işləyir (PID: {PID}).",
       "status_stopped": "Serpantinum arxa plan xidməti işləmir.",
       "unknown_arg": "Naməlum arqument: {ARG}"
+    },
+    "app_name": "Serpantinum",
+    "easyeffects": {
+      "title": "EasyEffects hələ də aktivdir",
+      "body": "Serpantinum artıq öz səs mühərrikinə malikdir və EasyEffects ona mane ola bilər. EasyEffects-dən yalnız Serpantinum üçün istifadə edirdinizsə, onun sistemə girişdə başlamasını söndürün."
     }
   },
   "installer": {

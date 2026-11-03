@@ -219,10 +219,6 @@
         "title": "Tindakan cepat",
         "desc": "Aktifkan hamparan tindakan cepat mengambang"
       },
-      "separatewindow": {
-        "title": "Buka pengaturan di jendela terpisah",
-        "desc": "Buka pengaturan sebagai jendela aplikasi biasa yang dapat diubah ukurannya, bukan panel di dalam shell"
-      },
       "location": {
         "title": "Lokasi",
         "desc": "Konfigurasikan lokasi untuk jadwal matahari otomatis dan cuaca",
@@ -597,6 +593,10 @@
         "show_controls": {
           "title": "Tampilkan kontrol",
           "desc": "Tampilkan tombol sebelumnya, putar, dan berikutnya"
+        },
+        "hide_when_idle": {
+          "title": "Sembunyikan saat tidak ada yang diputar",
+          "desc": "Sembunyikan widget dari bilah saat tidak ada media aktif"
         },
         "preview": {
           "title": "Judul lagu",
@@ -1103,6 +1103,9 @@
       },
       "setting": {
         "show_text": "Tampilkan teks"
+      },
+      "category": {
+        "lockscreen": "Layar kunci"
       }
     }
   },
@@ -1117,7 +1120,9 @@
     "equalizer": "Equalizer",
     "eq": {
       "apply": "Terapkan",
-      "saved": "Disimpan"
+      "saved": "Disimpan",
+      "dynamic": "Dinamis",
+      "dynamic_active": "Menyesuaikan dengan suaramu"
     },
     "presets": {
       "flat": "Datar",
@@ -1512,11 +1517,21 @@
     },
     "redactor": {
       "no_widgets_active": "Tidak ada widget aktif",
-      "click_to_add": "Klik ikon widget di bilah alat bawah untuk menambahkannya",
+      "click_to_add": "Pilih kategori atau cari di bilah alat bawah untuk menambahkan widget",
       "done": "Selesai",
       "widget_singular": "widget",
       "widgets_plural": "widget",
-      "widgets_short": "w"
+      "widgets_short": "w",
+      "category": {
+        "time": "Waktu dan teks",
+        "media": "Media",
+        "system": "Sistem",
+        "info": "Info",
+        "other": "Lainnya"
+      },
+      "search": "Cari widget",
+      "results": "Hasil",
+      "no_results": "Tidak ada yang ditemukan"
     },
     "types": {
       "clock": "Jam",
@@ -1529,7 +1544,8 @@
       "battery": "Baterai",
       "github": "Github",
       "time": "Waktu",
-      "notes": "Catatan"
+      "notes": "Catatan",
+      "text": "Teks"
     },
     "variants": {
       "digital": "Digital",
@@ -1575,7 +1591,8 @@
     },
     "settings": {
       "lyricsLines": "Baris",
-      "lyricsAlignment": "Perataan"
+      "lyricsAlignment": "Perataan",
+      "textContent": "Teks"
     },
     "align": {
       "left": "Kiri",
@@ -1584,6 +1601,9 @@
     },
     "notes": {
       "empty": "Belum ada catatan"
+    },
+    "text": {
+      "placeholder": "Masukkan teks"
     }
   },
   "cli": {
@@ -1591,7 +1611,7 @@
     "description": "Shell desktop untuk kompositor Wayland.",
     "commands": "Perintah:",
     "script_commands": "Perintah skrip:",
-    "launch_desc": "Luncurkan komponen mandiri (start, widgetredactor, lock-redactor)",
+    "launch_desc": "Luncurkan komponen mandiri (start)",
     "msg_desc": "Kirim perintah atau peralihan ruang kerja ke pengelola UI",
     "ipc_desc": "Teruskan panggilan IPC langsung ke shell",
     "kill_desc": "Hentikan daemon yang sedang berjalan secara bersih",
@@ -1605,18 +1625,16 @@
     "daemon_restarted": "Daemon Serpantinum dimulai ulang.",
     "starting_daemon": "Daemon tidak berjalan. Memulai serpantinumd di latar belakang...",
     "error_missing_qml": "Kesalahan: target untuk diluncurkan tidak ada.",
-    "launch_usage": "Penggunaan: serpantinum launch <start|widgetredactor|lock-redactor> [arg...]",
+    "launch_usage": "Penggunaan: serpantinum launch <start> [arg...]",
     "error_qml_not_found": "Kesalahan: tidak dapat menemukan {NAME}.qml di {DIR}",
     "error_shell_qml_not_found": "Kesalahan: tidak dapat menemukan jalur ke shell.qml di {DIR}",
     "error_unknown_command": "Kesalahan: perintah tidak dikenal '{CMD}'.",
     "error_unknown_target": "Kesalahan: target tidak dikenal '{TARGET}'.",
     "launch_help": {
-      "usage": "Penggunaan: serpantinum launch <start|widgetredactor|lock-redactor> [argumen...]",
+      "usage": "Penggunaan: serpantinum launch <start> [argumen...]",
       "description": "Luncurkan komponen mandiri langsung dalam mode eksekusi.",
       "available_targets": "Target yang tersedia:",
-      "target_start": "Luncurkan antarmuka pengaturan awal",
-      "target_widgetredactor": "Luncurkan antarmuka editor widget desktop",
-      "target_lock_redactor": "Alihkan, buka, atau tutup editor tata letak layar kunci"
+      "target_start": "Luncurkan antarmuka pengaturan awal"
     },
     "msg_help": {
       "usage": "Penggunaan: serpantinum msg <command|workspace> [argumen...]",
@@ -1649,7 +1667,8 @@
       "hibernate": "Hibernasi sistem",
       "reboot": "Mulai ulang sistem",
       "poweroff": "Matikan sistem",
-      "redactor": "Buka atau alihkan editor tata letak widget desktop"
+      "redactor": "Buka atau alihkan editor tata letak widget desktop",
+      "lock_redactor": "Alihkan, buka, atau tutup editor tata letak layar kunci"
     },
     "usage_label": "Penggunaan:",
     "config_desc": "Baca dan ubah pengaturan (get, set, dump, path, edit)",
@@ -1661,9 +1680,9 @@
     "error_unknown_theme": "Kesalahan: tema tidak dikenal '{NAME}'.",
     "error_no_wallpapers": "Kesalahan: tidak ada wallpaper di direktori wallpaper.",
     "error_file_not_found": "Kesalahan: berkas tidak ditemukan: {PATH}",
-    "info_desc": "Tampilkan status pengaturan saat ini (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
-    "set_desc": "Ubah pengaturan (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Jalankan tindakan sekali jalan (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "info_desc": "Tampilkan status pengaturan saat ini (notifications, idle, dock, sfx, theme, lang, wallpaper, monitors, updates)",
+    "set_desc": "Ubah pengaturan (notifications, idle, dock, sfx, theme, lang, wallpaper)",
+    "trigger_desc": "Jalankan tindakan sekali jalan (idle, notifications, theme, firstlaunch)",
     "settings_desc": "Buka jendela pengaturan (opsional pada tab tertentu)"
   },
   "daemon": {
@@ -1685,6 +1704,11 @@
       "status_running": "Daemon Serpantinum sedang berjalan (PID: {PID}).",
       "status_stopped": "Daemon Serpantinum tidak berjalan.",
       "unknown_arg": "Argumen tidak dikenal: {ARG}"
+    },
+    "app_name": "Serpantinum",
+    "easyeffects": {
+      "title": "EasyEffects masih aktif",
+      "body": "Serpantinum kini memiliki mesin audio sendiri, dan EasyEffects dapat mengganggunya. Jika Anda hanya memakai EasyEffects untuk Serpantinum, matikan agar tidak berjalan otomatis saat masuk."
     }
   },
   "installer": {

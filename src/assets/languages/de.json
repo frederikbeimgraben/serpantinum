@@ -220,10 +220,6 @@
         "title": "Schnellaktionen",
         "desc": "Schwebendes Schnellaktions-Overlay aktivieren"
       },
-      "separatewindow": {
-        "title": "Einstellungen in separatem Fenster öffnen",
-        "desc": "Einstellungen als normales, skalierbares Anwendungsfenster statt als Panel in der Shell öffnen"
-      },
       "location": {
         "title": "Standort",
         "desc": "Standort für automatischen Sonnenzeitplan und Wetter konfigurieren",
@@ -599,6 +595,10 @@
           "title": "Steuerelemente anzeigen",
           "desc": "Zeigt die Schaltflächen für Zurück, Wiedergabe und Weiter an"
         },
+        "hide_when_idle": {
+          "title": "Ausblenden, wenn nichts abgespielt wird",
+          "desc": "Das Widget aus der Leiste ausblenden, solange keine Medien aktiv sind"
+        },
         "preview": {
           "title": "Songtitel",
           "author": "Song author"
@@ -809,7 +809,7 @@
       "empty_title": "Keine Autostart-Anwendungen",
       "empty_desc": "Klicken Sie auf 'Anwendung hinzufügen', um Befehle, Binärdateien, Verzögerungen und Wiederholungen festzulegen.",
       "name_label": "Name",
-      "name_placeholder": "z. B. Discord, EasyEffects, Skript",
+      "name_placeholder": "z. B. Discord, Telegram, Skript",
       "exec_label": "Ausführungsbefehl",
       "exec_placeholder": "Binärpfad oder Name mit Flags (z. B. discord --start-minimized)",
       "browse_file": "Datei durchsuchen",
@@ -1147,6 +1147,9 @@
       },
       "setting": {
         "show_text": "Text anzeigen"
+      },
+      "category": {
+        "lockscreen": "Sperrbildschirm"
       }
     }
   },
@@ -1161,7 +1164,9 @@
     "equalizer": "Equalizer",
     "eq": {
       "apply": "Anwenden",
-      "saved": "Gespeichert"
+      "saved": "Gespeichert",
+      "dynamic": "Dynamisch",
+      "dynamic_active": "Passt sich deinem Klang an"
     },
     "audio": {
       "title": "Audio",
@@ -1556,11 +1561,21 @@
     },
     "redactor": {
       "no_widgets_active": "Keine Widgets aktiv",
-      "click_to_add": "Auf ein Widget-Symbol in der unteren Leiste klicken, um es hinzuzufügen",
+      "click_to_add": "Eine Kategorie wählen oder in der unteren Leiste suchen, um ein Widget hinzuzufügen",
       "done": "Fertig",
       "widget_singular": "Widget",
       "widgets_plural": "Widgets",
-      "widgets_short": "W"
+      "widgets_short": "W",
+      "category": {
+        "time": "Zeit und Text",
+        "media": "Medien",
+        "system": "System",
+        "info": "Info",
+        "other": "Sonstiges"
+      },
+      "search": "Widgets suchen",
+      "results": "Ergebnisse",
+      "no_results": "Nichts gefunden"
     },
     "types": {
       "clock": "Uhr",
@@ -1573,7 +1588,8 @@
       "battery": "Akku",
       "github": "GitHub",
       "time": "Zeit",
-      "notes": "Notizen"
+      "notes": "Notizen",
+      "text": "Text"
     },
     "variants": {
       "digital": "Digital",
@@ -1622,7 +1638,8 @@
     },
     "settings": {
       "lyricsLines": "Zeilen",
-      "lyricsAlignment": "Ausrichtung"
+      "lyricsAlignment": "Ausrichtung",
+      "textContent": "Text"
     },
     "align": {
       "left": "Links",
@@ -1631,6 +1648,9 @@
     },
     "notes": {
       "empty": "Noch keine Notizen"
+    },
+    "text": {
+      "placeholder": "Text eingeben"
     }
   },
   "cli": {
@@ -1638,7 +1658,7 @@
     "description": "Eine Desktop-Shell für Wayland-Compositoren.",
     "commands": "Befehle:",
     "script_commands": "Skript-Befehle:",
-    "launch_desc": "Eigenständige Komponenten starten (start, widgetredactor, lock-redactor)",
+    "launch_desc": "Eigenständige Komponenten starten (start)",
     "msg_desc": "Befehle oder Arbeitsflächenwechsel an den UI-Manager senden",
     "ipc_desc": "IPC-Aufrufe direkt an die Shell weiterleiten",
     "kill_desc": "Laufenden Daemon sauber beenden",
@@ -1652,18 +1672,16 @@
     "daemon_restarted": "Serpantinum-Daemon neu gestartet.",
     "starting_daemon": "Daemon läuft nicht. serpantinumd wird im Hintergrund gestartet...",
     "error_missing_qml": "Fehler: Fehlendes Startziel.",
-    "launch_usage": "Verwendung: serpantinum launch <start|widgetredactor|lock-redactor> [argumente...]",
+    "launch_usage": "Verwendung: serpantinum launch <start> [argumente...]",
     "error_qml_not_found": "Fehler: {NAME}.qml in {DIR} konnte nicht aufgelöst werden",
     "error_shell_qml_not_found": "Fehler: Pfad zu shell.qml in {DIR} konnte nicht aufgelöst werden",
     "error_unknown_command": "Fehler: Unbekannter Befehl '{CMD}'.",
     "error_unknown_target": "Fehler: Unbekanntes Ziel '{TARGET}'.",
     "launch_help": {
-      "usage": "Verwendung: serpantinum launch <start|widgetredactor|lock-redactor> [argumente...]",
+      "usage": "Verwendung: serpantinum launch <start> [argumente...]",
       "description": "Eigenständige Komponenten direkt im Runner-Modus ausführen.",
       "available_targets": "Verfügbare Ziele:",
-      "target_start": "Start-Einrichtungsoberfläche öffnen",
-      "target_widgetredactor": "Desktop-Widget-Editor öffnen",
-      "target_lock_redactor": "Layout-Editor des Sperrbildschirms umschalten, öffnen oder schließen"
+      "target_start": "Start-Einrichtungsoberfläche öffnen"
     },
     "msg_help": {
       "usage": "Verwendung: serpantinum msg <befehl|arbeitsfläche> [argumente...]",
@@ -1696,7 +1714,8 @@
       "hibernate": "System in den Ruhezustand versetzen",
       "reboot": "System neu starten",
       "poweroff": "System herunterfahren",
-      "redactor": "Desktop-Widget-Editor öffnen oder umschalten"
+      "redactor": "Desktop-Widget-Editor öffnen oder umschalten",
+      "lock_redactor": "Layout-Editor des Sperrbildschirms umschalten, öffnen oder schließen"
     },
     "usage_label": "Verwendung:",
     "config_desc": "Einstellungen lesen und ändern (get, set, dump, path, edit)",
@@ -1708,9 +1727,9 @@
     "error_unknown_theme": "Fehler: Unbekanntes Design '{NAME}'.",
     "error_no_wallpapers": "Fehler: Keine Hintergrundbilder im Hintergrundbild-Verzeichnis gefunden.",
     "error_file_not_found": "Fehler: Datei nicht gefunden: {PATH}",
-    "info_desc": "Aktuellen Zustand einer Einstellung anzeigen (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
-    "set_desc": "Eine Einstellung ändern (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Eine einmalige Aktion ausführen (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "info_desc": "Aktuellen Zustand einer Einstellung anzeigen (notifications, idle, dock, sfx, theme, lang, wallpaper, monitors, updates)",
+    "set_desc": "Eine Einstellung ändern (notifications, idle, dock, sfx, theme, lang, wallpaper)",
+    "trigger_desc": "Eine einmalige Aktion ausführen (idle, notifications, theme, firstlaunch)",
     "settings_desc": "Einstellungsfenster öffnen (optional auf einem bestimmten Tab)"
   },
   "daemon": {
@@ -1732,6 +1751,11 @@
       "status_running": "Serpantinum-Daemon läuft (PID: {PID}).",
       "status_stopped": "Serpantinum-Daemon läuft nicht.",
       "unknown_arg": "Unbekanntes Argument: {ARG}"
+    },
+    "app_name": "Serpantinum",
+    "easyeffects": {
+      "title": "EasyEffects ist noch aktiv",
+      "body": "Serpantinum hat jetzt eine eigene Audio-Engine, und EasyEffects kann sie stören. Wurde EasyEffects nur für Serpantinum genutzt, den Start bei der Anmeldung deaktivieren."
     }
   },
   "installer": {

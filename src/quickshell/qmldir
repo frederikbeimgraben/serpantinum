@@ -72,6 +72,7 @@ singleton Btbat 1.0 singletons/system/Btbat.qml
 singleton Vpn 1.0 singletons/system/Vpn.qml
 singleton MangoState 1.0 singletons/system/MangoState.qml
 singleton NiriState 1.0 singletons/system/NiriState.qml
+singleton SwayState 1.0 singletons/system/SwayState.qml
 singleton RecordingState 1.0 singletons/system/RecordingState.qml
 singleton ShellBus 1.0 singletons/system/ShellBus.qml
 singleton SysNotif 1.0 singletons/system/SysNotif.qml
